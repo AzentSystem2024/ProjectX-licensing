@@ -1,0 +1,55 @@
+.mat-card-header{
+    position: relative;
+}
+.search-container {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin-top: 20px; /* Adjust as needed */
+    margin-right: 20px;
+    margin-bottom: 20px;
+     
+}
+.dropdown {
+    margin-left: 10px; /* Add space between filter and dropdown */
+  }
+  
+.filter {
+    width: 100%;
+    max-width: 100px; 
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.3s ease;
+  }
+  .dropdown {
+    display: flexbox;
+    margin-right: 20px;
+  }
+  
+  .filter:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  }
+  .date-label {
+    font-weight: bold;
+  }
+  
+  
+  .date-input {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  .date-button {
+    margin-top: 10px;
+  }
+  .heading {
+    font-size: 1 rem; /* Adjust the font size as needed */
+    color: #333; /* Adjust the color as needed */
+    margin-bottom: 20px; /* Adjust the margin as needed */
+    padding-left: 15px;
+    padding-top: 10px;
+  }

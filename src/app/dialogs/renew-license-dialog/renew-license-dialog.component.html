@@ -1,0 +1,21 @@
+<div class="mt-2">
+    <div class="close" (click)="closeDialog()">
+       &times;
+    </div>
+    <form [formGroup]="renewForm" class="p-4" (ngSubmit)="onSubmit()">
+        <h4>RENEW LICENSE</h4>
+        <div *ngIf="data.mode!=='renewAll'">
+        <label for="expireDate" class="labeltxt">License will be expire on:</label>
+        <input type="text" class="inputbox" id="expireDate" name="expireDate" formControlName="EXPIRE_DATE">
+        <br><br>
+        </div>
+        <label for="newDate" class="labeltxt">New Expiry Date:</label>
+        <input type="date" class="inputbox"  id="newDate" name="newDate" formControlName="NEW_EXPIRE_DATE" [min]="minDate"> 
+        <br><br>
+        <button type="submit">Renew</button>
+    </form>
+
+
+
+
+</div>    

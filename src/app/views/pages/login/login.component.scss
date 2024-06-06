@@ -1,0 +1,74 @@
+.logo {
+    display: flex;
+    
+    font-weight: 900;
+  }
+  
+  
+  
+  .letter-v {
+    color: red;
+    font-size: 52px;
+    
+    
+    
+  }
+  
+  .letter-e,
+  .letter-z,
+  .letter-t,
+  .letter-a {
+    color: white;
+    font-size: 50px;
+    
+    
+  }
+  .login-card{
+    width:400px;
+    height:350px;
+    margin-right: 80px;
+   
+   
+  }
+  .container{
+    display: flex;
+    justify-content: flex-end;
+  }
+  @media (max-width: 599px) {
+    .container {
+      justify-content: center; /* Aligns items to the center for mobile screens */
+      
+    }
+  
+    .login-card {
+      margin-right: 0; /* Reset margin for mobile screens */
+     
+    }
+  }
+  .password-input {
+    padding-right: 40px; /* Adjust as necessary */
+    
+  }
+  
+  .password-toggle-button {
+    position: absolute;
+    right: 10px; /* Adjust for your layout */
+    top: 50%;
+    transform: translateY(-50%);
+   
+   
+    cursor: pointer;
+   
+  }
+  
+  .password-toggle-button i {
+    font-size: 1.2rem; /* Adjust the font size as needed */
+    color: #555; /* Adjust the color as needed */
+  }
+  
+  /* Optional: Hover effect */
+  .password-toggle-button:hover i {
+    color: #333; /* Adjust the color on hover */
+  }
+
+  

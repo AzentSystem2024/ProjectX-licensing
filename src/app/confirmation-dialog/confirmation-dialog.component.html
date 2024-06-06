@@ -1,0 +1,7 @@
+<h2 mat-dialog-title class="mat-primary">Delete User</h2>
+<mat-dialog-content>{{ data.message }}</mat-dialog-content>
+<mat-dialog-actions class="mat-dialog-actions">
+  <button button mat-raised-button color="warn" [mat-dialog-close]="false" class="mx-2">Cancel</button>
+  <button button mat-raised-button color="primary" [mat-dialog-close]="true" cdkFocusInitial class="mx-2">Delete</button>
+</mat-dialog-actions>
+

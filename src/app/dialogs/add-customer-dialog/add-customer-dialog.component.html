@@ -1,0 +1,99 @@
+<div class="overlay mt-2">
+    <div class="close" (click)="closeDialog()">
+       &times;
+    </div>
+   
+            <form [formGroup]="customerForm" class="p-4" (ngSubmit)="onSubmit()">
+                <h2 class="mb-4">{{ mode === 'add' ? 'New Customer' : 'Update Customer' }}</h2>
+
+                <!-- Form Fields -->
+                <div class="row">
+                    <!-- First Column -->
+                    <div class="col-md-6">
+                        <mat-form-field appearance="fill" *ngIf="ShowCode" class="form-group" > 
+                            <mat-label>Customer Code</mat-label>
+                            <input matInput id="code" formControlName="CUST_CODE">
+                        </mat-form-field>
+                        <mat-form-field appearance="fill" class="form-group">
+                            <mat-label>Customer Name</mat-label>
+                            <input matInput id="name" formControlName="CUST_NAME" placeholder="Enter Customer Name">
+                            <!-- <mat-error *ngIf="submit && f.CUST_NAME.errors">*Customer name is required</mat-error> -->
+                        </mat-form-field>
+                        <mat-form-field appearance="fill" class="form-group">
+                            <mat-label>Contact Name</mat-label>
+                            <input matInput id="cont-name" formControlName="CONTACT_NAME" placeholder="Enter Contact Name">
+                            <!-- <mat-error *ngIf="submit && f.CONTACT_NAME.errors">*Contact name is required</mat-error> -->
+                        </mat-form-field>
+                        <mat-form-field appearance="fill" class="form-group">
+                            <mat-label>Reseller Name</mat-label>
+                            <mat-select formControlName="RESELLER_NAME" placeholder="Select Reseller">
+                                <mat-option *ngFor="let items of resellerlist" [value]="items.description">
+                                    {{items.description}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-form-field appearance="fill" class="form-group">
+                            <mat-label>Address</mat-label>
+                            <textarea matInput id="address" formControlName="ADDRESS" placeholder="Enter Address"></textarea>
+                            <!-- <mat-error *ngIf="submit && f.ADDRESS.errors">*Address name is required</mat-error> -->
+                        </mat-form-field>
+                        
+                    </div>
+                    <!-- Second Column -->
+                    <div class="col-md-6">
+                        <mat-form-field appearance="fill" class="form-group">
+                            <mat-label>Email</mat-label>
+                            <input matInput id="email" formControlName="EMAIL" placeholder="Enter Email">
+                            <!-- <mat-error *ngIf="submit && f.EMAIL.errors">
+                                <div *ngIf="f.EMAIL.hasError('required')">*Email is required</div>
+                                <div *ngIf="f.EMAIL.hasError('email')">*Invalid email format</div>
+                            </mat-error> -->
+                        </mat-form-field>
+                        
+                        
+                        <mat-form-field appearance="fill" class="form-group">
+                            <mat-label>Phone</mat-label>
+                            <input matInput id="phone" formControlName="PHONE" placeholder="Enter Phone" (keypress)="keyPressNumbers($event)">
+                            <!-- <mat-error *ngIf="submit && f.PHONE.errors">
+                                <div *ngIf="f.PHONE.hasError('required')">*Phone number is required</div>
+                                <div *ngIf="f.PHONE.hasError('pattern')">*Phone number must be exactly 10 digits long</div>
+                            </mat-error> -->
+                        </mat-form-field>
+                        <mat-form-field appearance="fill" class="form-group">
+                            <mat-label>Country</mat-label>
+                            <mat-select formControlName="COUNTRY_NAME" placeholder="Select Country">
+                                <mat-option *ngFor="let items of countrylist" [value]="items.description">
+                                    {{items.description}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-form-field appearance="fill" class="form-group">
+                            <mat-label>Emirate</mat-label>
+                            <mat-select formControlName="EMIRATE" placeholder="Select Emirate">
+                                <mat-option *ngFor="let items of emiratelist" [value]="items.description">
+                                    {{items.description}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-form-field appearance="fill" class="form-group">
+                            <mat-label>Edition</mat-label>
+                            <mat-select formControlName="EDITION" placeholder="Select Edition">
+                                <mat-option *ngFor="let items of editionlist" [value]="items.description">
+                                    {{items.description}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <!-- Form Buttons -->
+                <div class="form-group d-flex justify-content-end">
+                    <button mat-raised-button color="warn" type="button" (click)="closeDialog()" >Cancel</button>
+                    <div class="mr-2"></div>
+                    <button mat-raised-button type="submit" color="primary" class="mx-2" [disabled]="loading">
+                        <span *ngIf="loading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        Save
+                      </button>
+                </div>
+            </form>
+</div>

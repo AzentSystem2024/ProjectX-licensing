@@ -1,0 +1,50 @@
+<div class="overlay">
+    <div class="close" (click)="closeDialog()">
+        &times;
+    </div>
+    <form [formGroup]="userForm" class="p-4">
+        <h2 class="mb-4">UPDATE USER</h2>
+        
+        <mat-form-field appearance="fill" class="mb-1">
+            <mat-label>User Name</mat-label>
+            <input matInput formControlName="USER_NAME" placeholder="Enter user name">
+            <mat-error *ngIf="submit && f.USER_NAME.errors">*Username is required</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="mb-1">
+            <mat-label>Login Name</mat-label>
+            <input matInput formControlName="LOGIN_NAME" placeholder="Enter login name">
+            <mat-error *ngIf="submit && f.LOGIN_NAME.errors">*Login name is required</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="mb-1">
+            <mat-label>Password</mat-label>
+            <input matInput formControlName="Password" [type]="showPassword ? 'text' : 'password'" placeholder="Enter password">
+            <mat-icon matSuffix (click)="toggleShow()">{{ showPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+            <mat-error *ngIf="submit && f.Password.errors">
+                <div *ngIf="f.Password.hasError('required')">*Password is required</div>
+                <div *ngIf="f.Password.hasError('minlength')">*Password must be at least 8 characters long</div>
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="mb-1">
+            <mat-label>User Level</mat-label>
+            <input matInput formControlName="LEVEL_NAME" [matAutocomplete]="auto" placeholder="Select user level">
+            <mat-autocomplete #auto="matAutocomplete">
+                <mat-option *ngFor="let item of filteredOptions" [value]="item">
+                    {{ item }}
+                </mat-option>
+            </mat-autocomplete>
+        </mat-form-field>
+        
+        <div class="form-group d-flex mb-1">
+            <label for="isActiveCheckbox">Is Inactive</label>
+            <input type="checkbox" id="isActiveCheckbox" class="mx-2" formControlName="IS_INACTIVE">
+        </div>
+
+        <div class="form-group d-flex pt-3">
+            <button mat-raised-button color="primary" type="submit" (click)="UpdateUser()">Update</button>
+            <button mat-raised-button color="warn" (click)="closeDialog()" class="mx-2">Cancel</button>
+        </div>
+    </form>
+</div>

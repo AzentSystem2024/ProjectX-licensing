@@ -1,0 +1,47 @@
+<div class="mt-2">
+    <div class="close" (click)="closeDialog()">
+        &times;
+    </div>
+    <form [formGroup]="userForm" class="p-4" (ngSubmit)="onSubmit()">
+        <h2 class="mb-4">Add New User</h2>
+
+        <mat-form-field appearance="fill" class="mb-1">
+            <mat-label>User Name</mat-label>
+            <input matInput [(ngModel)]="userName" formControlName="Username" placeholder="Enter user name">
+            <mat-error *ngIf="submit && f.Username.errors">*Username is required</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="mb-1">
+            <mat-label>Login Name</mat-label>
+            <input matInput [(ngModel)]="LOGIN_NAME" formControlName="Loginname" placeholder="Enter login name">
+            <mat-error *ngIf="submit && f.Loginname.errors">*Login name is required</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="mb-1">
+            <mat-label>Password</mat-label>
+            <input matInput formControlName="Password" [(ngModel)]="password" [type]="showPassword ? 'text' : 'password'" placeholder="Enter password">
+            <mat-icon matSuffix (click)="toggleShow()">{{ showPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+            <mat-error *ngIf="submit && f.Password.errors">
+                <div *ngIf="f.Password.hasError('required')">*Password is required</div>
+                <div *ngIf="f.Password.hasError('minlength')">*Password must be at least 8 characters long</div>
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="mb-1">
+            <mat-label>User Level</mat-label>
+            <input matInput formControlName="userlevel" [(ngModel)]="levelName" [matAutocomplete]="auto" placeholder="Select user level">
+            <mat-autocomplete #auto="matAutocomplete">
+                <mat-option *ngFor="let item of filteredOptions" [value]="item.levelName">
+                    {{ item.levelName }}
+                </mat-option>
+            </mat-autocomplete>
+        </mat-form-field>
+
+        <div class="form-group d-flex pt-3">
+            <button mat-raised-button color="primary" type="submit">Add</button>
+            <div class="mr-2"></div>
+            <button mat-raised-button color="warn" (click)="closeDialog()" class="mx-2">Cancel</button>
+          </div>
+    </form>
+</div>
+

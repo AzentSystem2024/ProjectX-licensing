@@ -1,0 +1,66 @@
+<div class="mt-2">
+    <div class="close" (click)="closeDialog()">
+       &times;
+    </div>
+
+    <form [formGroup]="licenseForm" class="p-4" (ngSubmit)="onSubmit()">
+        
+        <h2>
+            <ng-container *ngIf="mode === 'add'">New License</ng-container>
+            <ng-container *ngIf="mode === 'update'">Update License</ng-container>
+            <ng-container *ngIf="mode === 'view'">View License</ng-container>
+          </h2>
+        <mat-form-field appearance="fill" class="mb-0">
+
+            <mat-label>Customer Name</mat-label>
+            <mat-select   formControlName="CUST_NAME" placeholder="Select Customer" (selectionChange)="SelectCompanyByCustomer()">
+                <mat-option *ngFor="let items of customerList"  [value]="items.description" class="matlist"> 
+                    {{items.description}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="mb-0">
+            <mat-label>Company Name</mat-label>
+            <mat-select formControlName="COMPANY_NAME"  placeholder="Select Company">
+                <mat-option *ngFor="let items of selectcompany" [value]="items.DESCRIPTION" class="matlist" > 
+                    {{items.DESCRIPTION}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="mb-0">
+            <mat-label>Product Name</mat-label>
+            <mat-select formControlName="PRODUCT_NAME" placeholder="Select Product">
+                <mat-option *ngFor="let items of productList"  [value]="items.description" class="matlist" > 
+                    {{items.description}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <!-- <mat-form-field appearance="fill" class="mb-0">
+            <mat-label>License Type</mat-label>
+            <mat-select  formControlName="TYPE_NAME" placeholder="Select License Type">
+                <mat-option *ngFor="let items of licensetype"  [value]="items.description" class="matlist" > 
+                    {{items.description}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field> -->
+        <mat-form-field appearance="fill" class="mb-0">
+            <mat-label>No.of Users/Terminals</mat-label>
+            <input matInput formControlName="VALID_DAYS" placeholder="Enter No.of Users/Terminals" (keypress)="keyPressNumbers($event)">
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="mb-0">
+            <mat-label>License Validity</mat-label>
+            <input matInput formControlName="VALID_DAYS" placeholder="Enter License Validity in Days" (keypress)="keyPressNumbers($event)">
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="mb-0">
+            <mat-label>AMC Validity</mat-label>
+            <input matInput formControlName="VALID_DAYS" placeholder="Enter AMC Validity in Days" (keypress)="keyPressNumbers($event)">
+        </mat-form-field>
+        <div class="form-group d-flex pt-2" *ngIf="mode !== 'view'">
+            <button mat-raised-button color="primary" type="submit">{{ mode === 'add' ? 'Add' : 'Update' }}</button>
+            <div class="mr-2"></div>
+            <button mat-raised-button type="button" color="warn" (click)="closeDialog()" class="mx-2">Cancel</button>
+        </div>
+
+
+    </form>
+</div>

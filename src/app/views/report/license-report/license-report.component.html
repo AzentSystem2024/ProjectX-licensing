@@ -1,0 +1,121 @@
+<div class="card mb-1">
+  
+  <h5 class="heading">License Report</h5>
+  
+</div>
+<div class="card">
+    <div class="card-body">
+      <div class="d-flex  mb-3">        
+          <div class="mx-2">
+            <label for="statusFilter">Status:</label><br>
+            <select id="statusFilter" class="form-control" [(ngModel)]="selectedStatusFilters" (change)="applyStatusFilter()">
+                <option value="" disabled selected hidden>Filter</option>
+                <option value="all">All</option>
+                <option value="Registered">Registered</option>
+                <option value="Expired">Expired</option>
+                <option value="Open">Open</option>
+            </select>               
+        </div>
+        <div class="mx-2">
+          <label for="typeFilter">Type:</label><br>
+            <select id="typeFilter" class="form-control" [(ngModel)]="selectedTypeFilters" (change)="applyTypeFilter()">
+                <option value="" disabled selected hidden>Filter</option>
+                <option value="all">All</option>
+                <option value="PRODUCT">Product</option>
+                <option value="AMC">AMC</option>
+            </select>
+        </div>
+        <div class="mx-2 mt-4">
+          <button (click)="exportToExcel()">
+            <span class="pt-0">Export </span> <mat-icon>cloud_download</mat-icon> 
+          </button>
+      </div>
+        <div class="d-flex  mb-3 mx-2 ms-auto" *ngIf="showDateFilter">
+          <div class="date-picker">
+            <label for="fromDate">From Date:</label><br>
+            <input type="date" id="fromDate" name="fromDate" [(ngModel)]="fromDate" class="date-input" (ngModelChange)="updateToDate()">
+          </div>
+      
+          <div class="date-picker mx-2">
+            <label for="toDate">To Date:</label><br>
+            <input type="date" id="toDate" name="toDate"  [(ngModel)]="toDate"  class="date-input" [min]="fromDate">
+          </div>
+          <div class="date-picker">
+            <br>
+            <button class="btn btn-sm btn-info text-white date-input" style="width: 100px;" (click)="applyDateFilter()">Apply</button>
+          </div>
+        </div>
+      
+          
+     
+      </div>
+      <mat-card>
+        <mat-card-header>
+          
+         
+        </mat-card-header>
+        <mat-card-content>
+          <div class="table-responsive">
+            <table matSort mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+              <!-- no data found -->
+              <ng-container *matNoDataRow>
+                <tr>
+                <td style="text-align: center;" class="mat-cell" colspan="5">No Records found</td>
+                </tr>
+              </ng-container>
+              
+              <ng-container matColumnDef="cust-name">
+                <th mat-header-cell *matHeaderCellDef> Customer Name </th>
+                <td mat-cell *matCellDef="let license">{{license.CUST_NAME}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="company-name">
+                <th mat-header-cell *matHeaderCellDef> Company Name </th>
+                <td mat-cell *matCellDef="let license">{{license.COMPANY_NAME}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="prod-name">
+                <th mat-header-cell *matHeaderCellDef> Product Name </th>
+                <td mat-cell *matCellDef="let license">{{license.PRODUCT_NAME}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="licensekey">
+                <th mat-header-cell *matHeaderCellDef> License Key </th>
+                <td mat-cell *matCellDef="let license">{{license.LICENSE_KEY}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="licensevalidity">
+                <th mat-header-cell *matHeaderCellDef> License Expiry Date </th>
+                <td mat-cell *matCellDef="let license">{{ license.LICENSE_EXPIRY_DATE | date:'dd.MM.yyyy' }}</td>
+              </ng-container>
+              <ng-container matColumnDef="amcvalidity">
+                <th mat-header-cell *matHeaderCellDef> AMC Expiry Date </th>
+                <td mat-cell *matCellDef="let license">{{ license.AMC_EXPIRY_DATE | date:'dd.MM.yyyy' }}</td>
+              </ng-container>
+              <ng-container matColumnDef="status">
+                <th mat-header-cell *matHeaderCellDef> Status </th>
+                <td mat-cell *matCellDef="let license">
+                  <ng-container *ngIf="license.STATUS === 'Expired'; then expiredStatus else (license.STATUS === 'Registered' ? registeredStatus : activeStatus)">
+                  </ng-container>
+                  <ng-template #expiredStatus><span class="text-danger">Expired</span></ng-template>
+                  <ng-template #registeredStatus><span class="text-info">Registered</span></ng-template>
+                  <ng-template #activeStatus><span class="text-success">Open</span></ng-template>
+                </td>
+              </ng-container>
+  
+              <!-- Action Column -->
+              
+  
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+          </div>
+        </mat-card-content>
+        <mat-card-footer>
+          
+          <mat-paginator [pageSizeOptions]="[5,10,20]" showFirstLastButtons></mat-paginator>
+        </mat-card-footer>
+      </mat-card>
+    </div>
+  </div>
+  

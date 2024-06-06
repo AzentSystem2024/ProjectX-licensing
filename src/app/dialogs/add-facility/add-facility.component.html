@@ -1,0 +1,102 @@
+<div class="overlay mt-1"appDraggable>
+    <div class="close" (click)="closeDialog()">
+       &times;
+    </div>
+    <form class="p-4 form-class" [formGroup]="facilityForm" (ngSubmit)="onSubmit()">
+        <h2 >{{ mode === 'add' ? 'New Facility' : 'Update Facility' }}</h2>
+        
+                <!-- Form Fields -->
+                <div class="row">
+                    <!-- First Column -->
+                    <div class="col-md-6">
+                        <h6>Facility Details:</h6>
+            
+                        <mat-form-field appearance="fill" class="form-group">
+                            <mat-label>Facility License</mat-label>
+                            <input matInput id="facility-license"  formControlName="FACILITY_LICENSE"  placeholder="Enter Facility License">
+                            <!-- <mat-error *ngIf="submit && f.CUST_NAME.errors">*Customer name is required</mat-error> -->
+                        </mat-form-field>
+                        <mat-form-field appearance="fill" class="form-group">
+                            <mat-label>Facility Name</mat-label>
+                            <input matInput id="facility-name" formControlName="FACILITY_NAME" placeholder="Enter Facility Name">
+                            <!-- <mat-error *ngIf="submit && f.CONTACT_NAME.errors">*Contact name is required</mat-error> -->
+                        </mat-form-field>
+                        <mat-form-field appearance="fill" class="form-group">
+                            <mat-label>Customer Name</mat-label>
+                            <mat-select  placeholder="Select Customer" formControlName="CUSTOMER_ID">
+                                <mat-option *ngFor="let items of customer" [value]="items.CUST_NAME">
+                                    {{items.CUST_NAME}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-form-field appearance="fill" class="form-group">
+                            <mat-label>Address</mat-label>
+                            <textarea matInput id="address" formControlName="ADDRESS"  placeholder="Enter Address"></textarea>
+                            <!-- <mat-error *ngIf="submit && f.ADDRESS.errors">*Address name is required</mat-error> -->
+                        </mat-form-field>
+                        <mat-form-field appearance="fill" class="form-group" >
+                            <mat-label>Emirate</mat-label>
+                            <mat-select  placeholder="Select Emirate" formControlName="EMIRATE_ID">
+                                <mat-option *ngFor="let item of emirate" [value]="item.description">
+                                    {{item.description}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-form-field appearance="fill" class="form-group">
+                            <mat-label>Post Office</mat-label>
+                            <mat-select  placeholder="Select Post Office" formControlName="POST_OFFICE">
+                                <mat-option *ngFor="let items of postoffice" [value]="items.description">
+                                    {{items.description}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <!-- Second Column -->
+                    <div class="col-md-6">
+                        <h6>License Info:</h6>
+                       
+                        <mat-form-field appearance="fill" class="form-group">
+                            <mat-label>License Start Date</mat-label>
+                            <input matInput [matDatepicker]="picker" placeholder="Enter Date" formControlName="START_DATE" [disabled]="mode === 'update'">
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                            <!-- <mat-error *ngIf="submit && f.CONTACT_NAME.errors">*Contact name is required</mat-error> -->
+                          </mat-form-field> 
+                          
+                          <div class="form-group d-flex">
+                          <mat-form-field appearance="fill" class="form-group">
+                            <mat-label>License Expiry Date</mat-label>
+                            <input matInput [matDatepicker]="picker1" formControlName="EXPIRY_DATE"  placeholder="Enter Date" [disabled]="mode === 'update'">
+                            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                            <mat-datepicker #picker1></mat-datepicker>
+                            <!-- <mat-error *ngIf="submit && f.CONTACT_NAME.errors">*Contact name is required</mat-error> -->
+                          </mat-form-field>
+                          <button type="button" mat-button color="accent" *ngIf="mode==='update'" matTooltip="Renew" (click)="renewLicense(data.id)">
+                            <mat-icon>refresh</mat-icon>
+                          </button>
+                        </div>
+                          <div class="form-group d-flex">
+                          <mat-form-field appearance="fill" class="form-group">
+                            <mat-label>AMC Expiry Date</mat-label>
+                            <input matInput [matDatepicker]="picker2" formControlName="AMC_EXPIRY_DATE" placeholder="Enter Date" [disabled]="mode === 'update'">
+                            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                            <mat-datepicker #picker2></mat-datepicker>
+                            <!-- <mat-error *ngIf="submit && f.CONTACT_NAME.errors">*Contact name is required</mat-error> -->
+                          </mat-form-field>
+                          <button type="button" mat-button color="accent" *ngIf="mode==='update'" matTooltip="Renew" (click)="renewLicense(data.id)">
+                            <mat-icon>refresh</mat-icon>
+                          </button>
+                        </div>
+                    </div>
+                    <div class="form-group d-flex justify-content-end">
+                        <button mat-raised-button color="warn" type="button" (click)="closeDialog()" >Cancel</button>
+                        <div class="mr-2"></div>
+                        <button mat-raised-button type="submit" color="primary" class="mx-2" [disabled]="loading">
+                            <span *ngIf="loading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                            Save
+                          </button>
+                    </div>
+                </div>
+                
+    </form>
+</div>

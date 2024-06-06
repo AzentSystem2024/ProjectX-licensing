@@ -1,0 +1,51 @@
+<div class="overlay mt-2">
+    <div class="close" (click)="closeDialog()">
+        &times;
+    </div>
+    <form [formGroup]="userForm" class="p-4" (ngSubmit)="onSubmit()">
+        <h2 class="mb-4">{{ mode === 'add' ? 'New User' : 'Update User' }}</h2>
+
+        <mat-form-field appearance="fill" class="mb-1">
+            <mat-label>User Name</mat-label>
+            <input matInput formControlName="USER_NAME" placeholder="Enter User Name">
+            
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+            <mat-label>Login Name</mat-label>
+            <input matInput formControlName="LOGIN_NAME" placeholder="Enter Login Name"/>  
+            <div *ngIf="loginNameExists" class="exist text-danger">* Login name already exists..</div> 
+          </mat-form-field>
+          
+
+        <mat-form-field appearance="fill" class="mb-1">
+            <mat-label>Password</mat-label>
+            <input matInput formControlName="Password" formControlName="Password" [type]="showPassword ? 'text' : 'password'" placeholder="Enter password">
+            <mat-icon matSuffix (click)="toggleShow()">{{ showPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+            <!-- <mat-error *ngIf="submit && f.Password.errors">
+                <div *ngIf="f.Password.hasError('required')">*Password is required</div>
+                
+            </mat-error> -->
+        </mat-form-field>
+        
+        <mat-form-field appearance="fill" class="form-group">
+            <mat-label>User Level</mat-label>
+            <mat-select formControlName="userlevel" placeholder="Select User level">
+                <mat-option *ngFor="let items of userLevels" [value]="items.description">
+                    {{items.description}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <div class="form-group d-flex mb-1" *ngIf="showActive">
+            <label for="isActiveCheckbox">Inactive</label>
+            <input type="checkbox" id="isActiveCheckbox" class="mx-2" formControlName="IS_INACTIVE">
+        </div>
+
+        <div class="form-group d-flex pt-3">
+            <button mat-raised-button color="primary" type="submit">{{ mode === 'add' ? 'Add' : 'Update' }}</button>
+            <div class="mr-2"></div>
+            <button mat-raised-button type="button" color="warn" (click)="closeDialog()" class="mx-2">Cancel</button>
+        </div>
+    </form>
+</div>

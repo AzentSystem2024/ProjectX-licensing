@@ -1,0 +1,60 @@
+<div class="min-vh-100 d-flex flex-row align-items-center" style="background-color: #023e8a">
+  
+  <c-container class="container">
+    <c-row class="justify-content-center">
+      <c-col md="4">
+        <c-card-group class="login-card">
+
+
+          <c-card class="p-4 style=" style="background-color:#03045e" > 
+            <c-card-body class="pt-0">
+              <form cForm [formGroup]="loginForm" (ngSubmit)="UserLogin()">
+                <div class="logo">
+                  <div class="letter-v">V</div>
+                  <div class="letter-e">E</div>
+                  <div class="letter-z">Z</div>
+                  <div class="letter-t">T</div>
+                  <div class="letter-a">A</div>
+                </div>
+                <p class="text-medium text-white">Sign In to your account</p>
+                <c-input-group class="mb-3">
+                  <span cInputGroupText>
+                    <svg cIcon name="cilUser"></svg>
+                  </span>
+                  <input autoComplete="username" cFormControl placeholder="Username" formControlName="LOGIN_NAME" />
+                </c-input-group>
+                <c-input-group class="mb-4">
+                  <span cInputGroupText>
+                    <svg cIcon name="cilLockLocked"></svg>
+                  </span>
+                  <input
+                    autoComplete="current-password"
+                    cFormControl
+                    placeholder="Password"
+                    formControlName="PASSWORD"
+                    type="password"
+                  />
+                  
+                  
+                </c-input-group>
+                <div class="text-danger mb-2" *ngIf="loginForm.hasError('invalidCredentials')">
+                  {{ loginForm.getError('invalidCredentials') }}
+                </div>
+                <c-row>
+                  
+                  <c-col xs="6">
+                    <button type="submit" cButton class="px-4" color="primary">
+                      Login
+                    </button>
+                  </c-col>
+                 
+                </c-row>
+              </form>
+            </c-card-body>
+          </c-card>
+          
+        </c-card-group>
+      </c-col>
+    </c-row>
+  </c-container>
+</div>

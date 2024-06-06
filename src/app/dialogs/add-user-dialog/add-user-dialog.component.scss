@@ -1,0 +1,31 @@
+.pwdfield{
+    position: relative;
+}
+.eye{
+    position: absolute;
+    right: 15px;
+    bottom:10px;
+
+}
+.overlay{
+    position: relative;
+}
+.close {
+     position: absolute;
+     top: 10px; 
+     right: 10px; 
+     cursor: pointer;
+     font-size: 20px;
+     color: #999;
+     z-index: 9999;
+ }
+ mat-form-field{
+    width:100%;
+ }
+h2{
+    font-size: 1.5rem; /* Adjust font size as needed */
+    margin-bottom: 1.5rem; /* Adjust margin-bottom as needed */
+    font-weight: bold; /* Optionally adjust font weight */
+    color: #333; /* Optionally adjust text color */
+}
+

@@ -1,0 +1,61 @@
+.mat-card-header{
+    position: relative;
+}
+  
+  .date-label {
+    font-weight: bold;
+  }
+  
+  
+  .date-input {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+
+  
+ /* Adjust styles for smaller screens */
+@media only screen and (max-width: 768px) {
+  .d-flex.mb-3 {
+    flex-wrap: wrap;
+  }
+
+  .date-picker {
+    flex: 1 0 calc(50% - 10px); /* Adjust width for smaller screens */
+    margin-right: 10px;
+    margin-bottom: 10px;
+  }
+
+  .ms-auto {
+    flex: 1 0 calc(50% - 10px); /* Adjust width for smaller screens */
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
+  .date-picker:last-child, .ms-auto:last-child {
+    margin-right: 0;
+  }
+
+  .date-button {
+    width: 100%;
+    margin-top: 10px;
+   
+  }
+}
+
+/* Further adjustments for screens smaller than 576px if necessary */
+@media only screen and (max-width: 576px) {
+  .date-picker, .ms-auto, .mx-2 {
+    flex: 1 0 100%;
+    margin-right: 0;
+    margin-bottom: 10px;
+  }
+}
+.heading {
+  font-size: 1 rem; /* Adjust the font size as needed */
+  color: #333; /* Adjust the color as needed */
+  margin-bottom: 20px; /* Adjust the margin as needed */
+  padding-left: 15px;
+  padding-top: 10px;
+}
+
