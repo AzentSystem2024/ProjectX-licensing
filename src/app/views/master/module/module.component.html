@@ -1,0 +1,86 @@
+<div class="card mb-1">
+    <h5 class="heading">Module</h5>
+  </div>
+  <div class="card">
+    <div class="card-body">
+      <div class="mb-3">
+        <button
+          mat-raised-button
+          color="primary"
+          class="text-white"
+          (click)="openModulePopup()"
+        >
+          Add <i class="pi pi-plus"></i>
+        </button>
+        <div class="search-container">
+          <input
+            matInput
+            (keyup)="Filterchange($event)"
+            placeholder="Filter"
+            class="filter"
+          />
+        </div>
+      </div>
+  
+      <mat-card>
+        <mat-card-header> </mat-card-header>
+  
+        <mat-card-content>
+          <div class="table-responsive">
+            <table
+              matSort
+              mat-table
+              [dataSource]="dataSource"
+              class="mat-elevation-z8"
+            >
+              <!-- no data found -->
+              <ng-container *matNoDataRow>
+                <tr>
+                  <td style="text-align: center" class="mat-cell" colspan="5">
+                    No Records found
+                  </td>
+                </tr>
+              </ng-container>
+              <ng-container matColumnDef="slNo">
+                  <th mat-header-cell *matHeaderCellDef>SL No</th>
+                  <td mat-cell *matCellDef="let menuGroup; let i = index">{{ i + 1 }}</td>
+                </ng-container>
+  
+              <ng-container matColumnDef="Menu Group">
+                <th mat-sort-header mat-header-cell *matHeaderCellDef>
+                  Module
+                </th>
+                <td mat-cell *matCellDef="let menuGroup">
+                  {{ menuGroup.MODULE_NAME }}
+                </td>
+              </ng-container>
+  
+           
+  
+              <ng-container matColumnDef="Action">
+                <th mat-header-cell *matHeaderCellDef>Action</th>
+                <td mat-cell *matCellDef="let menuGroup">
+                  <button mat-button color="primary" matTooltip="Edit">
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                  <button mat-button color="warn" matTooltip="Delete">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </td>
+              </ng-container>
+  
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+            </table>
+          </div>
+        </mat-card-content>
+        <mat-card-footer>
+          <mat-paginator
+            [pageSizeOptions]="[5, 10, 20]"
+            showFirstLastButtons
+          ></mat-paginator>
+        </mat-card-footer>
+      </mat-card>
+    </div>
+  </div>
+  

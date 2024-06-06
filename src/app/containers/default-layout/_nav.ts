@@ -22,6 +22,22 @@ export const navItems: INavData[] = [
     iconComponent: { name: 'cil-layers' },
     children: [
       {
+        name: 'Addition',
+        url: '/master/addition'
+      },
+      {
+        name: 'Menu',
+        url: '/master/menu'
+      },
+      {
+        name: 'Menu Group',
+        url: '/master/menuGroup'
+      },
+      {
+        name: 'Module',
+        url: '/master/module'
+      },
+      {
         name: 'Reseller',
         url: '/master/reseller'
       },
