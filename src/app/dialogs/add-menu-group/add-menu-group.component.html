@@ -1,1 +1,45 @@
-<p>add-menu-group works!</p>
+<div class="overlay mt-2">
+  <div class="close" (click)="closeDialog()">
+        &times;
+    </div>
+  <form [formGroup]="menuGroupForm" class="p-4" (ngSubmit)="onSubmit()">
+    <h2 class="mb-4">
+      {{ mode === "add" ? "New Menu Group" : "Update Menu Group" }}
+    </h2>
+    <!-- Form Fields -->
+    <div class="row">
+      <!-- First Column -->
+      <div class="col-md-6">
+
+        <mat-form-field appearance="fill" class="form-group">
+          <mat-label>Name</mat-label>
+          <input
+            matInput
+            formControlName="MENU_GROUP"
+            placeholder="Enter Menu Group Name"
+          />
+        </mat-form-field>
+      </div>
+ 
+      <div class="form-group d-flex justify-content-end mt-3">
+        <button mat-raised-button color="warn" type="button" (click)="closeDialog()" >Cancel</button>
+        <div class="mr-2"></div>
+        <button
+          mat-raised-button
+          type="submit"
+          color="primary"
+          class="mx-2"
+          [disabled]="loading"
+        >
+          <span
+            *ngIf="loading"
+            class="spinner-border spinner-border-sm"
+            role="status"
+            aria-hidden="true"
+          ></span>
+          Save
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

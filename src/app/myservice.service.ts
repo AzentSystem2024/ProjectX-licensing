@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, map } from 'rxjs';
 
 
@@ -98,9 +98,24 @@ export class MyserviceService {
   public endpoint027="http://103.180.120.134/projectxlicense/api/menugroup/list";
   public endpoint028="http://103.180.120.134/projectxlicense/api/menugroup/insert";
   public endpoint029="http://103.180.120.134/projectxlicense/api/menugroup/update";
-  public endpoint030="http://103.180.120.134/projectxlicense/api/menugroup/delete"
+  // public endpoint030="http://103.180.120.134/projectxlicense/api/menugroup/delete"
+  public endpoint032="http://103.180.120.134/projectxlicense/api/menugroup/select/";
+  public endpoint033="http://103.180.120.134/projectxlicense/api/menugroup/delete/"
 
   public endpoint031="http://103.180.120.134/projectxlicense/api/modules/list";
+  public endpoint034="http://103.180.120.134/projectxlicense/api/modules/insert";
+  public endpoint035="http://103.180.120.134/projectxlicense/api/modules/update";
+  public endpoint036="http://103.180.120.134/projectxlicense/api/modules/delete/";
+  public endpoint037="http://103.180.120.134/projectxlicense/api/modules/select/";
+
+  public endpoint038="http://103.180.120.134/projectxlicense/api/menu/list";
+  public endpoint039="http://103.180.120.134/projectxlicense/api/menu/insert";
+  public endpoint040="http://103.180.120.134/projectxlicense/api/menu/update";
+  public endpoint041="http://103.180.120.134/projectxlicense/api/menu/select/";
+  public endpoint042="http://103.180.120.134/projectxlicense/api/menu/delete/";
+
+  public endpoint043="http://103.180.120.134/projectxlicense/api/dropdown/list";
+
 
   //dashboard
   public dashboardvalue="http://103.180.120.134/veztalicense/api/license/licensedashboard";
@@ -179,10 +194,71 @@ addCustomer(data:object):Observable<any>{
   return this.http.post(this.endpoint028,data);
  }
 
+ updateMenuGroup(data:any):Observable<any>{
+  return this.http.post(this.endpoint029,data);
+ }
+
+ getMenuGroupById(ID:number,data:any){
+  const getEndpoint = `${this.endpoint032}${ID}`;
+  return this.http.post(getEndpoint,data);
+ }
+//endpoint033
+
+deleteGroupMenu(ID: number,data:any): Observable<any> {
+  const deleteEndpoint = `${this.endpoint033}${ID}`;
+  return this.http.post(deleteEndpoint,data);
+}
+
+//menu
+
+  getMenu():Observable<any>{
+    return this.http.post(this.endpoint038,{})
+ }
+ addMenu(data:object):Observable<any>{
+  return this.http.post(this.endpoint039,data);
+ }
+
+ updateMenu(data:any):Observable<any>{
+  return this.http.post(this.endpoint040,data);
+ }
+
+ getMenuById(ID:number,data:any){
+  const getEndpoint = `${this.endpoint041}${ID}`;
+  return this.http.post(getEndpoint,data);
+ }
+
+ deleteMenu(ID: number,data:any): Observable<any> {
+  const deleteEndpoint = `${this.endpoint042}${ID}`;
+  return this.http.post(deleteEndpoint,data);
+}
+
+getDropdownList(): Observable<any> {
+  const body = { name: "MODULES" };
+  return this.http.post(this.endpoint043, body);
+}
+
  //modules
  getModule():Observable<any>{
   return this.http.post(this.endpoint031,{})
  }
+
+ addModule(data:object):Observable<any>{
+  return this.http.post(this.endpoint034,data);
+ }
+
+ updateModule(data:any):Observable<any>{
+  return this.http.post(this.endpoint035,data);
+ }
+
+ getModuleById(ID:number,data:any){
+  const getEndpoint = `${this.endpoint037}${ID}`;
+  return this.http.post(getEndpoint,data);
+ }
+
+ deleteModule(ID: number,data:any): Observable<any> {
+  const deleteEndpoint = `${this.endpoint036}${ID}`;
+  return this.http.post(deleteEndpoint,data);
+}
 
  //facility-group
  getFacilityGroup():Observable<any>{
@@ -339,14 +415,25 @@ export interface GetResellerData {
 }
 
 export interface GetMenuGroup {
+  ID : number
   PRODUCT: number;
   MENUGROUP: string;
   MENUKEY: string;
 }
 
 export interface GetModule {
+  ID : number
   MODULE_NAME: number;
   PRODUCT_ID: string;
   PRODUCT_NAME: string;
+}
+
+export interface GetMenu {
+  ID : number
+  MODULE_NAME: number;
+  MENU_GROUP: string;
+  MENU_NAME: string;
+  MENU_VERSION : number;
+  REMARKS : string
 }
 
