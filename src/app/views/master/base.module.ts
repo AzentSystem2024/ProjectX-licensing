@@ -60,7 +60,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MenuGroupComponent } from './menu-group/menu-group.component';
 import { MenuComponent } from './menu/menu.component';
-import { AdditionComponent } from './addition/addition.component';
+import { EditionComponent } from './edition/edition.component';
 
 
 
@@ -110,7 +110,7 @@ import { ModuleComponent } from './module/module.component';
     MenuGroupComponent,
     ModuleComponent,
     MenuComponent,
-    AdditionComponent
+    EditionComponent
   ],
   declarations: [
     CustomerComponent,

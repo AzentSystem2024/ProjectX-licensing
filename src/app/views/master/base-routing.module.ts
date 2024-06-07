@@ -17,7 +17,7 @@ import { TooltipsComponent } from './tooltips/tooltips.component';
 import { TabsComponent } from './tabs/tabs.component';
 import { PlaceholdersComponent } from './placeholders/placeholders.component';
 import { FacilityGroupComponent } from './facility-group/facility-group.component';
-import { AdditionComponent } from './addition/addition.component';
+import { EditionComponent } from './edition/edition.component';
 import { MenuComponent } from './menu/menu.component';
 import { MenuGroupComponent } from './menu-group/menu-group.component';
 import { ModuleComponent } from './module/module.component';
@@ -62,10 +62,10 @@ const routes: Routes = [
         },
       },
       {
-        path: 'addition',
-        component: AdditionComponent,
+        path: 'edition',
+        component: EditionComponent,
         data: {
-          title: 'Addition',
+          title: 'Edition',
         },
       },
       {

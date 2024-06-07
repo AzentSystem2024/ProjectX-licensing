@@ -44,7 +44,7 @@ export class MyserviceService {
   public intIp="https://api.ipify.org/?format=json";
 
 
-  public loginVerify="http://localhost/projectxlicense/api/user/login";
+  public loginVerify="http://103.180.120.134/projectxlicense/api/user/login";
 
 
 

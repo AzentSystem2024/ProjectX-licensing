@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
 import { MatError, MatFormFieldModule, MatLabel } from '@angular/material/form-field';
@@ -34,11 +34,27 @@ export class AddMenuGroupComponent {
   submit=false;
   mode: 'add' | 'update' = 'add';
   loading = false;
-
+  menuGroupForm: FormGroup;
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,private service:MyserviceService,private dialog: MatDialog,private dialogRef: MatDialogRef<AddMenuGroupComponent>,
   private fb:FormBuilder, private route:ActivatedRoute,private router:Router) {
+    this.menuGroupForm = this.fb.group({
+      ID: [''],
+      MENUGROUP: ['', [Validators.required, this.noWhitespaceOrSpecialChar]]
+    });
  }
-
+ 
  filteredOptions:any;
+ menuGroupName : any;
+ editData : any;
+
+
+
+ noWhitespaceOrSpecialChar(control: AbstractControl): { [key: string]: boolean } | null {
+  const value = control.value;
+  if (value && (value.charAt(0) === ' ' || !/^[a-zA-Z0-9]/.test(value))) {
+    return { 'invalidFormat': true };
+  }
+  return null;
+}
 
 }
