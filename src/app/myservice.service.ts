@@ -44,7 +44,7 @@ export class MyserviceService {
   public intIp="https://api.ipify.org/?format=json";
 
 
-  public loginVerify="http://localhost/projectxlicense/api/user/login";
+  public loginVerify="http://103.180.120.134/projectxlicense/api/user/login";
 
 
 
@@ -94,6 +94,13 @@ export class MyserviceService {
   public endpoint024="http://103.180.120.134/veztalicense/api/license/select/";
   public endpoint025="http://103.180.120.134/veztalicense/api/license/update";
   public endpoint026="http://103.180.120.134/veztalicense/api/license/licenserenewal";
+
+  public endpoint027="http://103.180.120.134/projectxlicense/api/menugroup/list";
+  public endpoint028="http://103.180.120.134/projectxlicense/api/menugroup/insert";
+  public endpoint029="http://103.180.120.134/projectxlicense/api/menugroup/update";
+  public endpoint030="http://103.180.120.134/projectxlicense/api/menugroup/delete"
+
+  public endpoint031="http://103.180.120.134/projectxlicense/api/modules/list";
 
   //dashboard
   public dashboardvalue="http://103.180.120.134/veztalicense/api/license/licensedashboard";
@@ -161,6 +168,20 @@ addCustomer(data:object):Observable<any>{
  }
  updateCustomer(data:any):Observable<any>{
   return this.http.post(this.endpoint05,data);
+ }
+
+ //menugroup
+ getMenuGroup():Observable<any>{
+  return this.http.post(this.endpoint027,{})
+ }
+
+ addMenuGroup(data:object):Observable<any>{
+  return this.http.post(this.endpoint028,data);
+ }
+
+ //modules
+ getModule():Observable<any>{
+  return this.http.post(this.endpoint031,{})
  }
 
  //facility-group
@@ -315,5 +336,17 @@ export interface GetResellerData {
   PHONE: string;
   EMAIL: string;
   COUNTRY: string;
+}
+
+export interface GetMenuGroup {
+  PRODUCT: number;
+  MENUGROUP: string;
+  MENUKEY: string;
+}
+
+export interface GetModule {
+  MODULE_NAME: number;
+  PRODUCT_ID: string;
+  PRODUCT_NAME: string;
 }
 

@@ -58,10 +58,15 @@ import {MatIconModule} from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MenuGroupComponent } from './menu-group/menu-group.component';
+import { MenuComponent } from './menu/menu.component';
+import { EditionComponent } from './edition/edition.component';
+
 
 
 // Components Routing
 import { BaseRoutingModule } from './base-routing.module';
+import { ModuleComponent } from './module/module.component';
 
 
 @NgModule({
@@ -101,7 +106,11 @@ import { BaseRoutingModule } from './base-routing.module';
     MatIconModule,
     MatButtonModule,
     MatTableModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MenuGroupComponent,
+    ModuleComponent,
+    MenuComponent,
+    EditionComponent
   ],
   declarations: [
     CustomerComponent,
@@ -119,6 +128,9 @@ import { BaseRoutingModule } from './base-routing.module';
     TooltipsComponent,
     TabsComponent,
     PlaceholdersComponent,
+    
+
+
     
   ],
 })

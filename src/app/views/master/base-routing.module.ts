@@ -17,7 +17,10 @@ import { TooltipsComponent } from './tooltips/tooltips.component';
 import { TabsComponent } from './tabs/tabs.component';
 import { PlaceholdersComponent } from './placeholders/placeholders.component';
 import { FacilityGroupComponent } from './facility-group/facility-group.component';
-
+import { EditionComponent } from './edition/edition.component';
+import { MenuComponent } from './menu/menu.component';
+import { MenuGroupComponent } from './menu-group/menu-group.component';
+import { ModuleComponent } from './module/module.component';
 const routes: Routes = [
   {
     path: '',
@@ -59,12 +62,41 @@ const routes: Routes = [
         },
       },
       {
+        path: 'edition',
+        component: EditionComponent,
+        data: {
+          title: 'Edition',
+        },
+      },
+      {
+        path: 'menu',
+        component: MenuComponent,
+        data: {
+          title: 'Menu',
+        },
+      },
+      {
+        path: 'menuGroup',
+        component: MenuGroupComponent,
+        data: {
+          title: 'menuGroup',
+        },
+      },
+      {
+        path: 'module',
+        component: ModuleComponent,
+        data: {
+          title: 'Module',
+        },
+      },
+      {
         path: 'modules',
         component: CarouselsComponent,
         data: {
           title: 'Modules',
         },
       },
+      
       {
         path: 'collapse',
         component: CollapsesComponent,
@@ -142,6 +174,7 @@ const routes: Routes = [
           title: 'Tooltips',
         },
       },
+      
     ],
   },
 ];
