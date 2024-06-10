@@ -79,7 +79,6 @@ export class AddMenuGroupComponent {
         console.log('byid',res);
         this.menuGroupForm.setValue({
           ID:this.editData.ID,
-          // RESELLER_CODE:this.editData.RESELLER_CODE,
           MENU_GROUP:this.editData.MENU_GROUP,
         });
         

@@ -237,6 +237,11 @@ getDropdownList(): Observable<any> {
   return this.http.post(this.endpoint043, body);
 }
 
+getMenugroupDropdown(): Observable<any> {
+  const body = { name: "MENUGROUPS" };
+  return this.http.post(this.endpoint043, body);
+}
+
  //modules
  getModule():Observable<any>{
   return this.http.post(this.endpoint031,{})
