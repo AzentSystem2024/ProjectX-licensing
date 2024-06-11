@@ -1,35 +1,21 @@
 import { Component, Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {
-  AbstractControl,
-  FormBuilder,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+import { AbstractControl, FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
-import {
-  MatError,
-  MatFormFieldModule,
-  MatLabel,
-} from '@angular/material/form-field';
+import { MatError, MatFormFieldModule, MatLabel } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatIconModule } from '@angular/material/icon';
-import { ActivatedRoute, Router } from '@angular/router';
 import { MyserviceService } from 'src/app/myservice.service';
-import {
-  MAT_DIALOG_DATA,
-  MatDialog,
-  MatDialogRef,
-} from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AlertDialogComponent } from 'src/app/alert-dialog/alert-dialog.component';
 
 @Component({
-  selector: 'app-add-menu-group',
+  selector: 'app-add-module-dialog',
   standalone: true,
-  imports: [
+  imports:  [
     CommonModule,
     ReactiveFormsModule,
     MatAutocompleteModule,
@@ -42,10 +28,10 @@ import { AlertDialogComponent } from 'src/app/alert-dialog/alert-dialog.componen
     MatSelectModule,
     MatIconModule,
   ],
-  templateUrl: './add-menu-group.component.html',
-  styleUrl: './add-menu-group.component.scss',
+  templateUrl: './add-module-dialog.component.html',
+  styleUrl: './add-module-dialog.component.scss'
 })
-export class AddMenuGroupComponent {
+export class AddModuleDialogComponent {
   submit = false;
   mode: 'add' | 'update' = 'add';
   loading = false;
@@ -54,19 +40,17 @@ export class AddMenuGroupComponent {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private service: MyserviceService,
     private dialog: MatDialog,
-    private dialogRef: MatDialogRef<AddMenuGroupComponent>,
+    private dialogRef: MatDialogRef<AddModuleDialogComponent>,
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router
   ) {}
 
-  filteredOptions: any;
-  
   editData: any;
 
-  menuGroupForm=this.fb.group({
+  moduleForm=this.fb.group({
     ID:[''],
-    MENU_GROUP:['',[Validators.required, this.noWhitespaceOrSpecialChar]],
+    MODULE_NAME:['',[Validators.required, this.noWhitespaceOrSpecialChar]],
   })
 
   ngOnInit(): void {
@@ -74,22 +58,21 @@ export class AddMenuGroupComponent {
     this.mode = this.data?.mode || 'add'; 
  
     if(this.data.id!=''&&this.data.id!=null){
-      this.service.getMenuGroupById(this.data.id,{}).subscribe(res=>{
+      this.service.getModuleById(this.data.id,{}).subscribe(res=>{
         this.editData=res;
         console.log('byid',res);
-        this.menuGroupForm.setValue({
+        this.moduleForm.setValue({
           ID:this.editData.ID,
-          MENU_GROUP:this.editData.MENU_GROUP,
+          // RESELLER_CODE:this.editData.RESELLER_CODE,
+          MODULE_NAME:this.editData.MODULE_NAME,
         });
         
 
       })
     }
   }
-  
-  get f(){    
-    return this.menuGroupForm.controls;
-  }
+
+
   noWhitespaceOrSpecialChar(
     control: AbstractControl
   ): { [key: string]: boolean } | null {
@@ -100,32 +83,43 @@ export class AddMenuGroupComponent {
     return null;
   }
 
-  openMenuGroupAddedDialog(title: string, message: string){
+  openModuleAddedDialog(title: string, message: string){
     const dialogRef = this.dialog.open(AlertDialogComponent, {
       width: '300px',
       data: { title: title, message: message }
   });
   }
 
+  loadEditData(data: any) {
+    this.moduleForm.patchValue({
+      ID: data.ID,
+      MODULE_NAME: data.MODULE_NAME
+    });
+  }
+
+  closeDialog(){
+    this.dialogRef.close();
+  }
+
   onSubmit(){
-    console.log(this.menuGroupForm.value);
+    console.log(this.moduleForm.value);
     
     this.submit=true;
     let postData : any = {
-      MENU_GROUP : this.menuGroupForm.value.MENU_GROUP
+      MODULE_NAME : this.moduleForm.value.MODULE_NAME
     }
-    if (this.menuGroupForm.valid){
+    if (this.moduleForm.valid){
       this.loading = true;setTimeout(() => {
         this.loading = false;
         this.closeDialog();
       },8000);
 
-      if (this.menuGroupForm.value.ID){
-        console.log(this.menuGroupForm.value.ID,"menugroup id")
-        postData['ID'] = this.menuGroupForm.value.ID
-        this.service.updateMenuGroup(postData).subscribe((data : any) => {
+      if (this.moduleForm.value.ID){
+        console.log(this.moduleForm.value.ID,"module id")
+        postData['ID'] = this.moduleForm.value.ID
+        this.service.updateModule(postData).subscribe((data : any) => {
           console.log(data,"menugroup updateddddddddd")
-          this.openMenuGroupAddedDialog("menugroup", "menugroup is updated successfully");
+          this.openModuleAddedDialog("module", "module is updated successfully");
           this.dialogRef.close('update');
         },
         (error : any) =>{
@@ -135,13 +129,13 @@ export class AddMenuGroupComponent {
 
         }
         else {
-          this.service.addMenuGroup(postData).subscribe((data : any) => {
-            console.log(data, "menu group added successfully");
-            this.openMenuGroupAddedDialog("menugroup", "menugroup is added successfully");
+          this.service.addModule(postData).subscribe((data : any) => {
+            console.log(data, "module added successfully");
+            this.openModuleAddedDialog("module", "module is added successfully");
             this.dialogRef.close('insert');
           },
           (error : any) =>{
-            console.log(error, "Error in adding menu group")
+            console.log(error, "Error in adding module group")
           }
         )
         }
@@ -153,14 +147,8 @@ export class AddMenuGroupComponent {
 
   }
 
-  loadEditData(data: any) {
-    this.menuGroupForm.patchValue({
-      ID: data.ID,
-      MENU_GROUP: data.MENU_GROUP
-    });
+  get f(){    
+    return this.moduleForm.controls;
   }
 
-  closeDialog(){
-    this.dialogRef.close();
-  }
 }

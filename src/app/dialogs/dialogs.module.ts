@@ -14,7 +14,12 @@ import {AddFacilityComponent} from './add-facility/add-facility.component';
 import {ViewCustomerComponent} from './view-customer/view-customer.component';
 import {NoSelectionDialogComponent} from './no-selection-dialog/no-selection-dialog.component';
 import { DefaultLayoutComponent } from '../containers';
+<<<<<<< HEAD
 import {ViewMenuComponent} from './view-menu/view-menu.component';
+=======
+import { AddMenuGroupComponent } from './add-menu-group/add-menu-group.component'
+
+>>>>>>> 925a34c7ff40a7ad245c7ec34baa62dfe6d68ec0
 
 
 @NgModule({
@@ -25,7 +30,11 @@ import {ViewMenuComponent} from './view-menu/view-menu.component';
     AddFacilityComponent,
     ViewCustomerComponent,
     NoSelectionDialogComponent,
+<<<<<<< HEAD
     ViewMenuComponent
+=======
+    AddMenuGroupComponent
+>>>>>>> 925a34c7ff40a7ad245c7ec34baa62dfe6d68ec0
     
   ],
   imports: [
@@ -41,7 +50,8 @@ import {ViewMenuComponent} from './view-menu/view-menu.component';
   ],
   exports: [
     AddResellerDialogComponent,
-    AddCustomerDialogComponent
+    AddCustomerDialogComponent,
+    AddMenuGroupComponent,
   ]
 })
 export class DialogModule {}
