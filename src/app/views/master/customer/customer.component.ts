@@ -8,6 +8,7 @@ import { AddCustomerDialogComponent } from '../../../dialogs/add-customer-dialog
 import { ConfirmationDialogComponent } from 'src/app/confirmation-dialog/confirmation-dialog.component';
 import {ViewCustomerComponent} from '../../../dialogs/view-customer/view-customer.component';
 import {animate, state, style, transition, trigger} from '@angular/animations';
+import {ViewMenuComponent} from '../../../dialogs/view-menu/view-menu.component';
 
 
 
@@ -159,6 +160,23 @@ export class CustomerComponent implements OnInit {
 
   viewCustomer(customer:any){
     const dialogRef = this.dialog.open(ViewCustomerComponent,{
+      width: '70vw', // 70% of the viewport width
+      maxWidth: '100vw', // maximum width to ensure it doesn't overflow
+      height: '82vh', // 85% of the viewport height
+      maxHeight: '100vh', // maximum height to ensure it doesn't overflow
+      data: {
+        name:customer.CUST_NAME,
+        id:customer.ID,
+        customer:customer,
+        mode:'view'
+  
+      }
+  
+    });
+  }
+
+  viewMenu(customer:any){
+    const dialogRef = this.dialog.open(ViewMenuComponent,{
       width: '70vw', // 70% of the viewport width
       maxWidth: '100vw', // maximum width to ensure it doesn't overflow
       height: '82vh', // 85% of the viewport height

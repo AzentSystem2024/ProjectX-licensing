@@ -1,0 +1,100 @@
+<div class="overlay mt-2">
+    <div class="close" (click)="closeDialog()">
+       &times;
+    </div>
+   
+            <form [formGroup]="editionForm" class="p-4" (ngSubmit)="onSubmit()">
+                <h2 class="mb-4">New Edition</h2>
+                <div class="row">
+                    <div class="col-md-6">
+                <mat-form-field appearance="fill" class="form-group">
+                    <mat-label>Edition Name</mat-label>
+                    <input matInput id="name" formControlName="EDITION_NAME" placeholder="Enter Edition Name">
+                </mat-form-field>
+            </div>
+            </div>
+
+                <mat-card>
+                    <mat-card-header>
+                        <p>Select Menus :</p>
+                    </mat-card-header>
+                  
+                      <mat-card-content>
+                  <div class="table-responsive">
+                      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+                  
+                        <!-- no data found -->
+                        <ng-container *matNoDataRow>
+                          <tr>
+                            <td style="text-align: center;" class="mat-cell" colspan="5">No Records found</td>
+                          </tr>
+                        </ng-container>
+
+                        <ng-container matColumnDef="select">
+                            <th mat-header-cell *matHeaderCellDef>
+                              <mat-checkbox 
+                                class="small-checkbox checkbox"
+                                (change)="$event ? toggleAllRows() : null"
+                                [checked]="selection.hasValue() && isAllSelected()"
+                                [indeterminate]="selection.hasValue() && !isAllSelected()"
+                                >
+                              </mat-checkbox>
+                            </th>
+                            <td mat-cell *matCellDef="let edition">
+                              <mat-checkbox 
+                                class="small-checkbox"
+                                (change)="$event ? selection.toggle(edition) : null"
+                                [checked]="selection.isSelected(edition)"
+                                >
+                              </mat-checkbox>
+                            </td>
+                          </ng-container>
+                         
+                         <ng-container matColumnDef="module">
+                          <th mat-sort-header mat-header-cell *matHeaderCellDef> Module</th>
+                          <td mat-cell *matCellDef="let edition">{{edition.MODULE_NAME}}</td>
+                        </ng-container>
+
+                        
+                        <ng-container matColumnDef="menu-group">
+                            <th mat-sort-header mat-header-cell *matHeaderCellDef> Menu Group</th>
+                            <td mat-cell *matCellDef="let edition">{{edition.MENU_GROUP}}</td>
+                          </ng-container>
+
+                          
+                         <ng-container matColumnDef="menu-name">
+                            <th mat-sort-header mat-header-cell *matHeaderCellDef> Menu Name</th>
+                            <td mat-cell *matCellDef="let edition">{{edition.MENU_NAME}}</td>
+                          </ng-container>
+
+                          <ng-container matColumnDef="remarks">
+                            <th mat-sort-header mat-header-cell *matHeaderCellDef> Remarks</th>
+                            <td mat-cell *matCellDef="let edition">{{edition.REMARKS}}</td>
+                          </ng-container>
+
+                        
+                    
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                      </table>
+                    </div>
+                    
+                  </mat-card-content>
+                  <mat-card-footer>
+                    
+                    <mat-paginator [pageSizeOptions]="[5,10]" showFirstLastButtons></mat-paginator>
+                  </mat-card-footer>
+                  
+                  </mat-card>
+
+                <!-- Form Buttons -->
+                <div class="form-group pt-3 d-flex justify-content-end">
+                    <button mat-raised-button color="warn" type="button" (click)="closeDialog()" >Cancel</button>
+                    <div class="mr-2"></div>
+                    <button mat-raised-button type="submit" color="primary" class="mx-2" [disabled]="loading">
+                        <span *ngIf="loading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        Save
+                      </button>
+                </div>
+            </form>
+</div>

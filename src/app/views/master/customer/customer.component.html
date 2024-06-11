@@ -81,6 +81,7 @@
                 <button mat-button color="primary" matTooltip="Edit" (click)="editCustomer(customer)" *ngIf="levelName!=='Reseller'"> <mat-icon>edit</mat-icon></button>
                 <button mat-button color="warn" matTooltip="Delete" (click)="deleteCustomer(customer.ID,customer)" *ngIf="levelName!=='Reseller'"><mat-icon>delete</mat-icon></button>
                 <button mat-button  matTooltip="Details" (click)="viewCustomer(customer)"><mat-icon>info</mat-icon></button>
+                <button mat-button  matTooltip="Menus" (click)="viewMenu(customer)"><mat-icon>menu</mat-icon></button>
               </td>
             </ng-container>
 
@@ -98,7 +99,7 @@
                   </div>
                 </div>
               </td>
-            </ng-container>
+          </ng-container>
 
             
 
@@ -108,7 +109,7 @@
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"
             class="example-element-row"
             [class.example-expanded-row]="expandedElement === row"
-            (click)="expandedElement = expandedElement === row ? null : row">
+            >
             </tr>
             <!-- Expanded Row -->
             <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>

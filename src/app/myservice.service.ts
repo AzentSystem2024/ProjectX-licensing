@@ -43,6 +43,8 @@ export class MyserviceService {
 
   public intIp="https://api.ipify.org/?format=json";
 
+  private apiUrl="http://localhost/projectxlicense/api/";
+
 
   public loginVerify="http://103.180.120.134/projectxlicense/api/user/login";
 
@@ -104,6 +106,8 @@ export class MyserviceService {
 
   //dashboard
   public dashboardvalue="http://103.180.120.134/veztalicense/api/license/licensedashboard";
+
+  //edition
 
 
 
@@ -301,6 +305,22 @@ addFacility(data:object):Observable<any>{
  }
  updateFacility(data:any):Observable<any>{
   return this.http.post(this.endpoint0005,data);
+ }
+
+ 
+ //edition
+ getEdition():Observable<any>{
+  return this.http.post(this.apiUrl+'edition/list',{});
+}
+getEditionMenu():Observable<any>{
+  return this.http.post(this.apiUrl+'edition/editionlist',{});
+}
+ addEdition(data:object):Observable<any>{
+  return this.http.post(this.apiUrl+'edition/insert',data);
+ }
+ deleteEdition(ID:number,data:any){
+  const deleteEndpoint = `${this.apiUrl+'edition/delete/'}${ID}`;
+  return this.http.post(deleteEndpoint,data);
  }
 
 //license renewal 

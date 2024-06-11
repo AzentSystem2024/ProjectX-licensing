@@ -14,7 +14,7 @@ import {AddFacilityComponent} from './add-facility/add-facility.component';
 import {ViewCustomerComponent} from './view-customer/view-customer.component';
 import {NoSelectionDialogComponent} from './no-selection-dialog/no-selection-dialog.component';
 import { DefaultLayoutComponent } from '../containers';
-
+import {ViewMenuComponent} from './view-menu/view-menu.component';
 
 
 @NgModule({
@@ -24,7 +24,8 @@ import { DefaultLayoutComponent } from '../containers';
     AddCustomerDialogComponent,
     AddFacilityComponent,
     ViewCustomerComponent,
-    NoSelectionDialogComponent
+    NoSelectionDialogComponent,
+    ViewMenuComponent
     
   ],
   imports: [
