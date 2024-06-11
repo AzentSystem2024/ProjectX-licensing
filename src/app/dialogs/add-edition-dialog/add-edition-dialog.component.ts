@@ -36,7 +36,7 @@ export class AddEditionDialogComponent {
 
   constructor(private service:MyserviceService, private fb:FormBuilder,private dialog: MatDialog,
     private dialogRef: MatDialogRef<AddEditionDialogComponent>,){
-      service.getEditionMenu().subscribe(data=>{
+      service.getEditionMenuList().subscribe(data=>{
         this.editionMenuList=data;
         this.dataSource = new MatTableDataSource<any>(this.editionMenuList);
         this.dataSource.paginator = this.paginator;

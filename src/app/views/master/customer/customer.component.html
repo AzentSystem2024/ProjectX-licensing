@@ -80,8 +80,8 @@
               <td mat-cell *matCellDef="let customer">
                 <button mat-button color="primary" matTooltip="Edit" (click)="editCustomer(customer)" *ngIf="levelName!=='Reseller'"> <mat-icon>edit</mat-icon></button>
                 <button mat-button color="warn" matTooltip="Delete" (click)="deleteCustomer(customer.ID,customer)" *ngIf="levelName!=='Reseller'"><mat-icon>delete</mat-icon></button>
-                <button mat-button  matTooltip="Details" (click)="viewCustomer(customer)"><mat-icon>info</mat-icon></button>
-                <button mat-button  matTooltip="Menus" (click)="viewMenu(customer)"><mat-icon>menu</mat-icon></button>
+                <button mat-button  matTooltip="Info" (click)="viewCustomer(customer)"><mat-icon>info</mat-icon></button>
+                <!-- <button mat-button  matTooltip="Menus" (click)="viewMenu(customer)"><mat-icon>menu</mat-icon></button> -->
               </td>
             </ng-container>
 

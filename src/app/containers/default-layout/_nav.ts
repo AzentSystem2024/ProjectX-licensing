@@ -50,10 +50,6 @@ export const navItems: INavData[] = [
         url: '/master/facility'
       },
       {
-        name: 'Facility Group',
-        url: '/master/facility-group'
-      },
-      {
         name: 'Product',
         url: '/master/product'
       },

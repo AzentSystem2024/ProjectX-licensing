@@ -16,13 +16,15 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import {SelectionModel} from '@angular/cdk/collections';
 import {NoSelectionDialogComponent} from '../no-selection-dialog/no-selection-dialog.component';
+import { MatTabsModule } from '@angular/material/tabs';
 
 
 
 @Component({
   selector: 'app-view-customer',
   standalone: true,
-  imports: [CommonModule,MatButtonModule,MatIconModule,MatTableModule,MatCardModule,MatTooltipModule,MatCheckboxModule,MatPaginatorModule],
+  imports: [CommonModule,MatButtonModule,MatIconModule,MatTableModule,MatCardModule,MatTooltipModule,MatCheckboxModule,
+    MatPaginatorModule,MatTabsModule],
   templateUrl: './view-customer.component.html',
   styleUrl: './view-customer.component.scss'
 })
@@ -33,12 +35,15 @@ export class ViewCustomerComponent implements OnInit {
   activeCount:number=0;
   inactiveCount:number=0;
   expiredCount:number=0;
+  editionMenuList:any;
   @ViewChild(MatPaginator) paginator!:MatPaginator;
   customer: any[] = [
     {ID: 4, CUST_NAME: 'DILIGENZ SYSTEMS MIDDLE EAST',CUST_CODE:'123', CUSTOMER_KEY: 'XCTY-GHBG8-P8JHB', CONTACT_NAME: 'cust1', RESELLER_NAME: 'reseller1', COUNTRY_NAME: 'india'}
 ];
   displayedColumns: string[] = ['select','slno','facility-name','post-office','license','enrolledon','expiry-date','status'];
+  displayedColumns1: string[] = ['slno','menu-group','menu-name','version','module','remarks'];
   dataSource: any;
+  dataSource1:any;
   levelName:any;
   selection = new SelectionModel<any>(true, []);
 
@@ -46,6 +51,13 @@ export class ViewCustomerComponent implements OnInit {
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,private dataservice:MyserviceService,
   private dialogRef: MatDialogRef<ViewCustomerComponent>,private dialog:MatDialog){
     this.levelName=dataservice.getlevelName();
+    dataservice.getEditionMenu().subscribe(data=>{
+      this.editionMenuList=data;
+      const menuFiltered = this.editionMenuList.filter((item: any) => item.EDITION_NAME == this.data.customer.EDITION_NAME);
+      this.dataSource1 = new MatTableDataSource<any>(menuFiltered);
+      this.dataSource1.paginator = this.paginator;
+    
+  })
   }
 
   fetchAndFilterFacilityData() {

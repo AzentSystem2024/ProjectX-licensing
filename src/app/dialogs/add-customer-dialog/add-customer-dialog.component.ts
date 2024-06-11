@@ -125,7 +125,7 @@ export class AddCustomerDialogComponent {
       var postData:any={
         CUST_NAME:this.customerForm.value.CUST_NAME,
         CONTACT_NAME:this.customerForm.value.CONTACT_NAME,   
-        ADDRESS:this.customerForm.value.ADDRESS,
+        ADDRESS:this.customerForm.value.ADDRESS,  
         COUNTRY_ID:selectedCountry.id,
         EMIRATE_ID:selectedEmirate ? selectedEmirate.id:null,
         CONTACT_PHONE:this.customerForm.value.PHONE,
