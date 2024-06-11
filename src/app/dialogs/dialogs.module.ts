@@ -14,6 +14,7 @@ import {AddFacilityComponent} from './add-facility/add-facility.component';
 import {ViewCustomerComponent} from './view-customer/view-customer.component';
 import {NoSelectionDialogComponent} from './no-selection-dialog/no-selection-dialog.component';
 import { DefaultLayoutComponent } from '../containers';
+import { AddMenuGroupComponent } from './add-menu-group/add-menu-group.component'
 
 
 
@@ -24,7 +25,8 @@ import { DefaultLayoutComponent } from '../containers';
     AddCustomerDialogComponent,
     AddFacilityComponent,
     ViewCustomerComponent,
-    NoSelectionDialogComponent
+    NoSelectionDialogComponent,
+    AddMenuGroupComponent
     
   ],
   imports: [
@@ -40,7 +42,8 @@ import { DefaultLayoutComponent } from '../containers';
   ],
   exports: [
     AddResellerDialogComponent,
-    AddCustomerDialogComponent
+    AddCustomerDialogComponent,
+    AddMenuGroupComponent,
   ]
 })
 export class DialogModule {}

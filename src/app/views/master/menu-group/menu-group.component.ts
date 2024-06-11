@@ -7,6 +7,9 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatDialog } from '@angular/material/dialog';
+import { AddMenuGroupComponent } from '../../../dialogs/add-menu-group/add-menu-group.component'
+import { ConfirmationDialogComponent } from 'src/app/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-menu-group',
@@ -28,7 +31,7 @@ export class MenuGroupComponent implements OnInit {
   menuGroup!: GetMenuGroup[];
   dataSource: any;
 
-  constructor(public service: MyserviceService) {}
+  constructor(public service: MyserviceService,private dialog: MatDialog,) {}
 
   @ViewChild(MatPaginator) paginatior!: MatPaginator;
 
@@ -71,6 +74,60 @@ export class MenuGroupComponent implements OnInit {
   }
 
   openMenuGroupPopup(){
+    const dialogRef = this.dialog.open(AddMenuGroupComponent, {
+      width: '600px',
+      height:'400px',
+    });
+    dialogRef.afterClosed().subscribe(
+      result => {
+        if (result==='insert') {
+          this.getMenuGroup();
+        }
+      });
+    }
+
+    editMenuGroup(menuGroupId:number):void{
+      const dialogRef = this.dialog.open(AddMenuGroupComponent,{
+        width: '600px',
+        height:'400px',
+        data: {
+          id:menuGroupId,
+          mode:'update'
+    
+        }
+    
+      });
+      dialogRef.afterClosed().subscribe(
+        result => {
+          if (result==='update') {
+            this.getMenuGroup();
+          }
+        });
+      
+    
+    }
+
+    deleteMenuGroup(ID:number, menuGroup:any):void{
+      const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+        data: {
+          message: 'Are you sure you want to delete this data?'
+    
+        }
+      });
+    
+    
+      dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+          this.service.deleteGroupMenu(ID,menuGroup).subscribe(
+            (res: any) => {
+              console.log('user is deleted', res);
+              this.getMenuGroup();
+            }
+          );
+        }
+        
+      });
+    }
 
   }
-}
+

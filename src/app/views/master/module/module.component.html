@@ -59,11 +59,11 @@
   
               <ng-container matColumnDef="Action">
                 <th mat-header-cell *matHeaderCellDef>Action</th>
-                <td mat-cell *matCellDef="let menuGroup">
-                  <button mat-button color="primary" matTooltip="Edit">
+                <td mat-cell *matCellDef="let modules">
+                  <button mat-button color="primary" matTooltip="Edit" (click)="editModule(modules.ID)">
                     <mat-icon>edit</mat-icon>
                   </button>
-                  <button mat-button color="warn" matTooltip="Delete">
+                  <button mat-button color="warn" matTooltip="Delete" (click)="deleteModule(modules.ID,modules)">
                     <mat-icon>delete</mat-icon>
                   </button>
                 </td>
