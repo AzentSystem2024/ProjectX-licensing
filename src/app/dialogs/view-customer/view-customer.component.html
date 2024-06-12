@@ -139,6 +139,26 @@
           </tr>
         </ng-container>
 
+        <ng-container matColumnDef="select">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-checkbox 
+            class="small-checkbox checkbox"
+            (change)="$event ? toggleAllRows() : null"
+            [checked]="selection.hasValue() && isAllSelected()"
+            [indeterminate]="selection.hasValue() && !isAllSelected()"
+            >
+          </mat-checkbox>
+        </th>
+        <td mat-cell *matCellDef="let facility">
+          <mat-checkbox 
+            class="small-checkbox"
+            (change)="$event ? selection.toggle(facility) : null"
+            [checked]="selection.isSelected(facility)"
+            >
+          </mat-checkbox>
+        </td>
+      </ng-container>
+
          <!-- Slno Column -->
         <ng-container matColumnDef="slno">
         <th mat-sort-header mat-header-cell *matHeaderCellDef> Menu No</th>

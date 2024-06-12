@@ -41,7 +41,7 @@ export class ViewCustomerComponent implements OnInit {
     {ID: 4, CUST_NAME: 'DILIGENZ SYSTEMS MIDDLE EAST',CUST_CODE:'123', CUSTOMER_KEY: 'XCTY-GHBG8-P8JHB', CONTACT_NAME: 'cust1', RESELLER_NAME: 'reseller1', COUNTRY_NAME: 'india'}
 ];
   displayedColumns: string[] = ['select','slno','facility-name','post-office','license','enrolledon','expiry-date','status'];
-  displayedColumns1: string[] = ['slno','menu-group','menu-name','version','module','remarks'];
+  displayedColumns1: string[] = ['select','slno','menu-group','menu-name','version','module','remarks'];
   dataSource: any;
   dataSource1:any;
   levelName:any;
