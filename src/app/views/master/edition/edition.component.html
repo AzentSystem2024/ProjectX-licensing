@@ -27,7 +27,10 @@
                   <td style="text-align: center;" class="mat-cell" colspan="5">No Records found</td>
                 </tr>
               </ng-container>
-  
+              <ng-container matColumnDef="slNo">
+                <th mat-header-cell *matHeaderCellDef>SL No</th>
+                <td mat-cell *matCellDef="let edition; let i = index">{{ i + 1 }}</td>
+              </ng-container>
               <!-- Edition Column -->
               <ng-container matColumnDef="edition_name">
                 <th mat-sort-header mat-header-cell *matHeaderCellDef> Edition</th>
@@ -38,7 +41,7 @@
               <ng-container matColumnDef="action">
                 <th mat-header-cell *matHeaderCellDef> Action </th>
                 <td mat-cell *matCellDef="let edition">
-                  <button mat-button color="primary" matTooltip="Edit" > <mat-icon>edit</mat-icon></button>
+                  <button mat-button color="primary" matTooltip="Edit" (click)="editEdition(edition.ID)" > <mat-icon>edit</mat-icon></button>
                   <button mat-button color="warn" matTooltip="Delete" (click)="deleteEdition(edition.ID,edition)" ><mat-icon>delete</mat-icon></button>
                 </td>
               </ng-container>

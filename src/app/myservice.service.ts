@@ -43,44 +43,44 @@ export class MyserviceService {
 
   public intIp="https://api.ipify.org/?format=json";
 
-  private apiUrl="http://localhost/projectxlicense/api/";
+  private apiUrl="http://103.180.120.134/projectxlicense/api/";
 
 
   public loginVerify="http://103.180.120.134/projectxlicense/api/user/login";
 
 
 
-  public endpoint="http://localhost/projectxlicense/api/users/List";
+  public endpoint="http://103.180.120.134/projectxlicense/api/users/List";
   
-  public endpoint1="http://localhost/projectxlicense/api/users/insert";
+  public endpoint1="http://103.180.120.134/projectxlicense/api/users/insert";
   public endpoint2="http://103.180.120.134/veztalicense/api/users/delete/";
   public endpoints3="http://103.180.120.134/veztalicense/api/users/Update";
   public endpoint4="http://103.180.120.134/veztalicense/api/UserLevel/List";
   public endpoint5="http://103.180.120.134/veztalicense/api/users/select/";
-  public endpoint6="http://localhost/projectxlicense/api/reseller/List";
-  public endpoint7="http://localhost/projectxlicense/api/reseller/Insert";
+  public endpoint6="http://103.180.120.134/projectxlicense/api/reseller/List";
+  public endpoint7="http://103.180.120.134/projectxlicense/api/reseller/Insert";
   public endpoint8="http://103.180.120.134/veztalicense/api/DropDown/List";
   public endpoint12="http://103.180.120.134/veztalicense/api/dropDown/";
-  public endpoint13="http://localhost/projectxlicense/api/dropDown/";
-  public endpoint9="http://localhost/projectxlicense/api/reseller/select/";
-  public endpoint10="http://localhost/projectxlicense/api/reseller/delete/";
-  public endpoint11="http://localhost/projectxlicense/api/reseller/Update";
+  public endpoint13="http://103.180.120.134/projectxlicense/api/dropDown/";
+  public endpoint9="http://103.180.120.134/projectxlicense/api/reseller/select/";
+  public endpoint10="http://103.180.120.134/projectxlicense/api/reseller/delete/";
+  public endpoint11="http://103.180.120.134/projectxlicense/api/reseller/Update";
 
 
-  public endpoint01="http://localhost/projectxlicense/api/customer/List";
-  public endpoints02="http://localhost/projectxlicense/api/customer/insert";
-  public endpoint03="http://localhost/projectxlicense/api/customer/select/";
-  public endpoint04="http://localhost/projectxlicense/api/customer/delete/";
-  public endpoint05="http://localhost/projectxlicense/api/customer/Update";
+  public endpoint01="http://103.180.120.134/projectxlicense/api/customer/List";
+  public endpoints02="http://103.180.120.134/projectxlicense/api/customer/insert";
+  public endpoint03="http://103.180.120.134/projectxlicense/api/customer/select/";
+  public endpoint04="http://103.180.120.134/projectxlicense/api/customer/delete/";
+  public endpoint05="http://103.180.120.134/projectxlicense/api/customer/Update";
 
-  public endpoint001="http://localhost/projectxlicense/api/facilitygroup/List";
+  public endpoint001="http://103.180.120.134/projectxlicense/api/facilitygroup/List";
 
-  public endpoint0001="http://localhost/projectxlicense/api/facility/List";
-  public endpoint0002="http://localhost/projectxlicense/api/facility/insert";
-  public endpoint0003="http://localhost/projectxlicense/api/facility/select/";
-  public endpoint0004="http://localhost/projectxlicense/api/facility/delete/";
-  public endpoint0005="http://localhost/projectxlicense/api/facility/Update";
-  public endpoint006="http://localhost/projectxlicense/api/facility/licenserenewal";
+  public endpoint0001="http://103.180.120.134/projectxlicense/api/facility/List";
+  public endpoint0002="http://103.180.120.134/projectxlicense/api/facility/insert";
+  public endpoint0003="http://103.180.120.134/projectxlicense/api/facility/select/";
+  public endpoint0004="http://103.180.120.134/projectxlicense/api/facility/delete/";
+  public endpoint0005="http://103.180.120.134/projectxlicense/api/facility/Update";
+  public endpoint006="http://103.180.120.134/projectxlicense/api/facility/licenserenewal";
 
 
   public endpoint011="http://103.180.120.134/veztalicense/api/products/List";
@@ -406,6 +406,18 @@ getEditionMenuList():Observable<any>{
   const deleteEndpoint = `${this.apiUrl+'edition/delete/'}${ID}`;
   return this.http.post(deleteEndpoint,data);
  }
+ updateEdition(data:any):Observable<any>{
+  return this.http.post(this.apiUrl+'edition/update',data);
+ }
+
+ getEditionMenuList():Observable<any>{
+  return this.http.post(this.apiUrl+'edition/editionlist',{});
+}
+
+ getEditionById(ID:number,data:any){
+  const getEndpoint = `${this.apiUrl+'edition/select/'}${ID}`;
+  return this.http.post(getEndpoint,data);
+ }
 
 //license renewal 
   renewLicense(data:object):Observable<any>{
@@ -464,4 +476,25 @@ export interface GetMenu {
   MENU_VERSION : number;
   REMARKS : string
 }
+
+// Define an interface for the edition object
+export interface GetEdition {
+  EDITION_NAME: string | null;
+  ID: number | null;
+  IS_INACTIVE: boolean;
+  MENU_GROUP: string;
+  MENU_ID: number | null;
+  MENU_NAME: string;
+  MENU_VERSION: string;
+  MODULE_NAME: string;
+  PRODUCT_ID: number | null;
+  PRODUCT_NAME: string | null;
+  REMARKS: string;
+  edition_menu: any; // Update this type if needed
+  flag: any; // Update this type if needed
+  message: any; // Update this type if needed
+}
+
+
+
 

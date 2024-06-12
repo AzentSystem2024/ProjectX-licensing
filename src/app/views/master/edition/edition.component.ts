@@ -1,5 +1,5 @@
 import { Component, OnInit,ViewChild } from '@angular/core';
-import { MyserviceService } from 'src/app/myservice.service';
+import { GetEdition, MyserviceService } from 'src/app/myservice.service';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableDataSource,MatTableModule} from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
@@ -30,7 +30,8 @@ export class EditionComponent {
   @ViewChild(MatSort) sortt!:MatSort;
   listEdition: any;
   dataSource:any;
-  displayedColumns: string[] = ['edition_name','action'];
+  displayedColumns: string[] = ['slNo','edition_name','action'];
+  edition!: GetEdition[];
   constructor(public service:MyserviceService,private dialog:MatDialog){}
 
   openEditionPopup(){
@@ -77,20 +78,56 @@ getEditionData(){
     (res:any) => {
       console.log(res);
       this.listEdition=res;
+      console.log(res,"edition========================")
       console.log('after',this.listEdition);
       this.dataSource=new MatTableDataSource<any>(this.listEdition)
       this.dataSource.paginator=this.paginatior;
       this.dataSource.sort=this.sortt;
 
     },
-    
-   
-    // (error:any) => {
-    //   console.error(error);
-    // }
+    (error:any) => {
+      console.error(error);
+    }
   );
-  
 }
+
+editEdition(editionId : number){
+  const dialogRef = this.dialog.open(AddEditionDialogComponent,{
+    width: '600px',
+    height:'400px',
+    data: {
+      id:editionId,
+      mode:'update'
+
+      
+    }
+
+  });
+  dialogRef.afterClosed().subscribe(
+    result => {
+      if (result==='update') {
+        this.getEditionData();
+      }
+    });
+}
+
+openEditDialog(editionId: number): void {
+  this.service.getEditionById(editionId,{}).subscribe((editionData: any) => {
+    const dialogRef = this.dialog.open(AddEditionDialogComponent, {
+      data: {
+        mode: 'update',
+        id: editionId // Pass the edition ID
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      // Handle any logic after the dialog is closed
+    });
+  });
+}
+
+
 ngOnInit(): void {
   this.getEditionData();
 }
