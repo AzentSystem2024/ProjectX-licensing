@@ -5,9 +5,10 @@
    
             <form [formGroup]="customerForm" class="p-4" (ngSubmit)="onSubmit()">
                 <h2 class="mb-4">{{ mode === 'add' ? 'New Customer' : 'Update Customer' }}</h2>
-
+                <mat-tab-group>
+                    <mat-tab label="Customer">
                 <!-- Form Fields -->
-                <div class="row">
+                <div class="row mt-2">
                     <!-- First Column -->
                     <div class="col-md-6">
                         <mat-form-field appearance="fill" *ngIf="ShowCode" class="form-group" > 
@@ -59,6 +60,7 @@
                                 <div *ngIf="f.PHONE.hasError('pattern')">*Phone number must be exactly 10 digits long</div>
                             </mat-error> -->
                         </mat-form-field>
+                        
                         <mat-form-field appearance="fill" class="form-group">
                             <mat-label>Country</mat-label>
                             <mat-select formControlName="COUNTRY_NAME" placeholder="Select Country">
@@ -85,6 +87,17 @@
                         </mat-form-field>
                     </div>
                 </div>
+                </mat-tab>
+                <mat-tab label="Configuration">
+                    <!-- <mat-form-field appearance="fill" class="form-group">
+                            <mat-label>AMC Expiry Date</mat-label>
+                            <input matInput [matDatepicker]="picker2"  placeholder="Enter Archive Date">
+                            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                            <mat-datepicker #picker2></mat-datepicker>
+                           
+                    </mat-form-field> -->
+                </mat-tab>
+                </mat-tab-group>
 
                 <!-- Form Buttons -->
                 <div class="form-group d-flex justify-content-end">

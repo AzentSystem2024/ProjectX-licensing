@@ -26,6 +26,7 @@ import { AlertDialogComponent } from 'src/app/alert-dialog/alert-dialog.componen
 })
 export class AddEditionDialogComponent {
 
+
   @ViewChild(MatPaginator) paginator!:MatPaginator;
 
   loading = false; // Loading flag
@@ -150,28 +151,7 @@ openEditionAddedDialog(title: string, message: string){
     data: { title: title, message: message }
 });
 }
-
   
-  // Whether the number of selected elements matches the total number of rows 
-  isAllSelected() {
-    const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource.data.length;
-    return numSelected === numRows;
-  }
-  
-  // Selects all rows if they are not all selected; otherwise clear selection
-  toggleAllRows() {
-    if (this.isAllSelected()) {
-      this.selection.clear();
-      return;
-    }
-
-    this.selection.select(...this.dataSource.data);
-  }
-
-  closeDialog(){
-    this.dialogRef.close();
-  }
 }
 
 

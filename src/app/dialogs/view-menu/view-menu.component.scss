@@ -1,0 +1,23 @@
+h2{
+    font-size: 1.5rem; /* Adjust font size as needed */
+    margin-bottom: 1.5rem; /* Adjust margin-bottom as needed */
+    font-weight: bold; /* Optionally adjust font weight */
+    color: #333; /* Optionally adjust text color */
+    margin-top: 10px;
+    text-align: center;
+}
+.overlay{
+    position: relative;
+    overflow-x: auto;
+
+}
+   
+.close {
+     position: absolute;
+     top: 5px; 
+     right: 10px; 
+     cursor: pointer;
+     font-size: 25px;
+     color: #999;
+     z-index: 9999;
+ }
