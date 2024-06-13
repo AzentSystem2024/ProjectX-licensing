@@ -110,8 +110,6 @@ export class AddMenuGroupComponent {
   });
   }
 
-
-
   onSubmit(){
     console.log(this.menuGroupForm.value);
     
