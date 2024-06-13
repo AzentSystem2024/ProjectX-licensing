@@ -88,7 +88,14 @@
                   {{ menu.REMARKS }}
                 </td>
               </ng-container>
-  
+              <ng-container matColumnDef="Menu Order">
+                <th mat-sort-header mat-header-cell *matHeaderCellDef>
+                    Menu Order
+                </th>
+                <td mat-cell *matCellDef="let menu">
+                  {{ menu.MENU_ORDER }}
+                </td>
+              </ng-container>
            
   
               <ng-container matColumnDef="Action">

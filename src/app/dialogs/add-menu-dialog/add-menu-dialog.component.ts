@@ -11,6 +11,9 @@ import {
   FormBuilder,
   ReactiveFormsModule,
   Validators,
+  ValidationErrors,
+  FormArray,
+  FormGroup
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertDialogComponent } from 'src/app/alert-dialog/alert-dialog.component';
@@ -60,6 +63,7 @@ export class AddMenuDialogComponent {
     MENU_NAME: ['', [Validators.required, this.noWhitespaceOrSpecialChar]],
     MENU_VERSION: ['', [Validators.required, this.noWhitespaceOrSpecialChar]],
     REMARKS: ['', [Validators.required, this.noWhitespaceOrSpecialChar]],
+    MENU_ORDER: ['', [Validators.required]]
   });
 
   constructor(
@@ -92,6 +96,7 @@ export class AddMenuDialogComponent {
             MENU_NAME: this.editData.MENU_NAME,
             MENU_VERSION: this.editData.MENU_VERSION,
             REMARKS: this.editData.REMARKS,
+            MENU_ORDER :this.editData.MENU_ORDER
           });
         },
         (error: any) => {
@@ -110,6 +115,14 @@ export class AddMenuDialogComponent {
     return this.menuForm.controls;
   }
 
+  get menuOrder() {
+    return this.menuForm.get('MENU_ORDER');
+  }
+
+
+  
+
+
   noWhitespaceOrSpecialChar(
     control: AbstractControl
   ): { [key: string]: boolean } | null {
@@ -119,6 +132,8 @@ export class AddMenuDialogComponent {
     }
     return null;
   }
+
+
   getModuleList() {
     this.service.getDropdownList().subscribe(
       (data: any) => {
@@ -159,7 +174,7 @@ export class AddMenuDialogComponent {
 
   onSubmit() {
     this.submit = true;
-
+    if(this.menuForm.valid){}
     const selectedModule = this.moduleList.find(item => item.DESCRIPTION === this.menuForm.value.MODULE_NAME);
     const selectedMenuGroup = this.menuGroupList.find(item => item.DESCRIPTION === this.menuForm.value.MENU_GROUP);
 
@@ -170,6 +185,7 @@ export class AddMenuDialogComponent {
         MENU_NAME: this.menuForm.value.MENU_NAME,
         MENU_VERSION: this.menuForm.value.MENU_VERSION,
         REMARKS: this.menuForm.value.REMARKS,
+        MENU_ORDER : this.menuForm.value.MENU_ORDER
       };
 
       if (this.menuForm.valid) {
@@ -225,6 +241,7 @@ export class AddMenuDialogComponent {
       MENU_NAME: data.MENU_NAME,
       MENU_VERSION: data.MENU_VERSION,
       REMARKS: data.REMARKS,
+      MENU_ORDER:data.MENU_ORDER
     });
     const selectedModule = this.moduleList.find(item => item.ID === data.MODULE_ID);
     this.selectedModuleDescription = selectedModule ? selectedModule.DESCRIPTION : null;
@@ -232,5 +249,36 @@ export class AddMenuDialogComponent {
 
   closeDialog() {
     this.dialogRef.close();
+  }
+
+  decimalValidator(): (control: AbstractControl) => ValidationErrors | null {
+    return (control: AbstractControl): ValidationErrors | null => {
+      if (!control.value) {
+        return null; // Handle empty or undefined values
+      }
+
+      // Regex to match positive or negative decimal numbers
+      const isValid = /^-?\d*\.?\d+$/.test(control.value);
+
+      if (!isValid) {
+        return { invalidDecimal: true };
+      }
+
+      // Convert to float to normalize decimal format
+      const numericValue = parseFloat(control.value);
+
+      // Access the parent control to check for duplicates
+      const formArray = control.parent?.get('MENU_ORDER_ARRAY') as FormArray || [];
+      const duplicateExists = formArray.controls.some((formControl: AbstractControl) => {
+        const currentValue = parseFloat(formControl.value);
+        return currentValue === numericValue;
+      });
+
+      if (duplicateExists) {
+        return { duplicateNumber: true };
+      }
+
+      return null; // Validation passed
+    };
   }
 }

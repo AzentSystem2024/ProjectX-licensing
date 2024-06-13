@@ -49,6 +49,7 @@ export class AddMenuGroupComponent {
   submit = false;
   mode: 'add' | 'update' = 'add';
   loading = false;
+  enteredMenuOrders: number[] = [];
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -67,6 +68,7 @@ export class AddMenuGroupComponent {
   menuGroupForm=this.fb.group({
     ID:[''],
     MENU_GROUP:['',[Validators.required, this.noWhitespaceOrSpecialChar]],
+    MENU_ORDER:['',[Validators.required, this.noWhitespaceOrSpecialChar]],
   })
 
   ngOnInit(): void {
@@ -80,6 +82,7 @@ export class AddMenuGroupComponent {
         this.menuGroupForm.setValue({
           ID:this.editData.ID,
           MENU_GROUP:this.editData.MENU_GROUP,
+          MENU_ORDER : this.editData.MENU_ORDER
         });
         
 
@@ -107,12 +110,15 @@ export class AddMenuGroupComponent {
   });
   }
 
+
+
   onSubmit(){
     console.log(this.menuGroupForm.value);
     
     this.submit=true;
     let postData : any = {
-      MENU_GROUP : this.menuGroupForm.value.MENU_GROUP
+      MENU_GROUP : this.menuGroupForm.value.MENU_GROUP,
+      MENU_ORDER : this.menuGroupForm.value.MENU_ORDER
     }
     if (this.menuGroupForm.valid){
       this.loading = true;setTimeout(() => {
@@ -147,16 +153,13 @@ export class AddMenuGroupComponent {
         }
       
     }
-
-    
-   
-
   }
 
   loadEditData(data: any) {
     this.menuGroupForm.patchValue({
       ID: data.ID,
-      MENU_GROUP: data.MENU_GROUP
+      MENU_GROUP: data.MENU_GROUP,
+      MENU_ORDER:data.MENU_ORDER
     });
   }
 
