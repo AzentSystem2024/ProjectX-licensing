@@ -394,6 +394,9 @@ addFacility(data:object):Observable<any>{
   return this.http.post(this.apiUrl+'edition/list',{});
 }
 getEditionMenu():Observable<any>{
+  return this.http.post(this.apiUrl+'edition/customermenulist',{});
+}
+getEditionMenuList():Observable<any>{
   return this.http.post(this.apiUrl+'edition/editionlist',{});
 }
  addEdition(data:object):Observable<any>{

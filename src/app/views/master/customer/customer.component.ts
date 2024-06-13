@@ -100,8 +100,8 @@ export class CustomerComponent implements OnInit {
   
   openCustomerPopup(){
     const dialogRef = this.dialog.open(AddCustomerDialogComponent, {
-      width: '600px',
-      height: '550px',
+      width: '690px',
+      height: '610px',
   
   });
   dialogRef.afterClosed().subscribe(

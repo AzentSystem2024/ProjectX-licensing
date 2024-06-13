@@ -26,6 +26,7 @@ import { AlertDialogComponent } from 'src/app/alert-dialog/alert-dialog.componen
 })
 export class AddEditionDialogComponent {
 
+
   @ViewChild(MatPaginator) paginator!:MatPaginator;
   submit = false;
   loading = false; // Loading flag
@@ -179,7 +180,6 @@ openEditionAddedDialog(title: string, message: string){
     data: { title: title, message: message }
 });
 }
-
   
   // Whether the number of selected elements matches the total number of rows 
   isAllSelected() {

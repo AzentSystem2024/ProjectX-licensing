@@ -26,4 +26,30 @@ import {NoSelectionDialogComponent} from '../no-selection-dialog/no-selection-di
 })
 export class ViewMenuComponent {
 
+  @ViewChild(MatPaginator) paginator!:MatPaginator;
+
+
+  editionMenuList:any;
+  dataSource:any;
+  displayedColumns: string[] = ['slno','menu-group','menu-name','version','module','remarks'];
+  
+
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any,private service:MyserviceService,
+  private dialogRef: MatDialogRef<ViewMenuComponent>,private dialog:MatDialog){
+    service.getEditionMenu().subscribe(data=>{
+      this.editionMenuList=data;
+      const menuFiltered = this.editionMenuList.filter((item: any) => item.EDITION_NAME == this.data.customer.EDITION_NAME);
+      this.dataSource = new MatTableDataSource<any>(menuFiltered);
+      this.dataSource.paginator = this.paginator;
+    
+  })
+}
+
+  
+ 
+
+  closeDialog(){
+    this.dialogRef.close();
+  }
+
 }
