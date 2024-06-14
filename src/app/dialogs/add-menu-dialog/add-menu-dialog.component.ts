@@ -13,7 +13,8 @@ import {
   Validators,
   ValidationErrors,
   FormArray,
-  FormGroup
+  FormGroup,
+  FormControl 
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertDialogComponent } from 'src/app/alert-dialog/alert-dialog.component';
@@ -55,7 +56,8 @@ export class AddMenuDialogComponent {
   menuGroupList: any[] = [];
   editData: any;
   selectedModuleDescription: string | null = null;
-
+  errorMessage: string = '';
+  menuOrderArray : any[] = []
   menuForm = this.fb.group({
     ID: [''],
     MODULE_NAME: ['', [Validators.required, this.noWhitespaceOrSpecialChar]],
@@ -63,7 +65,10 @@ export class AddMenuDialogComponent {
     MENU_NAME: ['', [Validators.required, this.noWhitespaceOrSpecialChar]],
     MENU_VERSION: ['', [Validators.required, this.noWhitespaceOrSpecialChar]],
     REMARKS: ['', [Validators.required, this.noWhitespaceOrSpecialChar]],
-    MENU_ORDER: ['', [Validators.required]]
+    MENU_ORDER: ['', [
+      Validators.required,
+      this.numberValidator.bind(this)
+    ]],
   });
 
   constructor(
@@ -120,9 +125,47 @@ export class AddMenuDialogComponent {
   }
 
 
+  // numberValidator(
+  //   control: AbstractControl
+  // ): { [key: string]: boolean } | null {
+  //   const value = control.value;
+  //   if (value && !/^-?\d*\.?\d+$/.test(value)) {
+  //     return { invalidNumber: true };
+  //   }
+  //   return null;
+  // }
   
-
-
+ 
+  numberValidator(control: AbstractControl): ValidationErrors | null {
+    const value = control.value;
+    if (value && !/^-?\d*\.?\d+$/.test(value)) {
+      return { invalidNumber: true }; // Validates if the value is a number
+    }
+  
+    const formGroup = control.parent as FormGroup;
+    if (formGroup) {
+      const currentOrderValue = parseFloat(value);
+  
+      // Iterate over all MENU_ORDER controls and check for duplicates
+      const controls = Object.values(formGroup.controls);
+      const duplicateExists = controls.some(ctrl => {
+        if (ctrl === control || !(ctrl instanceof FormControl)) {
+          return false;
+        }
+        
+        const ctrlValue = parseFloat(ctrl.value);
+        return ctrlValue === currentOrderValue;
+      });
+  
+      if (duplicateExists) {
+        return { duplicateMenuOrder: true }; 
+      }
+    }
+  
+    return null; 
+  }
+  
+  
   noWhitespaceOrSpecialChar(
     control: AbstractControl
   ): { [key: string]: boolean } | null {
@@ -174,7 +217,11 @@ export class AddMenuDialogComponent {
 
   onSubmit() {
     this.submit = true;
-    if(this.menuForm.valid){}
+    if(this.menuForm.invalid){
+      this.errorMessage = "Form is invalid, please check the fields.";
+      console.log("Form is invalid, cannot submit.");
+      return;
+    }
     const selectedModule = this.moduleList.find(item => item.DESCRIPTION === this.menuForm.value.MODULE_NAME);
     const selectedMenuGroup = this.menuGroupList.find(item => item.DESCRIPTION === this.menuForm.value.MENU_GROUP);
 

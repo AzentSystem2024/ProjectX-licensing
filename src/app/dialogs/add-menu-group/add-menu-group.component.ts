@@ -6,6 +6,8 @@ import {
   FormGroup,
   ReactiveFormsModule,
   Validators,
+  ValidationErrors,
+  FormControl
 } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
@@ -64,11 +66,14 @@ export class AddMenuGroupComponent {
   filteredOptions: any;
   
   editData: any;
-
+  errorMessage: string = '';
   menuGroupForm=this.fb.group({
     ID:[''],
     MENU_GROUP:['',[Validators.required, this.noWhitespaceOrSpecialChar]],
-    MENU_ORDER:['',[Validators.required, this.noWhitespaceOrSpecialChar]],
+    MENU_ORDER: ['', [
+      Validators.required,
+      this.numberValidator.bind(this)
+    ]],
   })
 
   ngOnInit(): void {
@@ -103,6 +108,35 @@ export class AddMenuGroupComponent {
     return null;
   }
 
+  numberValidator(control: AbstractControl): ValidationErrors | null {
+    const value = control.value;
+    if (value && !/^-?\d*\.?\d+$/.test(value)) {
+      return { invalidNumber: true }; // Validates if the value is a number
+    }
+  
+    const formGroup = control.parent as FormGroup;
+    if (formGroup) {
+      const currentOrderValue = parseFloat(value);
+  
+      // Iterate over all MENU_ORDER controls and check for duplicates
+      const controls = Object.values(formGroup.controls);
+      const duplicateExists = controls.some(ctrl => {
+        if (ctrl === control || !(ctrl instanceof FormControl)) {
+          return false;
+        }
+        
+        const ctrlValue = parseFloat(ctrl.value);
+        return ctrlValue === currentOrderValue;
+      });
+  
+      if (duplicateExists) {
+        return { duplicateMenuOrder: true }; 
+      }
+    }
+  
+    return null; 
+  }
+
   openMenuGroupAddedDialog(title: string, message: string){
     const dialogRef = this.dialog.open(AlertDialogComponent, {
       width: '300px',
@@ -114,6 +148,11 @@ export class AddMenuGroupComponent {
     console.log(this.menuGroupForm.value);
     
     this.submit=true;
+    if(this.menuGroupForm.invalid){
+      this.errorMessage = "Form is invalid, please check the fields.";
+      console.log("Form is invalid, cannot submit.");
+      return;
+    }
     let postData : any = {
       MENU_GROUP : this.menuGroupForm.value.MENU_GROUP,
       MENU_ORDER : this.menuGroupForm.value.MENU_ORDER
@@ -165,3 +204,5 @@ export class AddMenuGroupComponent {
     this.dialogRef.close();
   }
 }
+
+

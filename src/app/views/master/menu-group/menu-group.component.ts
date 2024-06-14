@@ -27,7 +27,7 @@ import { ConfirmationDialogComponent } from 'src/app/confirmation-dialog/confirm
   styleUrl: './menu-group.component.scss',
 })
 export class MenuGroupComponent implements OnInit {
-  displayedColumns: string[] = [ 'slNo','Menu Group', 'Action','Menu Order'];
+  displayedColumns: string[] = [ 'slNo','Menu Group','Menu Order', 'Action',];
   menuGroup!: GetMenuGroup[];
   dataSource: any;
 

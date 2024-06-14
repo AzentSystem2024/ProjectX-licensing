@@ -45,8 +45,9 @@ export class MenuComponent {
     'Menu',
     'Available from version',
     'Remarks',
+    'Menu Order',
     'Action',
-    'Menu Order'
+    
   ];
   menu!: GetMenu[];
   dataSource: any;

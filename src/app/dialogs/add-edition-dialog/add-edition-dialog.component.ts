@@ -75,6 +75,7 @@ export class AddEditionDialogComponent {
     initializeForm() {
       this.service.getEditionMenuList().subscribe(data => {
         this.editionMenuList = data;
+        console.log(this.editionMenuList,"edition menu list]]]]]")
         this.dataSource = new MatTableDataSource<any>(this.editionMenuList);
         this.dataSource.paginator = this.paginator;
     
@@ -99,7 +100,7 @@ export class AddEditionDialogComponent {
       const selectedMenuIds = res.edition_menu.map((menu: any) => menu.MENU_ID);
       console.log(selectedMenuIds,"SELECTEDMENUID")
       this.editionMenuList.forEach((menu: any, index: number) => {
-        console.log(`Processing menu:`, menu);
+        // console.log(`Processing menu:`, menu);
         if (selectedMenuIds.includes(menu.MENU_ID)) {
           console.log(`Menu ID ${menu.MENU_ID} is selected`);
           (this.editionForm.get('EDITION_MENU') as FormArray).at(index).setValue(true);

@@ -26,6 +26,9 @@
             formControlName="MENU_ORDER"
             placeholder="Enter Menu Group Name"
           />
+          <mat-error *ngIf="f.MENU_ORDER.errors?.['duplicateMenuOrder']">
+            Duplicate menu order is not allowed.
+          </mat-error>
         </mat-form-field>
       </div>
  

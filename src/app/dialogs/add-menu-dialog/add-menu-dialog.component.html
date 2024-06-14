@@ -72,6 +72,9 @@
             formControlName="MENU_ORDER"
             placeholder="Enter Remarks"
           />
+          <mat-error *ngIf="f.MENU_ORDER.errors?.['duplicateMenuOrder']">
+            Duplicate menu order is not allowed.
+          </mat-error>
           <!-- <mat-error *ngIf="submit && f.RESELLER_NAME.errors">*Reseller name is required</mat-error> -->
         </mat-form-field>
       </div>
