@@ -73,13 +73,31 @@ export class AddEditionDialogComponent {
         EDITION_NAME: res.EDITION_NAME
       });
 
-      // Set the selected menus
-      const selectedMenuIds = res.edition_menu.map((menu: any) => menu.MENU_ID);
-      this.editionMenuList.forEach((menu: any, index: number) => {
-        if (selectedMenuIds.includes(menu.MENU_ID)) {
-          (this.editionForm.get('EDITION_MENU') as FormArray).at(index).setValue(true);
-        }
-      });
+      // // Set the selected menus
+      // const selectedMenuIds = res.edition_menu.map((menu: any) => menu.MENU_ID);
+      // this.editionMenuList.forEach((menu: any, index: number) => {
+      //   if (selectedMenuIds.includes(menu.MENU_ID)) {
+      //     (this.editionForm.get('EDITION_MENU') as FormArray).at(index).setValue(true);
+      //   }
+      // });
+
+      
+    // Extract MENU_IDs from the response
+    const selectedMenuIds = res.edition_menu.map((menu: any) => String(menu.MENU_ID));
+    console.log('Selected Menu IDs:', selectedMenuIds);
+
+    // Filter to find checked menus
+    const checkedMenus = this.editionMenuList.filter((menu: any) => {
+      const isSelected = selectedMenuIds.includes(String(menu.MENU_ID));
+      console.log(`Checking menu ID: ${menu.MENU_ID} against selected IDs. Is selected: ${isSelected}`);
+      return isSelected;
+    });
+  
+      console.log('Edition Menu List:', this.editionMenuList);
+      console.log('Checked Menus:', checkedMenus);
+
+      // Select the checked menus in the selection model
+      checkedMenus.forEach((menu: any) => this.selection.select(menu));
     });
   }
 
@@ -151,6 +169,26 @@ openEditionAddedDialog(title: string, message: string){
     data: { title: title, message: message }
 });
 }
+
+// Whether the number of selected elements matches the total number of rows 
+isAllSelected() {
+  const numSelected = this.selection.selected.length;
+  const numRows = this.dataSource.data.length;
+  return numSelected === numRows;
+}
+
+toggleAllRows() {
+  if (this.isAllSelected()) {
+    this.selection.clear();
+    return;
+  }
+
+  this.selection.select(...this.dataSource.data);
+}
+
+closeDialog(){
+    this.dialogRef.close();
+  }
   
 }
 

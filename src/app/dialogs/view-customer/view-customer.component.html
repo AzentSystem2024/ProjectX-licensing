@@ -6,20 +6,19 @@
 
 <div class="container px-4">   
 
-<h2>{{data.name}}</h2>
+<h2>{{customerData.CUST_NAME}}</h2>
 
-<p>Customer Key - <span style="font-weight: bold;">{{data.customer.CUSTOMER_KEY}}</span></p>
+<p>Customer Key - <span style="font-weight: bold;">{{customerData.CUSTOMER_KEY}}</span></p>
 
-
+<div class="d-flex" style="align-items: center;">
+  <p class="card card-count bg-primary text-white">License <span style="font-weight: bold;">{{customerData.LICENSE_COUNT}}</span></p>
+  <p class="card card-count bg-success text-white">Active <span style="font-weight: bold;">{{customerData.LICENSE_ACTIVE_COUNT}}</span></p>
+  <p class="card card-count bg-danger text-white">InActive <span style="font-weight: bold;">{{customerData.LICENSE_INACTIVE_COUNT}}</span></p>
+  <p class="card card-count bg-secondary text-white">Expired <span style="font-weight: bold;">{{customerData.LICENSE_EXPIRED_COUNT}}</span></p>
+  </div>
+  
 <mat-tab-group>
   <mat-tab label="Facility">
-<div class="d-flex mt-2" style="align-items: center;">
-<p class="card card-count bg-primary text-white">License <span style="font-weight: bold;">{{facilityCount}}</span></p>
-<p class="card card-count bg-success text-white">Active <span style="font-weight: bold;">{{activeCount}}</span></p>
-<p class="card card-count bg-danger text-white">InActive <span style="font-weight: bold;">{{inactiveCount}}</span></p>
-<p class="card card-count bg-secondary text-white">Expired <span style="font-weight: bold;">{{expiredCount}}</span></p>
-</div>
-
 
 <mat-card>
   <div style="text-align: right;">
@@ -41,16 +40,16 @@
           <mat-checkbox 
             class="small-checkbox checkbox"
             (change)="$event ? toggleAllRows() : null"
-            [checked]="selection.hasValue() && isAllSelected()"
-            [indeterminate]="selection.hasValue() && !isAllSelected()"
+            [checked]="selectionFacility.hasValue() && isAllSelected()"
+            [indeterminate]="selectionFacility.hasValue() && !isAllSelected()"
             >
           </mat-checkbox>
         </th>
         <td mat-cell *matCellDef="let facility">
           <mat-checkbox 
             class="small-checkbox"
-            (change)="$event ? selection.toggle(facility) : null"
-            [checked]="selection.isSelected(facility)"
+            (change)="$event ? selectionFacility.toggle(facility) : null"
+            [checked]="selectionFacility.isSelected(facility)"
             >
           </mat-checkbox>
         </td>
@@ -103,10 +102,7 @@
       <!-- Status Column -->
     <ng-container matColumnDef="status">
       <th mat-sort-header mat-header-cell *matHeaderCellDef> Status </th>
-      <td mat-cell *matCellDef="let facility">
-        <span *ngIf="facility.IS_INACTIVE==='False' || facility.IS_INACTIVE === false; else activeStatus" class="text-success">Active</span>
-        <ng-template #activeStatus><span class="text-danger">InActive</span></ng-template>
-      </td>
+      <td mat-cell *matCellDef="let facility">{{facility.FACILITY_STATUS}}</td>
     </ng-container>
   
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -124,7 +120,7 @@
 
 </mat-tab>
 <mat-tab label="Menus">
-  <p class="mt-2" >Edition - <span style="font-weight: bold;">{{data.customer.EDITION_NAME}}</span></p>
+  <p class="mt-2" >Edition - <span style="font-weight: bold;">{{customerData.EDITION_NAME}}</span></p>
 
 <mat-card>
 
@@ -143,17 +139,18 @@
         <th mat-header-cell *matHeaderCellDef>
           <mat-checkbox 
             class="small-checkbox checkbox"
-            (change)="$event ? toggleAllRows() : null"
-            [checked]="selection.hasValue() && isAllSelected()"
-            [indeterminate]="selection.hasValue() && !isAllSelected()"
+            (change)="$event ? toggleAllRowsMenu() : null"
+            [checked]="selectionMenu.hasValue() && isAllSelectedMenu()"
+            [indeterminate]="selectionMenu.hasValue() && !isAllSelectedMenu()"
             >
           </mat-checkbox>
         </th>
         <td mat-cell *matCellDef="let facility">
           <mat-checkbox 
             class="small-checkbox"
-            (change)="$event ? selection.toggle(facility) : null"
-            [checked]="selection.isSelected(facility)"
+            (change)="$event ? selectionMenu.toggle(facility) : null"
+            [checked]="selectionMenu.isSelected(facility)"
+            [disabled]="facility.disabled"
             >
           </mat-checkbox>
         </td>

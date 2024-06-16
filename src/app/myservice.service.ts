@@ -410,12 +410,14 @@ getEditionMenuList():Observable<any>{
   return this.http.post(this.apiUrl+'edition/update',data);
  }
 
- getEditionMenuList():Observable<any>{
-  return this.http.post(this.apiUrl+'edition/editionlist',{});
-}
-
  getEditionById(ID:number,data:any){
   const getEndpoint = `${this.apiUrl+'edition/select/'}${ID}`;
+  return this.http.post(getEndpoint,data);
+ }
+
+ //customer view
+ getCustomerView(ID:number,data:any):Observable<any>{
+  const getEndpoint = `${this.apiUrl+'customer/view/'}${ID}`;
   return this.http.post(getEndpoint,data);
  }
 

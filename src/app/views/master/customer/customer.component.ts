@@ -165,7 +165,6 @@ export class CustomerComponent implements OnInit {
       height: '82vh', // 85% of the viewport height
       maxHeight: '100vh', // maximum height to ensure it doesn't overflow
       data: {
-        name:customer.CUST_NAME,
         id:customer.ID,
         customer:customer,
         mode:'view'

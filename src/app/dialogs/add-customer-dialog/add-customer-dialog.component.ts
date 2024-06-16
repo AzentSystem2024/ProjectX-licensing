@@ -11,13 +11,16 @@ import { AlertDialogComponent } from 'src/app/alert-dialog/alert-dialog.componen
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatFormFieldModule,MatLabel,MatError } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule,provideNativeDateAdapter } from '@angular/material/core';
 
 
 @Component({
   selector: 'app-add-customer-dialog',
   standalone: true,
   imports: [CommonModule,FormsModule,MatInputModule,
-    MatAutocompleteModule,MatButtonModule,MatSelectModule,MatTabsModule,ReactiveFormsModule,MatFormFieldModule,MatLabel,MatError],
+    MatAutocompleteModule,MatButtonModule,MatSelectModule,MatTabsModule,ReactiveFormsModule,
+    MatFormFieldModule,MatLabel,MatError,MatDatepickerModule,MatNativeDateModule],
   templateUrl: './add-customer-dialog.component.html',
   styleUrl: './add-customer-dialog.component.scss'
 })
@@ -37,15 +40,20 @@ export class AddCustomerDialogComponent {
   filteredOptions4:any;
   currentPage: number = 1;
   editData:any;
+  userId:any;
   
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any,private fb:FormBuilder,private service:MyserviceService,private dialog: MatDialog,private dialogRef: MatDialogRef<AddCustomerDialogComponent>,) {}
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any,private fb:FormBuilder,private service:MyserviceService,private dialog: MatDialog,
+  private dialogRef: MatDialogRef<AddCustomerDialogComponent>,) {
+    this.userId=service.getUserId();
+    console.log('userid',this.userId);
+  }
 
   get f(){    
     return this.customerForm.controls;
   }
 
-  customerForm=this.fb.group({
+  customerForm:any=this.fb.group({
     ID:[''],
     CUST_CODE:[{ value: '', disabled: true }],
     CUST_NAME:['',[Validators.required, this.noWhitespaceOrSpecialChar]],
@@ -56,26 +64,29 @@ export class AddCustomerDialogComponent {
     PHONE:['',[Validators.required]],
     COUNTRY_NAME:['',Validators.required],
     EMIRATE:['',Validators.required],
-    EDITION:['',Validators.required]
+    EDITION:['',Validators.required],
+    ARCHIVE_DATE:['',Validators.required],
+    START_YEAR:['',Validators.required],
+    GENERATE_FIRST_XML:[false]
   });
 
   initCountryForm() {
     this.loadDropDownList('COUNTRY');
-    this.customerForm.get('COUNTRY_NAME')?.valueChanges.subscribe(response => {
+    this.customerForm.get('COUNTRY_NAME')?.valueChanges.subscribe((response:any) => {
       this.filterDataCountry(response);
       
     });
   }
   initStateForm() {
     this.loadDropDownList('EMIRATE');
-    this.customerForm.get('EMIRATE')?.valueChanges.subscribe(response => {
+    this.customerForm.get('EMIRATE')?.valueChanges.subscribe((response:any) => {
       this.filterDataEmirate(response);
       
     });
   }
   initResellerForm() {
     this.loadDropDownList('RESELLER');
-    this.customerForm.get('RESELLER_NAME')?.valueChanges.subscribe(response => {
+    this.customerForm.get('RESELLER_NAME')?.valueChanges.subscribe((response:any) => {
       this.filterDataReseller(response);
       
     });
@@ -83,7 +94,7 @@ export class AddCustomerDialogComponent {
 
   initEditionForm() {
     this.loadDropDownList('EDITION');
-    this.customerForm.get('EDITION')?.valueChanges.subscribe(response => {
+    this.customerForm.get('EDITION')?.valueChanges.subscribe((response:any) => {
       this.filterDataEdition(response);
       
     });
@@ -121,6 +132,11 @@ export class AddCustomerDialogComponent {
     const selectedEmirate = this.emiratelist.find(item => item.description == this.customerForm.value.EMIRATE);
     const selectedEdition = this.editionlist.find(item => item.description == this.customerForm.value.EDITION);
 
+    const formatDateToUTC = (date: Date) => {
+      const utcDate = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+      return utcDate.toISOString();
+    };
+
     if(selectedCountry){
       var postData:any={
         CUST_NAME:this.customerForm.value.CUST_NAME,
@@ -131,7 +147,11 @@ export class AddCustomerDialogComponent {
         CONTACT_PHONE:this.customerForm.value.PHONE,
         CONTACT_EMAIL:this.customerForm.value.EMAIL,
         RESELLER_ID: selectedReseller ? selectedReseller.id : null,
-        EDITION_ID:selectedEdition? selectedEdition.id : null
+        EDITION_ID:selectedEdition? selectedEdition.id : null,
+        LAST_MODIFIED_USER:this.userId,
+        ARCHIVEDATE:formatDateToUTC(new Date(this.customerForm.value.ARCHIVE_DATE)),
+        START_YEAR:this.customerForm.value.START_YEAR,
+        GENERATE_FIRST_XML:this.customerForm.value.GENERATE_FIRST_XML
       };
       console.log("postdata",postData);
 
@@ -206,6 +226,9 @@ export class AddCustomerDialogComponent {
           COUNTRY_NAME:this.editData.COUNTRY_NAME,
           EMIRATE:this.editData.EMIRATE,
           EDITION:this.editData.EDITION_NAME,
+          ARCHIVE_DATE:this.editData.ARCHIVE_DATE,
+          START_YEAR:this.editData.START_YEAR,
+          GENERATE_FIRST_XML:this.editData.GENERATE_FIRST_XML
 
         });
 
