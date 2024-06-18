@@ -37,7 +37,7 @@ export class AddEditionDialogComponent {
   editionMenuList:any;
   selection = new SelectionModel<any>(true, []);
   mode: 'add' | 'update' = 'add';
-
+  
   constructor(private service:MyserviceService, private fb:FormBuilder,private dialog: MatDialog,
     private dialogRef: MatDialogRef<AddEditionDialogComponent>,@Inject(MAT_DIALOG_DATA) public data: any){
       this.mode = this.data?.mode || 'add';
@@ -130,14 +130,14 @@ onSubmit() {
     const postData: any = {
       ID: this.editionForm.value.ID,
       EDITION_NAME: this.editionForm.value.EDITION_NAME,
-      EDITION_MENU: selectedMenus
+      EDITION_MENU: selectedMenus,
     };
 
     console.log('Form Data:', postData);
 
     if (this.editionForm.valid) {
       if (this.mode === 'add') {
-        this.service.addEdition(postData).subscribe(data => {
+        this.service.addEdition(postData).subscribe((data : any) => {
           console.log('Edition added:', data);
           this.openEditionAddedDialog("Edition", "Edition added successfully");
           this.dialogRef.close('insert');
