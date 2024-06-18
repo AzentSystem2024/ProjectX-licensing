@@ -24,7 +24,6 @@
                   <div class="table-responsive">
                       <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
                   
-                        <!-- no data found -->
                         <ng-container *matNoDataRow>
                           <tr>
                             <td style="text-align: center;" class="mat-cell" colspan="5">No Records found</td>
@@ -87,8 +86,6 @@
                   </mat-card-footer>
                   
                   </mat-card>
-
-                <!-- Form Buttons -->
                 <div class="form-group pt-3 d-flex justify-content-end">
                     <button mat-raised-button color="warn" type="button" (click)="closeDialog()" >Cancel</button>
                     <div class="mr-2"></div>
