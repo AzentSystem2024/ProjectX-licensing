@@ -53,6 +53,7 @@ export class AddMenuGroupComponent {
   loading = false;
   enteredMenuOrders: number[] = [];
   existingMenuOrders: number[] = [];
+  menuGroup!: GetMenuGroup[];
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -83,6 +84,7 @@ export class AddMenuGroupComponent {
   });
 
   ngOnInit(): void {
+    this.getMenuGroup();
     this.mode = this.data?.mode || 'add';
 
     if (this.data.id != '' && this.data.id != null) {
@@ -117,37 +119,41 @@ export class AddMenuGroupComponent {
 
   numberValidator(control: AbstractControl): ValidationErrors | null {
     const value = control.value;
+    const formGroup = control.parent as FormGroup;
+
     if (value && !/^-?\d*\.?\d+$/.test(value)) {
-      return { invalidNumber: true }; // Validates if the value is a number
+        return { invalidNumber: true }; // Validate if the value is a number
     }
 
-    const formGroup = control.parent as FormGroup;
-    if (formGroup) {
-      const currentOrderValue = parseFloat(value);
+    if (formGroup && this.menuGroup) {
+        const currentOrderValue = parseFloat(value);
 
-      // Iterate over all MENU_ORDER controls and check for duplicates
-      const controls = Object.values(formGroup.controls);
-      const duplicateExists = controls.some((ctrl) => {
-        if (ctrl === control || !(ctrl instanceof FormControl)) {
-          return false;
+        // Check for duplicates among MENU_ORDER values in existing menu items
+        const duplicateExists = this.menuGroup.some(item => {
+            const itemOrderValue = parseFloat(item.MENU_ORDER); // Access MENU_ORDER here
+            return itemOrderValue === currentOrderValue;
+        });
+
+        if (duplicateExists) {
+            return { duplicateMenuOrder: true };
         }
-
-        const ctrlValue = parseFloat(ctrl.value);
-        return ctrlValue === currentOrderValue;
-      });
-
-      if (duplicateExists) {
-        return { duplicateMenuOrder: true };
-      }
     }
 
     return null;
-  }
+}
 
   openMenuGroupAddedDialog(title: string, message: string) {
     const dialogRef = this.dialog.open(AlertDialogComponent, {
       width: '300px',
       data: { title: title, message: message },
+    });
+  }
+
+  getMenuGroup() {
+    this.service.getMenuGroup().subscribe((data: any) => {
+      this.menuGroup = data;
+      console.log(data, 'menugrouppppppppppp');
+
     });
   }
 

@@ -5,7 +5,7 @@ import {
   MatDialog,
   MatDialogRef,
 } from '@angular/material/dialog';
-import { MyserviceService } from 'src/app/myservice.service';
+import { GetMenu, MyserviceService } from 'src/app/myservice.service';
 import {
   AbstractControl,
   FormBuilder,
@@ -58,6 +58,8 @@ export class AddMenuDialogComponent {
   selectedModuleDescription: string | null = null;
   errorMessage: string = '';
   menuOrderArray: any[] = [];
+  menu!: GetMenu[];
+
   menuForm = this.fb.group({
     ID: [''],
     MODULE_NAME: ['', [Validators.required, this.noWhitespaceOrSpecialChar]],
@@ -79,6 +81,7 @@ export class AddMenuDialogComponent {
   ) {}
 
   ngOnInit() {
+    this.getMenu();
     this.mode = this.data?.mode || 'add';
 
     console.log('Data:', this.data); // Log the data object
@@ -122,6 +125,13 @@ export class AddMenuDialogComponent {
     return this.menuForm.get('MENU_ORDER');
   }
 
+  getMenu() {
+    this.service.getMenu().subscribe((data: any) => {
+      this.menu = data;
+      console.log(this.menu, 'menu list');
+    });
+  }
+
   // numberValidator(
   //   control: AbstractControl
   // ): { [key: string]: boolean } | null {
@@ -134,32 +144,30 @@ export class AddMenuDialogComponent {
 
   numberValidator(control: AbstractControl): ValidationErrors | null {
     const value = control.value;
+    const formGroup = control.parent as FormGroup;
+
     if (value && !/^-?\d*\.?\d+$/.test(value)) {
-      return { invalidNumber: true }; // Validates if the value is a number
+        return { invalidNumber: true }; // Validate if the value is a number
     }
 
-    const formGroup = control.parent as FormGroup;
-    if (formGroup) {
-      const currentOrderValue = parseFloat(value);
+    if (formGroup && this.menu) {
+        const currentOrderValue = parseFloat(value);
 
-      // Iterate over all MENU_ORDER controls and check for duplicates
-      const controls = Object.values(formGroup.controls);
-      const duplicateExists = controls.some((ctrl) => {
-        if (ctrl === control || !(ctrl instanceof FormControl)) {
-          return false;
+        // Check for duplicates among MENU_ORDER values in existing menu items
+        const duplicateExists = this.menu.some(item => {
+            const itemOrderValue = parseFloat(item.MENU_ORDER); // Access MENU_ORDER here
+            return itemOrderValue === currentOrderValue;
+        });
+
+        if (duplicateExists) {
+            return { duplicateMenuOrder: true };
         }
-
-        const ctrlValue = parseFloat(ctrl.value);
-        return ctrlValue === currentOrderValue;
-      });
-
-      if (duplicateExists) {
-        return { duplicateMenuOrder: true };
-      }
     }
 
     return null;
-  }
+}
+
+
 
   noWhitespaceOrSpecialChar(
     control: AbstractControl

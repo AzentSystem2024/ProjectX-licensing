@@ -456,6 +456,7 @@ export interface GetMenuGroup {
   PRODUCT: number;
   MENUGROUP: string;
   MENUKEY: string;
+  MENU_ORDER : string;
 }
 
 export interface GetModule {
@@ -471,6 +472,7 @@ export interface GetMenu {
   MENU_GROUP: string;
   MENU_NAME: string;
   MENU_VERSION : number;
+  MENU_ORDER : string;
   REMARKS : string
 }
 

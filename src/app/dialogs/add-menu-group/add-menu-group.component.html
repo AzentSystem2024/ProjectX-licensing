@@ -25,13 +25,6 @@
           <mat-error *ngIf="f.MENU_ORDER.errors?.['duplicateMenuOrder']">
             Duplicate menu order is not allowed.
           </mat-error>
-          <mat-error
-            *ngIf="
-              menuGroupForm.get('MENU_ORDER')?.hasError('duplicateMenuOrder')
-            "
-          >
-            Menu order must be unique.
-          </mat-error>
         </mat-form-field>
       </div>
 
