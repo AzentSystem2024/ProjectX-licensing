@@ -122,16 +122,13 @@ onSubmit() {
   const editionMenu = this.editionForm.get('EDITION_MENU');
 
   if (editionMenu) {
-    const selectedMenus = (editionMenu.value as boolean[])
-      .map((selected: boolean, index: number) => (selected ? this.editionMenuList[index] : null))
-      .filter((menu: any) => menu !== null);
-
-    const menuIds = selectedMenus.map(menu => ({ MENU_ID: menu.MENU_ID }));
+    const selectedMenus = this.selection.selected;
+    console.log('selected menus',selectedMenus);
 
     const postData: any = {
       ID: this.editionForm.value.ID,
       EDITION_NAME: this.editionForm.value.EDITION_NAME,
-      EDITION_MENU: menuIds
+      EDITION_MENU: selectedMenus
     };
 
     console.log('Form Data:', postData);

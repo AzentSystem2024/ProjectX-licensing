@@ -29,6 +29,7 @@ export class AddUserDialogComponent {
   loginNameExists: boolean = false;
   mode: 'add' | 'update' = 'add'; 
   disableLoginName=false;
+  loading = false; // Loading flag
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,private service:MyserviceService,private dialog: MatDialog,private dialogRef: MatDialogRef<AddUserDialogComponent>, private fb:FormBuilder, private route:ActivatedRoute,private router:Router) {
   }
 
@@ -88,6 +89,14 @@ export class AddUserDialogComponent {
   addOrUpdateUser(){
 
       if (this.userForm.valid&& this.loginNameExists===false) {
+
+        
+      this.loading = true;
+      setTimeout(() => {
+        this.loading = false;
+        this.closeDialog();
+      }, 8000); // Simulate a delay of 2 seconds
+
         const selectedLevel = this.userLevels.find(item => item.description == this.userForm.value.userlevel);
         const postData:any = {
           USER_NAME: this.userForm.value.USER_NAME,

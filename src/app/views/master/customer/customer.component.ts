@@ -75,10 +75,27 @@ export class CustomerComponent implements OnInit {
 
 
   getCustomerData(){
+    console.log('levelname',this.levelName)
+    if (this.levelName === 'Reseller') {
+      const resellerId = this.service.getUserId(); 
+      console.log('customerid',resellerId)
+      // Assuming you have a method to get the reseller ID from service
+      this.service.getCustomers().subscribe(
+        (res: any[]) => {
+          console.log('customerdata',res);
+          this.listCustomers = res.filter(customer => customer.USER_ID === resellerId);
+          console.log('reseller customer data',this.listCustomers)
+          this.dataSource = new MatTableDataSource<any>(this.listCustomers);
+          this.dataSource.paginator = this.paginatior;
+        },
+        (error: any) => {
+          console.error(error);
+        }
+      );
+    } else {
+      // Load all customers for non-reseller users
     this.service.getCustomers().subscribe(
       (res:any) => {
-       
-    
         console.log(res);
         this.listCustomers=res;
         console.log('after',this.listCustomers);
@@ -95,7 +112,7 @@ export class CustomerComponent implements OnInit {
       //   console.error(error);
       // }
     );
-    
+    }
   }
   
   openCustomerPopup(){
@@ -115,8 +132,8 @@ export class CustomerComponent implements OnInit {
 
   editCustomer(customer:any):void{
     const dialogRef = this.dialog.open(AddCustomerDialogComponent,{
-      width: '600px',
-      height: '580px',
+      width: '690px',
+      height: '618px',
       data: {
         id:customer.ID,
         customer:customer,

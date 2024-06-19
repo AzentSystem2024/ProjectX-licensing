@@ -18,6 +18,7 @@ import { MatNativeDateModule,provideNativeDateAdapter } from '@angular/material/
 @Component({
   selector: 'app-add-customer-dialog',
   standalone: true,
+  providers: [provideNativeDateAdapter()],
   imports: [CommonModule,FormsModule,MatInputModule,
     MatAutocompleteModule,MatButtonModule,MatSelectModule,MatTabsModule,ReactiveFormsModule,
     MatFormFieldModule,MatLabel,MatError,MatDatepickerModule,MatNativeDateModule],

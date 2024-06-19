@@ -421,6 +421,11 @@ getEditionMenuList():Observable<any>{
   return this.http.post(getEndpoint,data);
  }
 
+ //insert customer Menu
+ addCustomerMenu(data:object):Observable<any>{
+  return this.http.post(this.apiUrl+'customer/insertcustomermenutest',data);
+ }
+
 //license renewal 
   renewLicense(data:object):Observable<any>{
   return this.http.post(this.endpoint006,data);
