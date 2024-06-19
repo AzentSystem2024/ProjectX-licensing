@@ -6,9 +6,9 @@
     <h2 class="mb-4">
       {{ mode === "add" ? "New Menu Group" : "Update Menu Group" }}
     </h2>
-    <!-- Form Fields -->
+
     <div class="row">
-      <!-- First Column -->
+
       <div class="col-md-6">
 
         <mat-form-field appearance="fill" class="form-group">
@@ -28,6 +28,9 @@
           />
           <mat-error *ngIf="f.MENU_ORDER.errors?.['duplicateMenuOrder']">
             Duplicate menu order is not allowed.
+          </mat-error>
+          <mat-error *ngIf="menuGroupForm.get('MENU_ORDER')?.hasError('duplicateMenuOrder')">
+            Menu order must be unique.
           </mat-error>
         </mat-form-field>
       </div>

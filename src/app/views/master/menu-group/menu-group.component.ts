@@ -103,8 +103,6 @@ export class MenuGroupComponent implements OnInit {
             this.getMenuGroup();
           }
         });
-      
-    
     }
 
     deleteMenuGroup(ID:number, menuGroup:any):void{

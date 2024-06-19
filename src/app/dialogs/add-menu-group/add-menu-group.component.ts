@@ -20,7 +20,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatIconModule } from '@angular/material/icon';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MyserviceService } from 'src/app/myservice.service';
+import { GetMenuGroup, MyserviceService } from 'src/app/myservice.service';
 import {
   MAT_DIALOG_DATA,
   MatDialog,
@@ -52,6 +52,7 @@ export class AddMenuGroupComponent {
   mode: 'add' | 'update' = 'add';
   loading = false;
   enteredMenuOrders: number[] = [];
+  existingMenuOrders: number[] = [];
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -71,13 +72,14 @@ export class AddMenuGroupComponent {
     ID:[''],
     MENU_GROUP:['',[Validators.required, this.noWhitespaceOrSpecialChar]],
     MENU_ORDER: ['', [
-      Validators.required,
+      Validators.required,Validators.pattern("^[0-9]*$"),
+      
       this.numberValidator.bind(this)
     ]],
   })
 
   ngOnInit(): void {
-    
+
     this.mode = this.data?.mode || 'add'; 
  
     if(this.data.id!=''&&this.data.id!=null){
@@ -89,10 +91,12 @@ export class AddMenuGroupComponent {
           MENU_GROUP:this.editData.MENU_GROUP,
           MENU_ORDER : this.editData.MENU_ORDER
         });
-        
-
       })
     }
+    this.service.getMenuGroup().subscribe((groups : any[]) => {
+      this.existingMenuOrders = groups.map(group => group.MENU_ORDER);
+      console.log(this.existingMenuOrders,"EXISTING MENU ORDERS")
+    })
   }
   
   get f(){    
@@ -136,6 +140,7 @@ export class AddMenuGroupComponent {
   
     return null; 
   }
+
 
   openMenuGroupAddedDialog(title: string, message: string){
     const dialogRef = this.dialog.open(AlertDialogComponent, {
