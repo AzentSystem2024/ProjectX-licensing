@@ -14,7 +14,7 @@ import {
   ValidationErrors,
   FormArray,
   FormGroup,
-  FormControl 
+  FormControl,
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertDialogComponent } from 'src/app/alert-dialog/alert-dialog.component';
@@ -57,7 +57,7 @@ export class AddMenuDialogComponent {
   editData: any;
   selectedModuleDescription: string | null = null;
   errorMessage: string = '';
-  menuOrderArray : any[] = []
+  menuOrderArray: any[] = [];
   menuForm = this.fb.group({
     ID: [''],
     MODULE_NAME: ['', [Validators.required, this.noWhitespaceOrSpecialChar]],
@@ -65,10 +65,7 @@ export class AddMenuDialogComponent {
     MENU_NAME: ['', [Validators.required, this.noWhitespaceOrSpecialChar]],
     MENU_VERSION: ['', [Validators.required, this.noWhitespaceOrSpecialChar]],
     REMARKS: ['', [Validators.required, this.noWhitespaceOrSpecialChar]],
-    MENU_ORDER: ['', [
-      Validators.required,
-      this.numberValidator.bind(this)
-    ]],
+    MENU_ORDER: ['', [Validators.required, this.numberValidator.bind(this)]],
   });
 
   constructor(
@@ -82,18 +79,19 @@ export class AddMenuDialogComponent {
   ) {}
 
   ngOnInit() {
-    this.mode = this.data?.mode || 'add'; 
+    this.mode = this.data?.mode || 'add';
 
     console.log('Data:', this.data); // Log the data object
-  
-    if (this.data && this.data.id) { // Check if data and id are defined
+
+    if (this.data && this.data.id) {
+      // Check if data and id are defined
       console.log('ID:', this.data.id); // Log the id property
-      this.service.getMenuById(this.data.id,{}).subscribe(
+      this.service.getMenuById(this.data.id, {}).subscribe(
         (res: any) => {
           console.log('Response from getMenuById:', res);
-  
+
           this.editData = res; // Assign the response directly to editData
-  
+
           this.menuForm.patchValue({
             ID: this.editData.ID,
             MODULE_NAME: this.editData.MODULE_NAME,
@@ -101,7 +99,7 @@ export class AddMenuDialogComponent {
             MENU_NAME: this.editData.MENU_NAME,
             MENU_VERSION: this.editData.MENU_VERSION,
             REMARKS: this.editData.REMARKS,
-            MENU_ORDER :this.editData.MENU_ORDER
+            MENU_ORDER: this.editData.MENU_ORDER,
           });
         },
         (error: any) => {
@@ -124,7 +122,6 @@ export class AddMenuDialogComponent {
     return this.menuForm.get('MENU_ORDER');
   }
 
-
   // numberValidator(
   //   control: AbstractControl
   // ): { [key: string]: boolean } | null {
@@ -134,38 +131,36 @@ export class AddMenuDialogComponent {
   //   }
   //   return null;
   // }
-  
- 
+
   numberValidator(control: AbstractControl): ValidationErrors | null {
     const value = control.value;
     if (value && !/^-?\d*\.?\d+$/.test(value)) {
       return { invalidNumber: true }; // Validates if the value is a number
     }
-  
+
     const formGroup = control.parent as FormGroup;
     if (formGroup) {
       const currentOrderValue = parseFloat(value);
-  
+
       // Iterate over all MENU_ORDER controls and check for duplicates
       const controls = Object.values(formGroup.controls);
-      const duplicateExists = controls.some(ctrl => {
+      const duplicateExists = controls.some((ctrl) => {
         if (ctrl === control || !(ctrl instanceof FormControl)) {
           return false;
         }
-        
+
         const ctrlValue = parseFloat(ctrl.value);
         return ctrlValue === currentOrderValue;
       });
-  
+
       if (duplicateExists) {
-        return { duplicateMenuOrder: true }; 
+        return { duplicateMenuOrder: true };
       }
     }
-  
-    return null; 
+
+    return null;
   }
-  
-  
+
   noWhitespaceOrSpecialChar(
     control: AbstractControl
   ): { [key: string]: boolean } | null {
@@ -175,7 +170,6 @@ export class AddMenuDialogComponent {
     }
     return null;
   }
-
 
   getModuleList() {
     this.service.getDropdownList().subscribe(
@@ -201,12 +195,15 @@ export class AddMenuDialogComponent {
   }
 
   onModuleChange() {
-    this.menuForm.get('MODULE_NAME')?.valueChanges.subscribe(value => {
-      const selectedModule = this.moduleList.find(item => item.DESCRIPTION === value);
-      this.selectedModuleDescription = selectedModule ? selectedModule.DESCRIPTION : null;
+    this.menuForm.get('MODULE_NAME')?.valueChanges.subscribe((value) => {
+      const selectedModule = this.moduleList.find(
+        (item) => item.DESCRIPTION === value
+      );
+      this.selectedModuleDescription = selectedModule
+        ? selectedModule.DESCRIPTION
+        : null;
     });
   }
-
 
   AddMenuDialogComponent(title: string, message: string) {
     const dialogRef = this.dialog.open(AlertDialogComponent, {
@@ -217,13 +214,17 @@ export class AddMenuDialogComponent {
 
   onSubmit() {
     this.submit = true;
-    if(this.menuForm.invalid){
-      this.errorMessage = "Form is invalid, please check the fields.";
-      console.log("Form is invalid, cannot submit.");
+    if (this.menuForm.invalid) {
+      this.errorMessage = 'Form is invalid, please check the fields.';
+      console.log('Form is invalid, cannot submit.');
       return;
     }
-    const selectedModule = this.moduleList.find(item => item.DESCRIPTION === this.menuForm.value.MODULE_NAME);
-    const selectedMenuGroup = this.menuGroupList.find(item => item.DESCRIPTION === this.menuForm.value.MENU_GROUP);
+    const selectedModule = this.moduleList.find(
+      (item) => item.DESCRIPTION === this.menuForm.value.MODULE_NAME
+    );
+    const selectedMenuGroup = this.menuGroupList.find(
+      (item) => item.DESCRIPTION === this.menuForm.value.MENU_GROUP
+    );
 
     if (selectedModule && selectedMenuGroup) {
       const postData: any = {
@@ -232,7 +233,7 @@ export class AddMenuDialogComponent {
         MENU_NAME: this.menuForm.value.MENU_NAME,
         MENU_VERSION: this.menuForm.value.MENU_VERSION,
         REMARKS: this.menuForm.value.REMARKS,
-        MENU_ORDER : this.menuForm.value.MENU_ORDER
+        MENU_ORDER: this.menuForm.value.MENU_ORDER,
       };
 
       if (this.menuForm.valid) {
@@ -271,8 +272,6 @@ export class AddMenuDialogComponent {
     }
   }
 
-  
-
   openMenuDialog(title: string, message: string) {
     const dialogRef = this.dialog.open(AlertDialogComponent, {
       width: '300px',
@@ -283,15 +282,19 @@ export class AddMenuDialogComponent {
   loadEditData(data: any) {
     this.menuForm.patchValue({
       ID: data.ID,
-      MODULE_NAME: data.MODULE_NAME, 
+      MODULE_NAME: data.MODULE_NAME,
       MENU_GROUP: data.MENU_GROUP,
       MENU_NAME: data.MENU_NAME,
       MENU_VERSION: data.MENU_VERSION,
       REMARKS: data.REMARKS,
-      MENU_ORDER:data.MENU_ORDER
+      MENU_ORDER: data.MENU_ORDER,
     });
-    const selectedModule = this.moduleList.find(item => item.ID === data.MODULE_ID);
-    this.selectedModuleDescription = selectedModule ? selectedModule.DESCRIPTION : null;
+    const selectedModule = this.moduleList.find(
+      (item) => item.ID === data.MODULE_ID
+    );
+    this.selectedModuleDescription = selectedModule
+      ? selectedModule.DESCRIPTION
+      : null;
   }
 
   closeDialog() {
@@ -315,11 +318,14 @@ export class AddMenuDialogComponent {
       const numericValue = parseFloat(control.value);
 
       // Access the parent control to check for duplicates
-      const formArray = control.parent?.get('MENU_ORDER_ARRAY') as FormArray || [];
-      const duplicateExists = formArray.controls.some((formControl: AbstractControl) => {
-        const currentValue = parseFloat(formControl.value);
-        return currentValue === numericValue;
-      });
+      const formArray =
+        (control.parent?.get('MENU_ORDER_ARRAY') as FormArray) || [];
+      const duplicateExists = formArray.controls.some(
+        (formControl: AbstractControl) => {
+          const currentValue = parseFloat(formControl.value);
+          return currentValue === numericValue;
+        }
+      );
 
       if (duplicateExists) {
         return { duplicateNumber: true };

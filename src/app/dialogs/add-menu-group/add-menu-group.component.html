@@ -1,16 +1,12 @@
 <div class="overlay mt-2">
-  <div class="close" (click)="closeDialog()">
-        &times;
-    </div>
+  <div class="close" (click)="closeDialog()">&times;</div>
   <form [formGroup]="menuGroupForm" class="p-4" (ngSubmit)="onSubmit()">
     <h2 class="mb-4">
       {{ mode === "add" ? "New Menu Group" : "Update Menu Group" }}
     </h2>
 
     <div class="row">
-
       <div class="col-md-6">
-
         <mat-form-field appearance="fill" class="form-group">
           <mat-label>Name</mat-label>
           <input
@@ -29,14 +25,25 @@
           <mat-error *ngIf="f.MENU_ORDER.errors?.['duplicateMenuOrder']">
             Duplicate menu order is not allowed.
           </mat-error>
-          <mat-error *ngIf="menuGroupForm.get('MENU_ORDER')?.hasError('duplicateMenuOrder')">
+          <mat-error
+            *ngIf="
+              menuGroupForm.get('MENU_ORDER')?.hasError('duplicateMenuOrder')
+            "
+          >
             Menu order must be unique.
           </mat-error>
         </mat-form-field>
       </div>
- 
+
       <div class="form-group d-flex justify-content-end mt-3">
-        <button mat-raised-button color="warn" type="button" (click)="closeDialog()" >Cancel</button>
+        <button
+          mat-raised-button
+          color="warn"
+          type="button"
+          (click)="closeDialog()"
+        >
+          Cancel
+        </button>
         <div class="mr-2"></div>
         <button
           mat-raised-button

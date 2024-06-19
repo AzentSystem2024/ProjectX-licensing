@@ -7,7 +7,7 @@ import {
   ReactiveFormsModule,
   Validators,
   ValidationErrors,
-  FormControl
+  FormControl,
 } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
@@ -65,41 +65,44 @@ export class AddMenuGroupComponent {
   ) {}
 
   filteredOptions: any;
-  
+
   editData: any;
   errorMessage: string = '';
-  menuGroupForm=this.fb.group({
-    ID:[''],
-    MENU_GROUP:['',[Validators.required, this.noWhitespaceOrSpecialChar]],
-    MENU_ORDER: ['', [
-      Validators.required,Validators.pattern("^[0-9]*$"),
-      
-      this.numberValidator.bind(this)
-    ]],
-  })
+  menuGroupForm = this.fb.group({
+    ID: [''],
+    MENU_GROUP: ['', [Validators.required, this.noWhitespaceOrSpecialChar]],
+    MENU_ORDER: [
+      '',
+      [
+        Validators.required,
+        Validators.pattern('^[0-9]*$'),
+
+        this.numberValidator.bind(this),
+      ],
+    ],
+  });
 
   ngOnInit(): void {
+    this.mode = this.data?.mode || 'add';
 
-    this.mode = this.data?.mode || 'add'; 
- 
-    if(this.data.id!=''&&this.data.id!=null){
-      this.service.getMenuGroupById(this.data.id,{}).subscribe(res=>{
-        this.editData=res;
-        console.log('byid',res);
+    if (this.data.id != '' && this.data.id != null) {
+      this.service.getMenuGroupById(this.data.id, {}).subscribe((res) => {
+        this.editData = res;
+        console.log('byid', res);
         this.menuGroupForm.setValue({
-          ID:this.editData.ID,
-          MENU_GROUP:this.editData.MENU_GROUP,
-          MENU_ORDER : this.editData.MENU_ORDER
+          ID: this.editData.ID,
+          MENU_GROUP: this.editData.MENU_GROUP,
+          MENU_ORDER: this.editData.MENU_ORDER,
         });
-      })
+      });
     }
-    this.service.getMenuGroup().subscribe((groups : any[]) => {
-      this.existingMenuOrders = groups.map(group => group.MENU_ORDER);
-      console.log(this.existingMenuOrders,"EXISTING MENU ORDERS")
-    })
+    this.service.getMenuGroup().subscribe((groups: any[]) => {
+      this.existingMenuOrders = groups.map((group) => group.MENU_ORDER);
+      console.log(this.existingMenuOrders, 'EXISTING MENU ORDERS');
+    });
   }
-  
-  get f(){    
+
+  get f() {
     return this.menuGroupForm.controls;
   }
   noWhitespaceOrSpecialChar(
@@ -117,83 +120,88 @@ export class AddMenuGroupComponent {
     if (value && !/^-?\d*\.?\d+$/.test(value)) {
       return { invalidNumber: true }; // Validates if the value is a number
     }
-  
+
     const formGroup = control.parent as FormGroup;
     if (formGroup) {
       const currentOrderValue = parseFloat(value);
-  
+
       // Iterate over all MENU_ORDER controls and check for duplicates
       const controls = Object.values(formGroup.controls);
-      const duplicateExists = controls.some(ctrl => {
+      const duplicateExists = controls.some((ctrl) => {
         if (ctrl === control || !(ctrl instanceof FormControl)) {
           return false;
         }
-        
+
         const ctrlValue = parseFloat(ctrl.value);
         return ctrlValue === currentOrderValue;
       });
-  
+
       if (duplicateExists) {
-        return { duplicateMenuOrder: true }; 
+        return { duplicateMenuOrder: true };
       }
     }
-  
-    return null; 
+
+    return null;
   }
 
-
-  openMenuGroupAddedDialog(title: string, message: string){
+  openMenuGroupAddedDialog(title: string, message: string) {
     const dialogRef = this.dialog.open(AlertDialogComponent, {
       width: '300px',
-      data: { title: title, message: message }
-  });
+      data: { title: title, message: message },
+    });
   }
 
-  onSubmit(){
+  onSubmit() {
     console.log(this.menuGroupForm.value);
-    
-    this.submit=true;
-    if(this.menuGroupForm.invalid){
-      this.errorMessage = "Form is invalid, please check the fields.";
-      console.log("Form is invalid, cannot submit.");
+
+    this.submit = true;
+    if (this.menuGroupForm.invalid) {
+      this.errorMessage = 'Form is invalid, please check the fields.';
+      console.log('Form is invalid, cannot submit.');
       return;
     }
-    let postData : any = {
-      MENU_GROUP : this.menuGroupForm.value.MENU_GROUP,
-      MENU_ORDER : this.menuGroupForm.value.MENU_ORDER
-    }
-    if (this.menuGroupForm.valid){
-      this.loading = true;setTimeout(() => {
+    let postData: any = {
+      MENU_GROUP: this.menuGroupForm.value.MENU_GROUP,
+      MENU_ORDER: this.menuGroupForm.value.MENU_ORDER,
+    };
+    if (this.menuGroupForm.valid) {
+      this.loading = true;
+      setTimeout(() => {
         this.loading = false;
         this.closeDialog();
-      },8000);
+      }, 8000);
 
-      if (this.menuGroupForm.value.ID){
-        console.log(this.menuGroupForm.value.ID,"menugroup id")
-        postData['ID'] = this.menuGroupForm.value.ID
-        this.service.updateMenuGroup(postData).subscribe((data : any) => {
-          console.log(data,"menugroup updateddddddddd")
-          this.openMenuGroupAddedDialog("menugroup", "menugroup is updated successfully");
-          this.dialogRef.close('update');
-        },
-        (error : any) =>{
-          console.log(error,"Error in updating")
-        }
-      )
-
-        }
-        else {
-          this.service.addMenuGroup(postData).subscribe((data : any) => {
-            console.log(data, "menu group added successfully");
-            this.openMenuGroupAddedDialog("menugroup", "menugroup is added successfully");
+      if (this.menuGroupForm.value.ID) {
+        console.log(this.menuGroupForm.value.ID, 'menugroup id');
+        postData['ID'] = this.menuGroupForm.value.ID;
+        this.service.updateMenuGroup(postData).subscribe(
+          (data: any) => {
+            console.log(data, 'menugroup updateddddddddd');
+            this.openMenuGroupAddedDialog(
+              'menugroup',
+              'menugroup is updated successfully'
+            );
+            this.dialogRef.close('update');
+          },
+          (error: any) => {
+            console.log(error, 'Error in updating');
+          }
+        );
+      } else {
+        this.service.addMenuGroup(postData).subscribe(
+          (data: any) => {
+            console.log(data, 'menu group added successfully');
+            this.openMenuGroupAddedDialog(
+              'menugroup',
+              'menugroup is added successfully'
+            );
             this.dialogRef.close('insert');
           },
-          (error : any) =>{
-            console.log(error, "Error in adding menu group")
+          (error: any) => {
+            console.log(error, 'Error in adding menu group');
           }
-        )
-        }
-      
+        );
+      }
     }
   }
 
@@ -201,13 +209,11 @@ export class AddMenuGroupComponent {
     this.menuGroupForm.patchValue({
       ID: data.ID,
       MENU_GROUP: data.MENU_GROUP,
-      MENU_ORDER:data.MENU_ORDER
+      MENU_ORDER: data.MENU_ORDER,
     });
   }
 
-  closeDialog(){
+  closeDialog() {
     this.dialogRef.close();
   }
 }
-
-

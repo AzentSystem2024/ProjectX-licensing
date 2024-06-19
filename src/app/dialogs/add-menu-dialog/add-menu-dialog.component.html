@@ -7,20 +7,22 @@
       <!-- First Column -->
       <div class="col-md-6">
         <mat-form-field appearance="fill" class="form-group">
-            <mat-label>Module</mat-label>
-            <mat-select formControlName="MODULE_NAME" placeholder="Select Module">
-              <mat-option *ngFor="let item of moduleList" [value]="item.DESCRIPTION">
-                {{ item.DESCRIPTION }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-          
-          <!-- Display the selected module's description -->
-          <!-- <div *ngIf="selectedModuleDescription">
+          <mat-label>Module</mat-label>
+          <mat-select formControlName="MODULE_NAME" placeholder="Select Module">
+            <mat-option
+              *ngFor="let item of moduleList"
+              [value]="item.DESCRIPTION"
+            >
+              {{ item.DESCRIPTION }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <!-- Display the selected module's description -->
+        <!-- <div *ngIf="selectedModuleDescription">
             <p>Selected Module: {{ selectedModuleDescription }}</p>
           </div> -->
-          
-          
+
         <mat-form-field appearance="fill" class="form-group">
           <mat-label>MenuGroup</mat-label>
           <mat-select
@@ -80,7 +82,14 @@
       </div>
       <div class="col-md-6"></div>
       <div class="form-group d-flex justify-content-end mt-3">
-        <button mat-raised-button color="warn" type="button" (click)="closeDialog()" >Cancel</button>
+        <button
+          mat-raised-button
+          color="warn"
+          type="button"
+          (click)="closeDialog()"
+        >
+          Cancel
+        </button>
         <div class="mr-2"></div>
         <button
           mat-raised-button
