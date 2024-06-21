@@ -67,6 +67,7 @@ import { EditionComponent } from './edition/edition.component';
 // Components Routing
 import { BaseRoutingModule } from './base-routing.module';
 import { ModuleComponent } from './module/module.component';
+import { DialogModule } from '@angular/cdk/dialog';
 
 
 @NgModule({
@@ -128,6 +129,7 @@ import { ModuleComponent } from './module/module.component';
     TooltipsComponent,
     TabsComponent,
     PlaceholdersComponent,
+    
     
 
 

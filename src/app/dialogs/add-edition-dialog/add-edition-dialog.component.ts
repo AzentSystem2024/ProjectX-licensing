@@ -119,21 +119,19 @@ export class AddEditionDialogComponent {
       //   }
       // });
 
-      // Extract MENU_IDs from the response
-      const selectedMenuIds = res.edition_menu.map((menu: any) =>
-        String(menu.MENU_ID)
-      );
-      console.log('Selected Menu IDs:', selectedMenuIds);
 
-      // Filter to find checked menus
-      const checkedMenus = this.editionMenuList.filter((menu: any) => {
-        const isSelected = selectedMenuIds.includes(String(menu.MENU_ID));
-        console.log(
-          'Checking menu ID:',
-          `${menu.MENU_ID} against selected IDs. Is selected: ${isSelected}`
-        );
-        return isSelected;
-      });
+      
+    // Extract MENU_IDs from the response
+    const selectedMenuIds = res.edition_menu.map((menu: any) => String(menu.MENU_ID));
+    console.log('Selected Menu IDs:', selectedMenuIds);
+
+    // Filter to find checked menus
+    const checkedMenus = this.editionMenuList.filter((menu: any) => {
+      const isSelected = selectedMenuIds.includes(String(menu.MENU_ID));
+      console.log(`Checking menu ID: ${menu.MENU_ID} against selected IDs. Is selected: ${isSelected}`);
+      return isSelected;
+    });
+  
 
       console.log('Edition Menu List:', this.editionMenuList);
       console.log('Checked Menus:', checkedMenus);
@@ -158,53 +156,36 @@ export class AddEditionDialogComponent {
     });
   }
 
-  // }
 
-  onSubmit() {
-    const editionMenu = this.editionForm.get('EDITION_MENU');
 
-    if (editionMenu) {
-      const selectedMenus = this.selection.selected;
-      console.log('selected menus', selectedMenus);
 
-      const postData: any = {
-        ID: this.editionForm.value.ID,
-        EDITION_NAME: this.editionForm.value.EDITION_NAME,
-        EDITION_MENU: selectedMenus,
-      };
+// }
 
-      console.log('Form Data:', postData);
+onSubmit() {
+  const editionMenu = this.editionForm.get('EDITION_MENU');
 
-      if (this.editionForm.valid) {
-        if (this.mode === 'add') {
-          this.service.addEdition(postData).subscribe(
-            (data: any) => {
-              console.log('Edition added:', data);
-              this.openEditionAddedDialog(
-                'Edition',
-                'Edition added successfully'
-              );
-              this.dialogRef.close('insert');
-            },
-            (error) => {
-              console.error('Error adding edition:', error);
-            }
-          );
-        } else {
-          this.service.updateEdition(postData).subscribe(
-            (data) => {
-              console.log('Edition updated:', data);
-              this.openEditionAddedDialog(
-                'Edition',
-                'Edition updated successfully'
-              );
-              this.dialogRef.close('update');
-            },
-            (error) => {
-              console.error('Error updating edition:', error);
-            }
-          );
-        }
+  if (editionMenu) {
+    const selectedMenus = this.selection.selected;
+    console.log('selected menus',selectedMenus);
+
+    const postData: any = {
+      ID: this.editionForm.value.ID,
+      EDITION_NAME: this.editionForm.value.EDITION_NAME,
+      EDITION_MENU: selectedMenus
+    };
+
+    console.log('Form Data:', postData);
+
+    if (this.editionForm.valid) {
+      if (this.mode === 'add') {
+        this.service.addEdition(postData).subscribe(data => {
+          console.log('Edition added:', data);
+          this.openEditionAddedDialog("Edition", "Edition added successfully");
+          this.dialogRef.close('insert');
+        }, error => {
+          console.error('Error adding edition:', error);
+        });
+
       } else {
         console.log('Form is invalid');
       }
@@ -219,12 +200,29 @@ export class AddEditionDialogComponent {
     });
   }
 
-  // Whether the number of selected elements matches the total number of rows
-  isAllSelected() {
-    const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource.data.length;
-    return numSelected === numRows;
+
+// Whether the number of selected elements matches the total number of rows 
+isAllSelected() {
+  const numSelected = this.selection.selected.length;
+  const numRows = this.dataSource.data.length;
+  return numSelected === numRows;
+}
+
+toggleAllRows() {
+  if (this.isAllSelected()) {
+    this.selection.clear();
+    return;
   }
+
+  this.selection.select(...this.dataSource.data);
+}
+
+closeDialog(){
+    this.dialogRef.close();
+  }
+  
+}
+
 
   toggleAllRows() {
     if (this.isAllSelected()) {

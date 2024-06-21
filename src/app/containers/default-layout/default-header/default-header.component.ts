@@ -40,6 +40,7 @@ export class DefaultHeaderComponent extends HeaderComponent implements OnInit {
   constructor(private session:SessionService,private classToggler: ClassToggleService,private service:MyserviceService,private router:Router) {
     super();
     this.loggedInUser = this.service.getLoggedInUser();  
+    console.log('loggedinuser',this.loggedInUser);
   }
   Logout() {
     sessionStorage.removeItem('loggedInUser');

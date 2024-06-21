@@ -198,6 +198,12 @@ export class AddFacilityComponent implements OnInit {
 
         });
 
+        if (this.mode === 'update') {
+          this.facilityForm.get('START_DATE').disable();
+          this.facilityForm.get('EXPIRY_DATE').disable();
+          this.facilityForm.get('AMC_EXPIRY_DATE').disable();
+        }
+
       });
     }
     
