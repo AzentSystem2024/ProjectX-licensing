@@ -43,10 +43,8 @@ export class MyserviceService {
 
   public intIp="https://api.ipify.org/?format=json";
 
-  private apiUrl="http://103.180.120.134/projectxlicense/api/";
+  private apiUrl="http://projectxlicenseapi.diligenzit.com/api/";
 
-
-  public loginVerify="http://103.180.120.134/projectxlicense/api/user/login";
 
 
 
@@ -138,12 +136,27 @@ export class MyserviceService {
     }
    }
 
+   private createHeaders() {
+    const token = this.getToken();
+    return new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+  }
+
    checkLoginNameExists(loginName: string): Observable<boolean> {
     return this.http.post<any[]>(this.endpoint,{}).pipe(
       map(users => {
         return users.some(user => user.LOGIN_NAME === loginName);
       })
     );
+  }
+
+  saveToken(token: string): void {
+    localStorage.setItem('authToken', token);
+  }
+
+  getToken(): string {
+    return localStorage.getItem('authToken') || '';
   }
 
 
@@ -154,17 +167,6 @@ export class MyserviceService {
   getUsers():Observable<any>{
     return this.http.post(this.endpoint,{});
 }
- getUserById(ID:number){
-  const getEndpoint = `${this.endpoint5}${ID}`;
-  return this.http.get(getEndpoint);
- }
- deleteUsers(ID:number){
-  const deleteEndpoint = `${this.endpoint2}${ID}`;
-  return this.http.get(deleteEndpoint);
- }
- updateUsers(data:any):Observable<any>{
-  return this.http.post(this.endpoints3,data);
- }
  getUserLevels(): Observable<{ id: number, levelName: string }[]> {
   return this.http.post<any[]>(this.endpoint4,{}).pipe(
     map(response => response.map(item => ({ id: item.ID, levelName: item.DESCRIPTION })))
@@ -364,24 +366,24 @@ getResellerById(ID:number,data:any){
 //projectx
 //drodown
 getProjectXDropDownList(name: string): Observable<{ id: number, description: string }[]> {
-  return this.http.post<any[]>(this.endpoint13, { name: name }).pipe(
+  return this.http.post<any[]>(this.apiUrl+'dropDown/', { name: name }).pipe(
     map(response => this.mapResponse(response))
   );
 }
 
  //facility
  getFacility():Observable<any>{
-  return this.http.post(this.endpoint0001,{});
+  return this.http.post(this.apiUrl+'facility/list',{});
 }
 addFacility(data:object):Observable<any>{
-  return this.http.post(this.endpoint0002,data);
+  return this.http.post(this.apiUrl+'facility/insert',data);
  }
  getFacilityById(ID:number,data:any){
-  const getEndpoint = `${this.endpoint0003}${ID}`;
+  const getEndpoint = `${this.apiUrl+'facility/select/'}${ID}`;
   return this.http.post(getEndpoint,data);
  }
  deleteFacility(ID:number,data:any){
-  const deleteEndpoint = `${this.endpoint0004}${ID}`;
+  const deleteEndpoint = `${this.apiUrl+'facility/delete/'}${ID}`;
   return this.http.post(deleteEndpoint,data);
  }
  updateFacility(data:any):Observable<any>{
@@ -428,17 +430,30 @@ getEditionMenuList():Observable<any>{
 
 //license renewal 
   renewLicense(data:object):Observable<any>{
-  return this.http.post(this.endpoint006,data);
+  return this.http.post(this.apiUrl+'facility/licenserenewal',data);
  }
 
  //login 
   verifyLogin(data:object):Observable<any>{
-  return this.http.post(this.loginVerify,data);
+  return this.http.post(this.apiUrl+'users/login',data);
  }
  //user
  addUsers(data:object):Observable<any>{
-  return this.http.post(this.endpoint1,data);
+  const headers = this.createHeaders();
+  return this.http.post(this.apiUrl+'users/insert',data,{headers});
  }
+ getUserById(ID:number,data:any){
+  const getEndpoint = `${this.apiUrl+'users/select/'}${ID}`;
+  return this.http.post(getEndpoint,data);
+ }
+ updateUsers(data:any):Observable<any>{
+  return this.http.post(this.apiUrl+'users/update',data);
+ }
+ deleteUsers(ID:number,data:any){
+  const deleteEndpoint = `${this.apiUrl+'users/delete/'}${ID}`;
+  return this.http.post(deleteEndpoint,data);
+ }
+ 
 
 
 

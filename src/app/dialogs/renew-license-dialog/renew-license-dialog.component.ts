@@ -19,6 +19,7 @@ import { AlertDialogComponent } from 'src/app/alert-dialog/alert-dialog.componen
 export class RenewLicenseDialogComponent implements OnInit {
 
   minDate: string;
+  userId:any;
 
   facilities: Array<{ facility_id: number, new_expired_date: string, USER_ID: number }> = [];
 
@@ -26,6 +27,8 @@ export class RenewLicenseDialogComponent implements OnInit {
   {
     const today = new Date();
     this.minDate = today.toISOString().split('T')[0];
+
+    this.userId=service.getUserId();
   }
   
   renewForm=this.fb.group({
@@ -38,7 +41,6 @@ export class RenewLicenseDialogComponent implements OnInit {
   ngOnInit(): void {
     this.facilities = this.data.facilities.map((facility: any) => ({
       facility_id: facility.ID,
-      USER_ID: facility.USER_ID,
     }));
   
     console.log('facilities', this.facilities);
@@ -55,7 +57,7 @@ export class RenewLicenseDialogComponent implements OnInit {
 
       const postData = this.facilities.map(facility => ({
       facility_id: facility.facility_id,
-      USER_ID: facility.USER_ID,
+      USER_ID: this.userId,
       new_expired_date: formatDateToUTC(new Date(newExpiryDate))
     }));
 
