@@ -63,6 +63,14 @@
                 {{ menuGroup.MENU_KEY }}
               </td>
             </ng-container>
+            <ng-container matColumnDef="Menu Order">
+              <th mat-sort-header mat-header-cell *matHeaderCellDef>
+                Menu Oder
+              </th>
+              <td mat-cell *matCellDef="let menuGroup">
+                {{ menuGroup.MENU_ORDER }}
+              </td>
+            </ng-container>
 
             <ng-container matColumnDef="Action">
               <th mat-header-cell *matHeaderCellDef>Action</th>

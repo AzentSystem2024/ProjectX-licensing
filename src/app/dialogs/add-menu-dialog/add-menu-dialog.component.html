@@ -7,20 +7,22 @@
       <!-- First Column -->
       <div class="col-md-6">
         <mat-form-field appearance="fill" class="form-group">
-            <mat-label>Module</mat-label>
-            <mat-select formControlName="MODULE_NAME" placeholder="Select Module">
-              <mat-option *ngFor="let item of moduleList" [value]="item.DESCRIPTION">
-                {{ item.DESCRIPTION }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-          
-          <!-- Display the selected module's description -->
-          <!-- <div *ngIf="selectedModuleDescription">
+          <mat-label>Module</mat-label>
+          <mat-select formControlName="MODULE_NAME" placeholder="Select Module">
+            <mat-option
+              *ngFor="let item of moduleList"
+              [value]="item.DESCRIPTION"
+            >
+              {{ item.DESCRIPTION }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <!-- Display the selected module's description -->
+        <!-- <div *ngIf="selectedModuleDescription">
             <p>Selected Module: {{ selectedModuleDescription }}</p>
           </div> -->
-          
-          
+
         <mat-form-field appearance="fill" class="form-group">
           <mat-label>MenuGroup</mat-label>
           <mat-select
@@ -44,6 +46,18 @@
           />
           <!-- <mat-error *ngIf="submit && f.RESELLER_NAME.errors">*Reseller name is required</mat-error> -->
         </mat-form-field>
+        <mat-form-field appearance="fill" class="form-group">
+          <mat-label>Menu Key</mat-label>
+          <input
+            matInput
+            formControlName="MENU_KEY"
+            placeholder="Enter Menu Key"
+          />
+          <mat-error *ngIf="f.MENU_KEY.errors?.['duplicateMenuKey']">
+            Duplicate menu key is not allowed.
+          </mat-error>
+          <!-- <mat-error *ngIf="submit && f.RESELLER_NAME.errors">*Reseller name is required</mat-error> -->
+        </mat-form-field>
       </div>
 
       <div class="col-md-6">
@@ -65,10 +79,28 @@
           />
           <!-- <mat-error *ngIf="submit && f.RESELLER_NAME.errors">*Reseller name is required</mat-error> -->
         </mat-form-field>
-      </div>
-      <div class="col-md-6"></div>
+        <mat-form-field appearance="fill" class="form-group">
+          <mat-label>Menu Order</mat-label>
+          <input
+            matInput
+            formControlName="MENU_ORDER"
+            placeholder="Enter Menu Order"
+          />
+          <mat-error *ngIf="f.MENU_ORDER.errors?.['duplicateMenuOrder']">
+            Duplicate menu order is not allowed.
+          </mat-error>
+          <!-- <mat-error *ngIf="submit && f.RESELLER_NAME.errors">*Reseller name is required</mat-error> -->
+        </mat-form-field>
+        <div class="col-md-6"></div>
       <div class="form-group d-flex justify-content-end mt-3">
-        <button mat-raised-button color="warn" type="button" (click)="closeDialog()" >Cancel</button>
+        <button
+          mat-raised-button
+          color="warn"
+          type="button"
+          (click)="closeDialog()"
+        >
+          Cancel
+        </button>
         <div class="mr-2"></div>
         <button
           mat-raised-button
@@ -86,6 +118,8 @@
           Save
         </button>
       </div>
+      </div>
+      
     </div>
   </form>
 </div>

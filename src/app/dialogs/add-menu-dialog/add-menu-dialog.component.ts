@@ -5,12 +5,16 @@ import {
   MatDialog,
   MatDialogRef,
 } from '@angular/material/dialog';
-import { MyserviceService } from 'src/app/myservice.service';
+import { GetMenu, MyserviceService } from 'src/app/myservice.service';
 import {
   AbstractControl,
   FormBuilder,
   ReactiveFormsModule,
   Validators,
+  ValidationErrors,
+  FormArray,
+  FormGroup,
+  FormControl,
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertDialogComponent } from 'src/app/alert-dialog/alert-dialog.component';
@@ -52,6 +56,9 @@ export class AddMenuDialogComponent {
   menuGroupList: any[] = [];
   editData: any;
   selectedModuleDescription: string | null = null;
+  errorMessage: string = '';
+  menuOrderArray: any[] = [];
+  menu!: GetMenu[];
 
   menuForm = this.fb.group({
     ID: [''],
@@ -60,6 +67,8 @@ export class AddMenuDialogComponent {
     MENU_NAME: ['', [Validators.required, this.noWhitespaceOrSpecialChar]],
     MENU_VERSION: ['', [Validators.required, this.noWhitespaceOrSpecialChar]],
     REMARKS: ['', [Validators.required, this.noWhitespaceOrSpecialChar]],
+    MENU_KEY: ['', [Validators.required, this.checkDuplicateMenuKey.bind(this)]],
+    MENU_ORDER: ['', [Validators.required, this.numberValidator.bind(this)]],
   });
 
   constructor(
@@ -73,18 +82,20 @@ export class AddMenuDialogComponent {
   ) {}
 
   ngOnInit() {
-    this.mode = this.data?.mode || 'add'; 
+    this.getMenu();
+    this.mode = this.data?.mode || 'add';
 
     console.log('Data:', this.data); // Log the data object
-  
-    if (this.data && this.data.id) { // Check if data and id are defined
+
+    if (this.data && this.data.id) {
+      // Check if data and id are defined
       console.log('ID:', this.data.id); // Log the id property
-      this.service.getMenuById(this.data.id,{}).subscribe(
+      this.service.getMenuById(this.data.id, {}).subscribe(
         (res: any) => {
           console.log('Response from getMenuById:', res);
-  
+
           this.editData = res; // Assign the response directly to editData
-  
+
           this.menuForm.patchValue({
             ID: this.editData.ID,
             MODULE_NAME: this.editData.MODULE_NAME,
@@ -92,6 +103,8 @@ export class AddMenuDialogComponent {
             MENU_NAME: this.editData.MENU_NAME,
             MENU_VERSION: this.editData.MENU_VERSION,
             REMARKS: this.editData.REMARKS,
+            MENU_KEY: this.editData.MENU_KEY,
+            MENU_ORDER: this.editData.MENU_ORDER,
           });
         },
         (error: any) => {
@@ -110,6 +123,116 @@ export class AddMenuDialogComponent {
     return this.menuForm.controls;
   }
 
+  get menuOrder() {
+    return this.menuForm.get('MENU_ORDER');
+  }
+
+  getMenu() {
+    this.service.getMenu().subscribe((data: any) => {
+      this.menu = data;
+      console.log(this.menu, 'menu list');
+    });
+  }
+
+  checkDuplicateMenuKey(control: AbstractControl): ValidationErrors | null {
+    const value = control.value;
+    const formGroup = control.parent as FormGroup;
+    if (formGroup && this.menu) {
+      const currentItemId = formGroup.get('ID')?.value;
+      const duplicateExists = this.menu.some(item => {
+        const isSameItem = item.ID === currentItemId;
+        return !isSameItem && item.MENU_KEY === value;
+      });
+  
+      if (duplicateExists) {
+        return { duplicateMenuKey: true };
+      }
+    }
+    return null;
+  }
+
+  numberValidator(control: AbstractControl): ValidationErrors | null {
+    const value = control.value;
+    const formGroup = control.parent as FormGroup;
+  
+    if (value && !/^-?\d*\.?\d+$/.test(value)) {
+      return { invalidNumber: true }; // Validate if the value is a number
+    }
+  
+    if (formGroup && this.menu) {
+      const currentItemId = formGroup.get('ID')?.value;
+      const currentOrderValue = parseFloat(value);
+  
+      const duplicateExists = this.menu.some(item => {
+        const isSameItem = item.ID === currentItemId;
+        const itemOrderValue = parseFloat(item.MENU_ORDER);
+        return !isSameItem && itemOrderValue === currentOrderValue;
+      });
+  
+      if (duplicateExists) {
+        return { duplicateMenuOrder: true };
+      }
+    }
+  
+    return null;
+  }
+
+  // numberValidator(
+  //   control: AbstractControl
+  // ): { [key: string]: boolean } | null {
+  //   const value = control.value;
+  //   if (value && !/^-?\d*\.?\d+$/.test(value)) {
+  //     return { invalidNumber: true };
+  //   }
+  //   return null;
+  // }
+
+//   numberValidator(control: AbstractControl): ValidationErrors | null {
+//     const value = control.value;
+//     const formGroup = control.parent as FormGroup;
+
+//     if (value && !/^-?\d*\.?\d+$/.test(value)) {
+//         return { invalidNumber: true }; // Validate if the value is a number
+//     }
+
+//     if (formGroup && this.menu) {
+//         const currentOrderValue = parseFloat(value);
+
+//         // Check for duplicates among MENU_ORDER values in existing menu items
+//         const duplicateExists = this.menu.some(item => {
+//             const itemOrderValue = parseFloat(item.MENU_ORDER); // Access MENU_ORDER here
+//             return itemOrderValue === currentOrderValue;
+//         });
+
+//         if (duplicateExists) {
+//             return { duplicateMenuOrder: true };
+//         }
+//     }
+
+//     return null;
+// }
+
+// checkDuplicateMenuKey(control: AbstractControl): ValidationErrors | null {
+//   const value = control.value;
+//   const formGroup = control.parent as FormGroup;
+//   if (formGroup && this.menu) {
+//     const currentOrderValue = parseFloat(value);
+
+//     // Check for duplicates among MENU_ORDER values in existing menu items
+//     const duplicateExists = this.menu.some(item => {
+//         const itemOrderValue = parseFloat(item.MENU_KEY); // Access MENU_ORDER here
+//         return itemOrderValue === currentOrderValue;
+//     });
+
+//     if (duplicateExists) {
+//         return { duplicateMenuKey: true };
+//     }
+// }
+// return null;
+// }
+
+
+
   noWhitespaceOrSpecialChar(
     control: AbstractControl
   ): { [key: string]: boolean } | null {
@@ -119,6 +242,7 @@ export class AddMenuDialogComponent {
     }
     return null;
   }
+
   getModuleList() {
     this.service.getDropdownList().subscribe(
       (data: any) => {
@@ -143,12 +267,15 @@ export class AddMenuDialogComponent {
   }
 
   onModuleChange() {
-    this.menuForm.get('MODULE_NAME')?.valueChanges.subscribe(value => {
-      const selectedModule = this.moduleList.find(item => item.DESCRIPTION === value);
-      this.selectedModuleDescription = selectedModule ? selectedModule.DESCRIPTION : null;
+    this.menuForm.get('MODULE_NAME')?.valueChanges.subscribe((value) => {
+      const selectedModule = this.moduleList.find(
+        (item) => item.DESCRIPTION === value
+      );
+      this.selectedModuleDescription = selectedModule
+        ? selectedModule.DESCRIPTION
+        : null;
     });
   }
-
 
   AddMenuDialogComponent(title: string, message: string) {
     const dialogRef = this.dialog.open(AlertDialogComponent, {
@@ -159,9 +286,17 @@ export class AddMenuDialogComponent {
 
   onSubmit() {
     this.submit = true;
-
-    const selectedModule = this.moduleList.find(item => item.DESCRIPTION === this.menuForm.value.MODULE_NAME);
-    const selectedMenuGroup = this.menuGroupList.find(item => item.DESCRIPTION === this.menuForm.value.MENU_GROUP);
+    if (this.menuForm.invalid) {
+      this.errorMessage = 'Form is invalid, please check the fields.';
+      console.log('Form is invalid, cannot submit.');
+      return;
+    }
+    const selectedModule = this.moduleList.find(
+      (item) => item.DESCRIPTION === this.menuForm.value.MODULE_NAME
+    );
+    const selectedMenuGroup = this.menuGroupList.find(
+      (item) => item.DESCRIPTION === this.menuForm.value.MENU_GROUP
+    );
 
     if (selectedModule && selectedMenuGroup) {
       const postData: any = {
@@ -170,6 +305,8 @@ export class AddMenuDialogComponent {
         MENU_NAME: this.menuForm.value.MENU_NAME,
         MENU_VERSION: this.menuForm.value.MENU_VERSION,
         REMARKS: this.menuForm.value.REMARKS,
+        MENU_ORDER: this.menuForm.value.MENU_ORDER,
+        MENU_KEY: this.menuForm.value.MENU_KEY,
       };
 
       if (this.menuForm.valid) {
@@ -208,8 +345,6 @@ export class AddMenuDialogComponent {
     }
   }
 
-  
-
   openMenuDialog(title: string, message: string) {
     const dialogRef = this.dialog.open(AlertDialogComponent, {
       width: '300px',
@@ -220,17 +355,57 @@ export class AddMenuDialogComponent {
   loadEditData(data: any) {
     this.menuForm.patchValue({
       ID: data.ID,
-      MODULE_NAME: data.MODULE_NAME, 
+      MODULE_NAME: data.MODULE_NAME,
       MENU_GROUP: data.MENU_GROUP,
       MENU_NAME: data.MENU_NAME,
       MENU_VERSION: data.MENU_VERSION,
       REMARKS: data.REMARKS,
+      MENU_KEY: data.MENU_KEY,
+      MENU_ORDER: data.MENU_ORDER,
     });
-    const selectedModule = this.moduleList.find(item => item.ID === data.MODULE_ID);
-    this.selectedModuleDescription = selectedModule ? selectedModule.DESCRIPTION : null;
+    const selectedModule = this.moduleList.find(
+      (item) => item.ID === data.MODULE_ID
+    );
+    this.selectedModuleDescription = selectedModule
+      ? selectedModule.DESCRIPTION
+      : null;
   }
 
   closeDialog() {
     this.dialogRef.close();
+  }
+
+  decimalValidator(): (control: AbstractControl) => ValidationErrors | null {
+    return (control: AbstractControl): ValidationErrors | null => {
+      if (!control.value) {
+        return null; // Handle empty or undefined values
+      }
+
+      // Regex to match positive or negative decimal numbers
+      const isValid = /^-?\d*\.?\d+$/.test(control.value);
+
+      if (!isValid) {
+        return { invalidDecimal: true };
+      }
+
+      // Convert to float to normalize decimal format
+      const numericValue = parseFloat(control.value);
+
+      // Access the parent control to check for duplicates
+      const formArray =
+        (control.parent?.get('MENU_ORDER_ARRAY') as FormArray) || [];
+      const duplicateExists = formArray.controls.some(
+        (formControl: AbstractControl) => {
+          const currentValue = parseFloat(formControl.value);
+          return currentValue === numericValue;
+        }
+      );
+
+      if (duplicateExists) {
+        return { duplicateNumber: true };
+      }
+
+      return null; // Validation passed
+    };
   }
 }
