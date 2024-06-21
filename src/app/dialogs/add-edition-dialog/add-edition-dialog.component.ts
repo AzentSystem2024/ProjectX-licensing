@@ -111,13 +111,35 @@ export class AddEditionDialogComponent {
         EDITION_NAME: res.EDITION_NAME,
       });
 
-      // Set the selected menus
-      const selectedMenuIds = res.edition_menu.map((menu: any) => menu.MENU_ID);
-      this.editionMenuList.forEach((menu: any, index: number) => {
-        if (selectedMenuIds.includes(menu.MENU_ID)) {
-          (this.editionForm.get('EDITION_MENU') as FormArray).at(index).setValue(true);
-        }
+      // // Set the selected menus
+      // const selectedMenuIds = res.edition_menu.map((menu: any) => menu.MENU_ID);
+      // this.editionMenuList.forEach((menu: any, index: number) => {
+      //   if (selectedMenuIds.includes(menu.MENU_ID)) {
+      //     (this.editionForm.get('EDITION_MENU') as FormArray).at(index).setValue(true);
+      //   }
+      // });
+
+      // Extract MENU_IDs from the response
+      const selectedMenuIds = res.edition_menu.map((menu: any) =>
+        String(menu.MENU_ID)
+      );
+      console.log('Selected Menu IDs:', selectedMenuIds);
+
+      // Filter to find checked menus
+      const checkedMenus = this.editionMenuList.filter((menu: any) => {
+        const isSelected = selectedMenuIds.includes(String(menu.MENU_ID));
+        console.log(
+          'Checking menu ID:',
+          `${menu.MENU_ID} against selected IDs. Is selected: ${isSelected}`
+        );
+        return isSelected;
       });
+
+      console.log('Edition Menu List:', this.editionMenuList);
+      console.log('Checked Menus:', checkedMenus);
+
+      // Select the checked menus in the selection model
+      checkedMenus.forEach((menu: any) => this.selection.select(menu));
     });
   }
 
@@ -141,56 +163,79 @@ export class AddEditionDialogComponent {
   onSubmit() {
     const editionMenu = this.editionForm.get('EDITION_MENU');
 
-  if (editionMenu) {
-    const selectedMenus = (editionMenu.value as boolean[])
-      .map((selected: boolean, index: number) => (selected ? this.editionMenuList[index] : null))
-      .filter((menu: any) => menu !== null);
+    if (editionMenu) {
+      const selectedMenus = this.selection.selected;
+      console.log('selected menus', selectedMenus);
 
-    const menuIds = selectedMenus.map(menu => ({ MENU_ID: menu.MENU_ID }));
-
-    const postData: any = {
-      ID: this.editionForm.value.ID,
-      EDITION_NAME: this.editionForm.value.EDITION_NAME,
-      EDITION_MENU: menuIds
-    };
+      const postData: any = {
+        ID: this.editionForm.value.ID,
+        EDITION_NAME: this.editionForm.value.EDITION_NAME,
+        EDITION_MENU: selectedMenus,
+      };
 
       console.log('Form Data:', postData);
 
-    if (this.editionForm.valid) {
-      if (this.mode === 'add') {
-        this.service.addEdition(postData).subscribe(data => {
-          console.log('Edition added:', data);
-          this.openEditionAddedDialog("Edition", "Edition added successfully");
-          this.dialogRef.close('insert');
-        }, error => {
-          console.error('Error adding edition:', error);
-        });
+      if (this.editionForm.valid) {
+        if (this.mode === 'add') {
+          this.service.addEdition(postData).subscribe(
+            (data: any) => {
+              console.log('Edition added:', data);
+              this.openEditionAddedDialog(
+                'Edition',
+                'Edition added successfully'
+              );
+              this.dialogRef.close('insert');
+            },
+            (error) => {
+              console.error('Error adding edition:', error);
+            }
+          );
+        } else {
+          this.service.updateEdition(postData).subscribe(
+            (data) => {
+              console.log('Edition updated:', data);
+              this.openEditionAddedDialog(
+                'Edition',
+                'Edition updated successfully'
+              );
+              this.dialogRef.close('update');
+            },
+            (error) => {
+              console.error('Error updating edition:', error);
+            }
+          );
+        }
       } else {
-        this.service.updateEdition(postData).subscribe(data => {
-          console.log('Edition updated:', data);
-          this.openEditionAddedDialog("Edition", "Edition updated successfully");
-          this.dialogRef.close('update');
-        }, error => {
-          console.error('Error updating edition:', error);
-        });
+        console.log('Form is invalid');
       }
     } else {
-      console.log('Form is invalid');
+      console.log('EditionMenu is not defined');
     }
-  } else {
-    console.log('EditionMenu is not defined');
+  }
+  openEditionAddedDialog(title: string, message: string) {
+    const dialogRef = this.dialog.open(AlertDialogComponent, {
+      width: '300px',
+      data: { title: title, message: message },
+    });
   }
 
-    
-}
-openEditionAddedDialog(title: string, message: string){
-  const dialogRef = this.dialog.open(AlertDialogComponent, {
-    width: '300px',
-    data: { title: title, message: message }
-});
-}
-  
-}
+  // Whether the number of selected elements matches the total number of rows
+  isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.dataSource.data.length;
+    return numSelected === numRows;
+  }
 
+  toggleAllRows() {
+    if (this.isAllSelected()) {
+      this.selection.clear();
+      return;
+    }
 
+    this.selection.select(...this.dataSource.data);
+  }
 
+  closeDialog() {
+    this.dialogRef.close();
+  }
+}
