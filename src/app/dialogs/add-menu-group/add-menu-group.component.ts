@@ -119,25 +119,6 @@ export class AddMenuGroupComponent {
     return null;
   }
 
-  // checkDuplicateMenuKey(control: AbstractControl): ValidationErrors | null {
-  //   const value = control.value;
-  //   const formGroup = control.parent as FormGroup;
-  //   if (formGroup && this.menuGroup) {
-  //     const currentOrderValue = parseFloat(value);
-  
-  //     // Check for duplicates among MENU_ORDER values in existing menu items
-  //     const duplicateExists = this.menuGroup.some(item => {
-  //         const itemOrderValue = parseFloat(item.MENU_KEY); // Access MENU_ORDER here
-  //         return itemOrderValue === currentOrderValue;
-  //     });
-  
-  //     if (duplicateExists) {
-  //         return { duplicateMenuKey: true };
-  //     }
-  // }
-  // return null;
-  // }
-
   checkDuplicateMenuKey(control: AbstractControl): ValidationErrors | null {
     const value = control.value;
     const formGroup = control.parent as FormGroup;
