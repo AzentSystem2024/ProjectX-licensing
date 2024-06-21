@@ -72,7 +72,7 @@ export class AddMenuGroupComponent {
   menuGroupForm = this.fb.group({
     ID: [''],
     MENU_GROUP: ['', [Validators.required, this.noWhitespaceOrSpecialChar]],
-    MENU_KEY: ['', [Validators.required, this.noWhitespaceOrSpecialChar]],
+    MENU_KEY: ['', [Validators.required, this.checkDuplicateMenuKey.bind(this)]],
     MENU_ORDER: [
       '',
       [
@@ -119,30 +119,93 @@ export class AddMenuGroupComponent {
     return null;
   }
 
+  // checkDuplicateMenuKey(control: AbstractControl): ValidationErrors | null {
+  //   const value = control.value;
+  //   const formGroup = control.parent as FormGroup;
+  //   if (formGroup && this.menuGroup) {
+  //     const currentOrderValue = parseFloat(value);
+  
+  //     // Check for duplicates among MENU_ORDER values in existing menu items
+  //     const duplicateExists = this.menuGroup.some(item => {
+  //         const itemOrderValue = parseFloat(item.MENU_KEY); // Access MENU_ORDER here
+  //         return itemOrderValue === currentOrderValue;
+  //     });
+  
+  //     if (duplicateExists) {
+  //         return { duplicateMenuKey: true };
+  //     }
+  // }
+  // return null;
+  // }
+
+  checkDuplicateMenuKey(control: AbstractControl): ValidationErrors | null {
+    const value = control.value;
+    const formGroup = control.parent as FormGroup;
+    if (formGroup && this.menuGroup) {
+      const currentItemId = formGroup.get('ID')?.value;
+      const duplicateExists = this.menuGroup.some(item => {
+        const isSameItem = item.ID === currentItemId;
+        return !isSameItem && item.MENU_KEY === value;
+      });
+  
+      if (duplicateExists) {
+        return { duplicateMenuKey: true };
+      }
+    }
+    return null;
+  }
+
   numberValidator(control: AbstractControl): ValidationErrors | null {
     const value = control.value;
     const formGroup = control.parent as FormGroup;
-
+  
     if (value && !/^-?\d*\.?\d+$/.test(value)) {
-        return { invalidNumber: true }; // Validate if the value is a number
+      return { invalidNumber: true }; // Validate if the value is a number
     }
-
+  
     if (formGroup && this.menuGroup) {
-        const currentOrderValue = parseFloat(value);
-
-        // Check for duplicates among MENU_ORDER values in existing menu items
-        const duplicateExists = this.menuGroup.some(item => {
-            const itemOrderValue = parseFloat(item.MENU_ORDER); // Access MENU_ORDER here
-            return itemOrderValue === currentOrderValue;
-        });
-
-        if (duplicateExists) {
-            return { duplicateMenuOrder: true };
-        }
+      const currentItemId = formGroup.get('ID')?.value;
+      const currentOrderValue = parseFloat(value);
+  
+      const duplicateExists = this.menuGroup.some(item => {
+        const isSameItem = item.ID === currentItemId;
+        const itemOrderValue = parseFloat(item.MENU_ORDER);
+        return !isSameItem && itemOrderValue === currentOrderValue;
+      });
+  
+      if (duplicateExists) {
+        return { duplicateMenuOrder: true };
+      }
     }
-
+  
     return null;
-}
+  }
+  
+
+//   numberValidator(control: AbstractControl): ValidationErrors | null {
+//     const value = control.value;
+//     const formGroup = control.parent as FormGroup;
+
+//     if (value && !/^-?\d*\.?\d+$/.test(value)) {
+//         return { invalidNumber: true }; // Validate if the value is a number
+//     }
+
+//     if (formGroup && this.menuGroup) {
+//         const currentOrderValue = parseFloat(value);
+
+//         // Check for duplicates among MENU_ORDER values in existing menu items
+//         const duplicateExists = this.menuGroup.some(item => {
+//             const itemOrderValue = parseFloat(item.MENU_ORDER); // Access MENU_ORDER here
+//             return itemOrderValue === currentOrderValue;
+//         });
+
+//         if (duplicateExists) {
+//             return { duplicateMenuOrder: true };
+//         }
+//     }
+
+//     return null;
+// }
 
   openMenuGroupAddedDialog(title: string, message: string) {
     const dialogRef = this.dialog.open(AlertDialogComponent, {

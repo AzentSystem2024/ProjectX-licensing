@@ -455,7 +455,7 @@ export interface GetMenuGroup {
   ID : number
   PRODUCT: number;
   MENUGROUP: string;
-  MENUKEY: string;
+  MENU_KEY: string;
   MENU_ORDER : string;
 }
 

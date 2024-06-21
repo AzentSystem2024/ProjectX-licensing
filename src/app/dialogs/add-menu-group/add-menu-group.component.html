@@ -33,6 +33,9 @@
             formControlName="MENU_KEY"
             placeholder="Enter Menu Key Name"
           />
+          <mat-error *ngIf="f.MENU_KEY.errors?.['duplicateMenuKey']">
+            Duplicate menu key is not allowed.
+          </mat-error>
           <!-- <mat-error *ngIf="f.MENU_ORDER.errors?.['duplicateMenuOrder']">
             Duplicate menu order is not allowed.
           </mat-error> -->

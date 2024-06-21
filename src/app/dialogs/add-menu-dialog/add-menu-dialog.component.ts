@@ -67,7 +67,7 @@ export class AddMenuDialogComponent {
     MENU_NAME: ['', [Validators.required, this.noWhitespaceOrSpecialChar]],
     MENU_VERSION: ['', [Validators.required, this.noWhitespaceOrSpecialChar]],
     REMARKS: ['', [Validators.required, this.noWhitespaceOrSpecialChar]],
-    MENU_KEY: ['', [Validators.required, this.noWhitespaceOrSpecialChar]],
+    MENU_KEY: ['', [Validators.required, this.checkDuplicateMenuKey.bind(this)]],
     MENU_ORDER: ['', [Validators.required, this.numberValidator.bind(this)]],
   });
 
@@ -134,6 +134,49 @@ export class AddMenuDialogComponent {
     });
   }
 
+  checkDuplicateMenuKey(control: AbstractControl): ValidationErrors | null {
+    const value = control.value;
+    const formGroup = control.parent as FormGroup;
+    if (formGroup && this.menu) {
+      const currentItemId = formGroup.get('ID')?.value;
+      const duplicateExists = this.menu.some(item => {
+        const isSameItem = item.ID === currentItemId;
+        return !isSameItem && item.MENU_KEY === value;
+      });
+  
+      if (duplicateExists) {
+        return { duplicateMenuKey: true };
+      }
+    }
+    return null;
+  }
+
+  numberValidator(control: AbstractControl): ValidationErrors | null {
+    const value = control.value;
+    const formGroup = control.parent as FormGroup;
+  
+    if (value && !/^-?\d*\.?\d+$/.test(value)) {
+      return { invalidNumber: true }; // Validate if the value is a number
+    }
+  
+    if (formGroup && this.menu) {
+      const currentItemId = formGroup.get('ID')?.value;
+      const currentOrderValue = parseFloat(value);
+  
+      const duplicateExists = this.menu.some(item => {
+        const isSameItem = item.ID === currentItemId;
+        const itemOrderValue = parseFloat(item.MENU_ORDER);
+        return !isSameItem && itemOrderValue === currentOrderValue;
+      });
+  
+      if (duplicateExists) {
+        return { duplicateMenuOrder: true };
+      }
+    }
+  
+    return null;
+  }
+
   // numberValidator(
   //   control: AbstractControl
   // ): { [key: string]: boolean } | null {
@@ -144,30 +187,49 @@ export class AddMenuDialogComponent {
   //   return null;
   // }
 
-  numberValidator(control: AbstractControl): ValidationErrors | null {
-    const value = control.value;
-    const formGroup = control.parent as FormGroup;
+//   numberValidator(control: AbstractControl): ValidationErrors | null {
+//     const value = control.value;
+//     const formGroup = control.parent as FormGroup;
 
-    if (value && !/^-?\d*\.?\d+$/.test(value)) {
-        return { invalidNumber: true }; // Validate if the value is a number
-    }
+//     if (value && !/^-?\d*\.?\d+$/.test(value)) {
+//         return { invalidNumber: true }; // Validate if the value is a number
+//     }
 
-    if (formGroup && this.menu) {
-        const currentOrderValue = parseFloat(value);
+//     if (formGroup && this.menu) {
+//         const currentOrderValue = parseFloat(value);
 
-        // Check for duplicates among MENU_ORDER values in existing menu items
-        const duplicateExists = this.menu.some(item => {
-            const itemOrderValue = parseFloat(item.MENU_ORDER); // Access MENU_ORDER here
-            return itemOrderValue === currentOrderValue;
-        });
+//         // Check for duplicates among MENU_ORDER values in existing menu items
+//         const duplicateExists = this.menu.some(item => {
+//             const itemOrderValue = parseFloat(item.MENU_ORDER); // Access MENU_ORDER here
+//             return itemOrderValue === currentOrderValue;
+//         });
 
-        if (duplicateExists) {
-            return { duplicateMenuOrder: true };
-        }
-    }
+//         if (duplicateExists) {
+//             return { duplicateMenuOrder: true };
+//         }
+//     }
 
-    return null;
-}
+//     return null;
+// }
+
+// checkDuplicateMenuKey(control: AbstractControl): ValidationErrors | null {
+//   const value = control.value;
+//   const formGroup = control.parent as FormGroup;
+//   if (formGroup && this.menu) {
+//     const currentOrderValue = parseFloat(value);
+
+//     // Check for duplicates among MENU_ORDER values in existing menu items
+//     const duplicateExists = this.menu.some(item => {
+//         const itemOrderValue = parseFloat(item.MENU_KEY); // Access MENU_ORDER here
+//         return itemOrderValue === currentOrderValue;
+//     });
+
+//     if (duplicateExists) {
+//         return { duplicateMenuKey: true };
+//     }
+// }
+// return null;
+// }
 
 
 
