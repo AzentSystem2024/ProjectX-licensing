@@ -108,7 +108,7 @@ Filterchange(data: Event) {
   
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.details.deleteUsers(ID).subscribe(
+        this.details.deleteUsers(ID,{}).subscribe(
           (res: any) => {
             console.log('user is deleted', res);
             this.getUserData();

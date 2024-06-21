@@ -129,23 +129,23 @@ export class EditUserDialogComponent implements OnInit {
     this.initForm();
 
     if(this.data.id!=''&&this.data.id!=null){
-      this.servs.getUserById(this.data.id).subscribe(res=>{
-        this.editdata=res;
-        this.userForm.setValue({
-          ID:this.editdata.ID,
-          USER_NAME:this.editdata.USER_NAME,
-          LOGIN_NAME:this.editdata.LOGIN_NAME,
-          Password:this.editdata.PASSWORD,
-          LEVEL_NAME: this.editdata.LEVEL_NAME,
-          IS_INACTIVE: this.editdata.IS_INACTIVE,
-          USER_LEVEL:this.editdata.USER_LEVEL,
+    //   this.servs.getUserById(this.data.id).subscribe(res=>{
+    //     this.editdata=res;
+    //     this.userForm.setValue({
+    //       ID:this.editdata.ID,
+    //       USER_NAME:this.editdata.USER_NAME,
+    //       LOGIN_NAME:this.editdata.LOGIN_NAME,
+    //       Password:this.editdata.PASSWORD,
+    //       LEVEL_NAME: this.editdata.LEVEL_NAME,
+    //       IS_INACTIVE: this.editdata.IS_INACTIVE,
+    //       USER_LEVEL:this.editdata.USER_LEVEL,
 
          
 
-        });
+    //     });
         
 
-      })
+    //   })
     }
   }
   

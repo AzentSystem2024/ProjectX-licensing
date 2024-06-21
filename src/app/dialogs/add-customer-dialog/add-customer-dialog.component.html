@@ -89,13 +89,24 @@
                 </div>
                 </mat-tab>
                 <mat-tab label="Configuration">
-                    <!-- <mat-form-field appearance="fill" class="form-group">
-                            <mat-label>AMC Expiry Date</mat-label>
-                            <input matInput [matDatepicker]="picker2"  placeholder="Enter Archive Date">
-                            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-                            <mat-datepicker #picker2></mat-datepicker>
+                    <div class="mt-3">
+                    <mat-form-field appearance="fill" class="form-group">
+                            <mat-label>Archive Date</mat-label>
+                            <input matInput [matDatepicker]="picker0"  placeholder="Enter Archive Date" formControlName="ARCHIVE_DATE">
+                            <mat-datepicker-toggle matSuffix [for]="picker0"></mat-datepicker-toggle>
+                            <mat-datepicker #picker0></mat-datepicker>
                            
-                    </mat-form-field> -->
+                    </mat-form-field>
+
+                    <mat-form-field appearance="fill" class="form-group">
+                        <mat-label>Report Start Year</mat-label>
+                        <input matInput  placeholder="Enter Report start year" formControlName="START_YEAR">
+                    </mat-form-field>
+                    <div class="form-group d-flex mb-1">
+                        <label for="isCheckbox">Generate 1st XML</label>
+                        <input type="checkbox" id="isCheckbox" class="mx-2" formControlName="GENERATE_FIRST_XML">
+                    </div>
+                </div>
                 </mat-tab>
                 </mat-tab-group>
 

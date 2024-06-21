@@ -34,4 +34,37 @@
     padding-top: 10px;
   }
 
+  table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+  }
+  .table-container {
+    min-height: 400px; /* Adjust based on your layout */
+    overflow-y: auto;
+    overflow-x: auto;
+    display: block;
+  }
+  .no-records-found{
+    height:400px;
+  }
+  tr.mat-header-row {
+    position: sticky;
+    top: 0;
+    padding-top: 0;
+    z-index: 1;
+  
+  }
+  .mat-header-cell {
+    z-index: 2;
+    background: hsl(224, 94%, 44%); /* Change color as needed */
+  }
+  mat-card-footer {
+    position: sticky;
+    bottom: 0;
+    background: white;
+    z-index: 1;
+    padding: 0;
+  }
+
   
