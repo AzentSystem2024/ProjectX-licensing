@@ -26,6 +26,17 @@
             Duplicate menu order is not allowed.
           </mat-error>
         </mat-form-field>
+        <mat-form-field appearance="fill" class="form-group">
+          <mat-label>Menu Key</mat-label>
+          <input
+            matInput
+            formControlName="MENU_KEY"
+            placeholder="Enter Menu Key Name"
+          />
+          <!-- <mat-error *ngIf="f.MENU_ORDER.errors?.['duplicateMenuOrder']">
+            Duplicate menu order is not allowed.
+          </mat-error> -->
+        </mat-form-field>
       </div>
 
       <div class="form-group d-flex justify-content-end mt-3">

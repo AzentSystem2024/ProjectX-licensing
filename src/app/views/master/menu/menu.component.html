@@ -71,6 +71,14 @@
                   {{ menu.MENU_NAME }}
                 </td>
               </ng-container>
+              <ng-container matColumnDef="Menu Key">
+                <th mat-sort-header mat-header-cell *matHeaderCellDef>
+                  Menu Key
+                </th>
+                <td mat-cell *matCellDef="let menu">
+                  {{ menu.MENU_KEY }}
+                </td>
+              </ng-container>
               <ng-container matColumnDef="Available from version">
                 <th mat-sort-header mat-header-cell *matHeaderCellDef>
                     Available from version

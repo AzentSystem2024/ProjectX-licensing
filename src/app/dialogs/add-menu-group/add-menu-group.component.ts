@@ -72,6 +72,7 @@ export class AddMenuGroupComponent {
   menuGroupForm = this.fb.group({
     ID: [''],
     MENU_GROUP: ['', [Validators.required, this.noWhitespaceOrSpecialChar]],
+    MENU_KEY: ['', [Validators.required, this.noWhitespaceOrSpecialChar]],
     MENU_ORDER: [
       '',
       [
@@ -95,6 +96,7 @@ export class AddMenuGroupComponent {
           ID: this.editData.ID,
           MENU_GROUP: this.editData.MENU_GROUP,
           MENU_ORDER: this.editData.MENU_ORDER,
+          MENU_KEY: this.editData.MENU_KEY,
         });
       });
     }
@@ -169,6 +171,7 @@ export class AddMenuGroupComponent {
     let postData: any = {
       MENU_GROUP: this.menuGroupForm.value.MENU_GROUP,
       MENU_ORDER: this.menuGroupForm.value.MENU_ORDER,
+      MENU_KEY: this.menuGroupForm.value.MENU_KEY,
     };
     if (this.menuGroupForm.valid) {
       this.loading = true;
@@ -216,6 +219,7 @@ export class AddMenuGroupComponent {
       ID: data.ID,
       MENU_GROUP: data.MENU_GROUP,
       MENU_ORDER: data.MENU_ORDER,
+      MENU_KEY: data.MENU_KEY,
     });
   }
 

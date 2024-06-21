@@ -43,44 +43,44 @@ export class MyserviceService {
 
   public intIp="https://api.ipify.org/?format=json";
 
-  private apiUrl="http://103.180.120.134/projectxlicense/api/";
+  private apiUrl="http://projectxlicenseapi.diligenzit.com/api/";
 
 
-  public loginVerify="http://103.180.120.134/projectxlicense/api/user/login";
+  public loginVerify="http://projectxlicenseapi.diligenzit.com/api/users/login";
 
 
 
-  public endpoint="http://103.180.120.134/projectxlicense/api/users/List";
+  public endpoint="http://projectxlicenseapi.diligenzit.com/api/users/List";
   
-  public endpoint1="http://103.180.120.134/projectxlicense/api/users/insert";
+  public endpoint1="http://projectxlicenseapi.diligenzit.com/api/users/insert";
   public endpoint2="http://103.180.120.134/veztalicense/api/users/delete/";
   public endpoints3="http://103.180.120.134/veztalicense/api/users/Update";
   public endpoint4="http://103.180.120.134/veztalicense/api/UserLevel/List";
   public endpoint5="http://103.180.120.134/veztalicense/api/users/select/";
-  public endpoint6="http://103.180.120.134/projectxlicense/api/reseller/List";
-  public endpoint7="http://103.180.120.134/projectxlicense/api/reseller/Insert";
+  public endpoint6="http://projectxlicenseapi.diligenzit.com/api/reseller/List";
+  public endpoint7="http://projectxlicenseapi.diligenzit.com/api/reseller/Insert";
   public endpoint8="http://103.180.120.134/veztalicense/api/DropDown/List";
   public endpoint12="http://103.180.120.134/veztalicense/api/dropDown/";
-  public endpoint13="http://103.180.120.134/projectxlicense/api/dropDown/";
-  public endpoint9="http://103.180.120.134/projectxlicense/api/reseller/select/";
-  public endpoint10="http://103.180.120.134/projectxlicense/api/reseller/delete/";
-  public endpoint11="http://103.180.120.134/projectxlicense/api/reseller/Update";
+  public endpoint13="http://projectxlicenseapi.diligenzit.com/api/dropDown/";
+  public endpoint9="http://projectxlicenseapi.diligenzit.com/api/reseller/select/";
+  public endpoint10="http://projectxlicenseapi.diligenzit.com/api/reseller/delete/";
+  public endpoint11="http://projectxlicenseapi.diligenzit.com/api/reseller/Update";
 
 
-  public endpoint01="http://103.180.120.134/projectxlicense/api/customer/List";
-  public endpoints02="http://103.180.120.134/projectxlicense/api/customer/insert";
-  public endpoint03="http://103.180.120.134/projectxlicense/api/customer/select/";
-  public endpoint04="http://103.180.120.134/projectxlicense/api/customer/delete/";
-  public endpoint05="http://103.180.120.134/projectxlicense/api/customer/Update";
+  public endpoint01="http://projectxlicenseapi.diligenzit.com/api/customer/List";
+  public endpoints02="http://projectxlicenseapi.diligenzit.com/api/customer/insert";
+  public endpoint03="http://projectxlicenseapi.diligenzit.com/api/customer/select/";
+  public endpoint04="http://projectxlicenseapi.diligenzit.com/api/customer/delete/";
+  public endpoint05="http://projectxlicenseapi.diligenzit.com/api/customer/Update";
 
-  public endpoint001="http://103.180.120.134/projectxlicense/api/facilitygroup/List";
+  public endpoint001="http://projectxlicenseapi.diligenzit.com/api/facilitygroup/List";
 
-  public endpoint0001="http://103.180.120.134/projectxlicense/api/facility/List";
-  public endpoint0002="http://103.180.120.134/projectxlicense/api/facility/insert";
-  public endpoint0003="http://103.180.120.134/projectxlicense/api/facility/select/";
-  public endpoint0004="http://103.180.120.134/projectxlicense/api/facility/delete/";
-  public endpoint0005="http://103.180.120.134/projectxlicense/api/facility/Update";
-  public endpoint006="http://103.180.120.134/projectxlicense/api/facility/licenserenewal";
+  public endpoint0001="http://projectxlicenseapi.diligenzit.com/api/facility/List";
+  public endpoint0002="http://projectxlicenseapi.diligenzit.com/api/facility/insert";
+  public endpoint0003="http://projectxlicenseapi.diligenzit.com/api/facility/select/";
+  public endpoint0004="http://projectxlicenseapi.diligenzit.com/api/facility/delete/";
+  public endpoint0005="http://projectxlicenseapi.diligenzit.com/api/facility/Update";
+  public endpoint006="http://projectxlicenseapi.diligenzit.com/api/facility/licenserenewal";
 
 
   public endpoint011="http://103.180.120.134/veztalicense/api/products/List";
@@ -97,26 +97,26 @@ export class MyserviceService {
   public endpoint025="http://103.180.120.134/veztalicense/api/license/update";
   public endpoint026="http://103.180.120.134/veztalicense/api/license/licenserenewal";
 
-  public endpoint027="http://103.180.120.134/projectxlicense/api/menugroup/list";
-  public endpoint028="http://103.180.120.134/projectxlicense/api/menugroup/insert";
-  public endpoint029="http://103.180.120.134/projectxlicense/api/menugroup/update";
-  // public endpoint030="http://103.180.120.134/projectxlicense/api/menugroup/delete"
-  public endpoint032="http://103.180.120.134/projectxlicense/api/menugroup/select/";
-  public endpoint033="http://103.180.120.134/projectxlicense/api/menugroup/delete/"
+  public endpoint027="http://projectxlicenseapi.diligenzit.com/api/menugroup/list";
+  public endpoint028="http://projectxlicenseapi.diligenzit.com/api/menugroup/insert";
+  public endpoint029="http://projectxlicenseapi.diligenzit.com/api/menugroup/update";
+  // public endpoint030="http://projectxlicenseapi.diligenzit.com/api/menugroup/delete"
+  public endpoint032="http://projectxlicenseapi.diligenzit.com/api/menugroup/select/";
+  public endpoint033="http://projectxlicenseapi.diligenzit.com/api/menugroup/delete/"
 
-  public endpoint031="http://103.180.120.134/projectxlicense/api/modules/list";
-  public endpoint034="http://103.180.120.134/projectxlicense/api/modules/insert";
-  public endpoint035="http://103.180.120.134/projectxlicense/api/modules/update";
-  public endpoint036="http://103.180.120.134/projectxlicense/api/modules/delete/";
-  public endpoint037="http://103.180.120.134/projectxlicense/api/modules/select/";
+  public endpoint031="http://projectxlicenseapi.diligenzit.com/api/modules/list";
+  public endpoint034="http://projectxlicenseapi.diligenzit.com/api/modules/insert";
+  public endpoint035="http://projectxlicenseapi.diligenzit.com/api/modules/update";
+  public endpoint036="http://projectxlicenseapi.diligenzit.com/api/modules/delete/";
+  public endpoint037="http://projectxlicenseapi.diligenzit.com/api/modules/select/";
 
-  public endpoint038="http://103.180.120.134/projectxlicense/api/menu/list";
-  public endpoint039="http://103.180.120.134/projectxlicense/api/menu/insert";
-  public endpoint040="http://103.180.120.134/projectxlicense/api/menu/update";
-  public endpoint041="http://103.180.120.134/projectxlicense/api/menu/select/";
-  public endpoint042="http://103.180.120.134/projectxlicense/api/menu/delete/";
+  public endpoint038="http://projectxlicenseapi.diligenzit.com/api/menu/list";
+  public endpoint039="http://projectxlicenseapi.diligenzit.com/api/menu/insert";
+  public endpoint040="http://projectxlicenseapi.diligenzit.com/api/menu/update";
+  public endpoint041="http://projectxlicenseapi.diligenzit.com/api/menu/select/";
+  public endpoint042="http://projectxlicenseapi.diligenzit.com/api/menu/delete/";
 
-  public endpoint043="http://103.180.120.134/projectxlicense/api/dropdown/list";
+  public endpoint043="http://projectxlicenseapi.diligenzit.com/api/dropdown/list";
 
 
   //dashboard
@@ -473,7 +473,8 @@ export interface GetMenu {
   MENU_NAME: string;
   MENU_VERSION : number;
   MENU_ORDER : string;
-  REMARKS : string
+  REMARKS : string;
+  MENU_KEY : string;
 }
 
 // Define an interface for the edition object

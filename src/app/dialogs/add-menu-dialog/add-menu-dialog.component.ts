@@ -67,6 +67,7 @@ export class AddMenuDialogComponent {
     MENU_NAME: ['', [Validators.required, this.noWhitespaceOrSpecialChar]],
     MENU_VERSION: ['', [Validators.required, this.noWhitespaceOrSpecialChar]],
     REMARKS: ['', [Validators.required, this.noWhitespaceOrSpecialChar]],
+    MENU_KEY: ['', [Validators.required, this.noWhitespaceOrSpecialChar]],
     MENU_ORDER: ['', [Validators.required, this.numberValidator.bind(this)]],
   });
 
@@ -102,6 +103,7 @@ export class AddMenuDialogComponent {
             MENU_NAME: this.editData.MENU_NAME,
             MENU_VERSION: this.editData.MENU_VERSION,
             REMARKS: this.editData.REMARKS,
+            MENU_KEY: this.editData.MENU_KEY,
             MENU_ORDER: this.editData.MENU_ORDER,
           });
         },
@@ -242,6 +244,7 @@ export class AddMenuDialogComponent {
         MENU_VERSION: this.menuForm.value.MENU_VERSION,
         REMARKS: this.menuForm.value.REMARKS,
         MENU_ORDER: this.menuForm.value.MENU_ORDER,
+        MENU_KEY: this.menuForm.value.MENU_KEY,
       };
 
       if (this.menuForm.valid) {
@@ -295,6 +298,7 @@ export class AddMenuDialogComponent {
       MENU_NAME: data.MENU_NAME,
       MENU_VERSION: data.MENU_VERSION,
       REMARKS: data.REMARKS,
+      MENU_KEY: data.MENU_KEY,
       MENU_ORDER: data.MENU_ORDER,
     });
     const selectedModule = this.moduleList.find(
