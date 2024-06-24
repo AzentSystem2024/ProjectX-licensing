@@ -53,8 +53,8 @@ export class ModuleComponent implements OnInit{
 
   openModulePopup(){
     const dialogRef = this.dialog.open(AddModuleDialogComponent, {
-      width: '600px',
-      height:'400px',
+      width: '400px',
+      height:'300px',
     });
     dialogRef.afterClosed().subscribe(
       result => {
@@ -72,8 +72,8 @@ export class ModuleComponent implements OnInit{
 
   editModule(moduleId:number):void{
     const dialogRef = this.dialog.open(AddModuleDialogComponent,{
-      width: '600px',
-      height:'400px',
+      width: '400px',
+      height:'300px',
       data: {
         id:moduleId,
         mode:'update'

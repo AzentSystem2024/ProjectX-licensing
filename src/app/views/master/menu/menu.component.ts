@@ -107,7 +107,7 @@ export class MenuComponent {
   (menuId:number):void{
     const dialogRef = this.dialog.open(AddMenuDialogComponent,{
       width: '600px',
-      height:'400px',
+      height:'430px',
       data: {
         id:menuId,
         mode:'update'
@@ -127,7 +127,7 @@ export class MenuComponent {
   openMenuPopup() {
     const dialogRef = this.dialog.open(AddMenuDialogComponent, {
       width: '600px',
-      height: '400px',
+      height: '430px',
     });
 
     dialogRef.afterClosed().subscribe((result) => {

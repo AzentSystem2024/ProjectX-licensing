@@ -71,7 +71,24 @@ deleteEdition(ID:any,edition:any):void{
 }
 
 
-Filterchange(data: Event) {
+Filterchange(event: Event) {
+  const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
+
+  // Use the default filterPredicate but set it up to ignore specific columns.
+  this.dataSource.filterPredicate = (data: any, filter: string) => {
+    // Define the keys to be ignored in the filtering process.
+    const excludedColumns = ['PASSWORD', 'ID', 'USER_LEVEL'];
+    
+    // Check each field in the row except the excluded columns for a match.
+    return Object.keys(data).some(key => {
+      if (!excludedColumns.includes(key)) {
+        return data[key]?.toString().toLowerCase().includes(filter);
+      }
+      return false;
+    });
+  };
+
+  this.dataSource.filter = filterValue;
 }
 getEditionData(){
   this.service.getEdition().subscribe(

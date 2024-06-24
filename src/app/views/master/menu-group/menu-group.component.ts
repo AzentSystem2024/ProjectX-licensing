@@ -75,7 +75,7 @@ export class MenuGroupComponent implements OnInit {
 
   openMenuGroupPopup(){
     const dialogRef = this.dialog.open(AddMenuGroupComponent, {
-      width: '600px',
+      width: '500px',
       height:'400px',
     });
     dialogRef.afterClosed().subscribe(
@@ -88,7 +88,7 @@ export class MenuGroupComponent implements OnInit {
 
     editMenuGroup(menuGroupId:number):void{
       const dialogRef = this.dialog.open(AddMenuGroupComponent,{
-        width: '600px',
+        width: '500px',
         height:'400px',
         data: {
           id:menuGroupId,

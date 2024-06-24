@@ -150,9 +150,9 @@ export class AddCustomerDialogComponent {
         RESELLER_ID: selectedReseller ? selectedReseller.id : null,
         EDITION_ID:selectedEdition? selectedEdition.id : null,
         LAST_MODIFIED_USER:this.userId,
-        ARCHIVEDATE:formatDateToUTC(new Date(this.customerForm.value.ARCHIVE_DATE)),
+        ARCHIVEDATE:new Date(this.customerForm.value.ARCHIVE_DATE),
         START_YEAR:this.customerForm.value.START_YEAR,
-        GENERATE_FIRST_XML:this.customerForm.value.GENERATE_FIRST_XML
+        GENERATE_FIRST_XML:this.customerForm.value.GENERATE_FIRST_XML,
       };
       console.log("postdata",postData);
 

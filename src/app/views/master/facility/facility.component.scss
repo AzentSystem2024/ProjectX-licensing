@@ -1,15 +1,7 @@
 .mat-card-header{
     position: relative;
 }
-.search-container {
-    position: absolute;
-    top: 0;
-    right: 0;
-    margin-top: 20px; /* Adjust as needed */
-    margin-right: 20px;
-    margin-bottom: 20px;
-     
-}
+
 
 .filter {
     width: 100%;
@@ -40,13 +32,13 @@
     border-spacing: 0;
   }
   .table-container {
-    min-height: 400px; /* Adjust based on your layout */
+    min-height: 460px; /* Adjust based on your layout */
     overflow-y: auto;
     overflow-x: auto;
     display: block;
   }
   .no-records-found{
-    height:400px;
+    height: 460px;;
   }
   tr.mat-header-row {
     position: sticky;

@@ -1,18 +1,23 @@
 <div class="card mb-1">
   
-  <h5 class="heading">Reseller</h5>
-  
-</div>
-<div class="card">
-  <div class="card-body">
-    <div class="mb-3">
-    <button mat-raised-button color="primary" class="text-white" (click)="openResellerPopup()">
+  <div class="d-flex">
+    <h5 class="heading">Reseller</h5>
+    <button  mat-raised-button color="primary" class="text-white ms-auto m-2" (click)="openResellerPopup()">
       Add <i class="pi pi-plus"></i>
     </button>
-    <div class="search-container">
-      <input matInput (keyup)="Filterchange($event)" placeholder="Filter" class="filter">
+    <div class="m-2">
+      <input
+        matInput
+        (keyup)="Filterchange($event)"
+        placeholder="Filter"
+        class="filter"
+      />
     </div>
-  </div>
+    </div>
+  
+</div>
+
+   
     <mat-card>
       <mat-card-header>
         
@@ -75,5 +80,4 @@
         <mat-paginator [pageSizeOptions]="[5,10,20]" showFirstLastButtons></mat-paginator>
       </mat-card-footer>
     </mat-card>
-  </div>
-</div>
+  

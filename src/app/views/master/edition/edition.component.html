@@ -1,26 +1,21 @@
 <div class="card mb-1">
-  <h5 class="heading">Edition</h5>
-</div>
-<div class="card">
-  <div class="card-body">
-    <div class="mb-3">
-      <button
-        mat-raised-button
-        color="primary"
-        class="text-white"
-        (click)="openEditionPopup()"
-      >
-        Add <i class="pi pi-plus"></i>
-      </button>
-      <div class="search-container">
-        <input
-          matInput
-          (keyup)="Filterchange($event)"
-          placeholder="Filter"
-          class="filter"
-        />
-      </div>
+  <div class="d-flex">
+    <h5 class="heading">Edition</h5>
+    <button  mat-raised-button color="primary" class="text-white ms-auto m-2" (click)="openEditionPopup()">
+      Add <i class="pi pi-plus"></i>
+    </button>
+    <div class="m-2">
+      <input
+        matInput
+        (keyup)="Filterchange($event)"
+        placeholder="Filter"
+        class="filter"
+      />
     </div>
+    </div>
+</div>
+
+    
     <mat-card>
       <mat-card-header> </mat-card-header>
       <mat-card-content>
@@ -88,5 +83,5 @@
         ></mat-paginator>
       </mat-card-footer>
     </mat-card>
-  </div>
-</div>
+
+

@@ -140,8 +140,9 @@ export class MyserviceService {
 
    private createHeaders() {
     const token = this.getToken();
+    console.log('tokenis',token);
     return new HttpHeaders({
-      'Authorization': `Bearer ${token}`
+      'Authorization': `Basic ${token}`
     });
   }
 
@@ -389,7 +390,7 @@ addFacility(data:object):Observable<any>{
   return this.http.post(deleteEndpoint,data);
  }
  updateFacility(data:any):Observable<any>{
-  return this.http.post(this.endpoint0005,data);
+  return this.http.post(this.apiUrl+'facility/update',data);
  }
 
  
