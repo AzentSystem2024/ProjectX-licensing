@@ -142,7 +142,8 @@ export class MyserviceService {
     const token = this.getToken();
     console.log('tokenis',token);
     return new HttpHeaders({
-      'Authorization': `Basic ${token}`
+      'Content-Type' : 'application/json',
+      'Authorization': `${token}`
     });
   }
 

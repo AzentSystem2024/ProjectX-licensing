@@ -54,4 +54,41 @@
   .no-records-found{
     height: 540px;;
   }
+  /* Mobile styles */
+@media (max-width: 600px) {
   
+
+  .heading {
+    font-size: 1.25rem; /* Larger font size for mobile */
+    margin-bottom: 0.5rem;
+  }
+  .card{
+    z-index: 2;
+  }
+
+  
+
+  .m-2 {
+    margin: 0.5rem 0;
+  }
+
+  table {
+    display: block; /* Make table scrollable */
+    overflow-x: auto;
+  }
+
+  th,
+  td {
+    padding: 0.5rem 0.75rem;
+    white-space: nowrap; /* Prevent text wrapping */
+  }
+
+  .table-container {
+    min-height: auto; /* Adjust based on your layout */
+    overflow-x: auto;
+  }
+
+  .mat-card-footer {
+    padding: 1rem;
+  }
+}
