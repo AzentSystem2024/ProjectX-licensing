@@ -124,7 +124,7 @@
   <p class="mt-2">Edition - <span style="font-weight: bold;">{{customerData.EDITION_NAME}}</span></p>
 </div>
 <div class="col-md-6" style="text-align: right;">
-  <button *ngIf="saveButtonVisible" mat-raised-button class="m-3 bg-success text-white" (click)="saveChanges()">Save</button>
+  <button *ngIf="saveButtonVisible && levelName !== 'Reseller'" mat-raised-button class="m-3 bg-success text-white" (click)="saveChanges()" >Save</button>
 </div>
 </div>
 <mat-card>

@@ -33,5 +33,26 @@
     padding-left: 15px;
     padding-top: 10px;
   }
+  table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+  }
+  .table-container {
+    min-height: 540px; /* Adjust based on your layout */
+    overflow-y: hidden;
+    overflow-x: auto;
+    display: block;
+  }
+  mat-card-footer {
+    position: sticky;
+    bottom: 0;
+    background: white;
+    z-index: 1;
+    padding: 0;
+  }
+  .no-records-found{
+    height: 540px;;
+  }
 
   

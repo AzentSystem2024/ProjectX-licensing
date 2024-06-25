@@ -51,32 +51,35 @@ export class MenuGroupComponent implements OnInit {
     });
   }
 
-  Filterchange(data: Event) {
-    const filterValue = (data.target as HTMLInputElement).value;
-
-    // Custom filter predicate to exclude password column from filtering
-    const customFilterPredicate = (data: any, filter: string) => {
-      const keys = Object.keys(data);
-      for (const key of keys) {
-        if (
-          key !== 'PRODUCT_NAME' &&
-          key !== 'MENU_GROUP' &&
-          data[key].toString().toLowerCase().includes(filter.toLowerCase())
-        ) {
-          return true; 
+  Filterchange(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
+  
+    // Use the default filterPredicate but set it up to ignore specific columns.
+    this.dataSource.filterPredicate = (data: any, filter: string) => {
+      // Define the keys to be ignored in the filtering process.
+      const excludedColumns = ['slNo'];
+      
+      // Check each field in the row except the excluded columns for a match.
+      return Object.keys(data).some(key => {
+        if (!excludedColumns.includes(key)) {
+          return data[key]?.toString().toLowerCase().includes(filter);
         }
-      }
-      return false;
+        return false;
+      });
     };
-
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-    this.dataSource.filterPredicate = customFilterPredicate;
+  
+    this.dataSource.filter = filterValue;
   }
 
   openMenuGroupPopup(){
+     // Determine if the device is mobile
+    const isMobile = window.innerWidth < 768;
     const dialogRef = this.dialog.open(AddMenuGroupComponent, {
-      width: '500px',
-      height:'400px',
+    width: isMobile ? '100vw' : '500px',
+    height: isMobile ? '100vh' : '400px',
+    maxWidth: '100vw',
+    maxHeight: '100vh',
+    panelClass: isMobile ? 'full-screen-dialog' : '', // Optional: custom class for further styling
     });
     dialogRef.afterClosed().subscribe(
       result => {
@@ -87,9 +90,13 @@ export class MenuGroupComponent implements OnInit {
     }
 
     editMenuGroup(menuGroupId:number):void{
+      const isMobile = window.innerWidth < 768;
       const dialogRef = this.dialog.open(AddMenuGroupComponent,{
-        width: '500px',
-        height:'400px',
+      width: isMobile ? '100vw' : '500px',
+      height: isMobile ? '100vh' : '400px',
+      maxWidth: '100vw',
+      maxHeight: '100vh',
+      panelClass: isMobile ? 'full-screen-dialog' : '', // Optional: custom class for further styling
         data: {
           id:menuGroupId,
           mode:'update'

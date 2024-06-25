@@ -1,4 +1,4 @@
-<div class="card mb-1">
+<div class="card mb-1" style="position: sticky;">
   <div class="d-flex">
 <h5 class="heading">Facility</h5>
 <button  mat-raised-button color="primary" class="text-white ms-auto m-2" (click)="openFacilityPopup()">
@@ -7,7 +7,7 @@
 <div class="m-2">
   <input
     matInput
-    
+    (keyup)="Filterchange($event)"
     placeholder="Filter"
     class="filter"
   />
@@ -19,7 +19,7 @@
       
       <mat-card>
         <mat-card-header>
-        
+       
         </mat-card-header>
         <mat-card-content>
           <div class="table-container">
@@ -79,13 +79,13 @@
                 </td>
               </ng-container>
   
-              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-header-row *matHeaderRowDef="displayedColumns" class="sticky-table-header"></tr>
               <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
             </table>
           </div>
         </mat-card-content>
         <mat-card-footer>
-          <mat-paginator [pageSizeOptions]="[10,20]" showFirstLastButtons></mat-paginator>
+          <mat-paginator [pageSizeOptions]="[10]" showFirstLastButtons></mat-paginator>
         </mat-card-footer>
       </mat-card>
      

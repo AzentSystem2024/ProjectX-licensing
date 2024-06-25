@@ -27,3 +27,41 @@ h2{
     background: rgb(65, 252, 134);
     color: white;
 }
+
+/* Mobile Specific Styles */
+@media only screen and (max-width: 768px) {
+    .overlay {
+        width: 100vw;
+        height: 100vh;
+        margin: 0;
+        padding: 0;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 9999; /* Ensure it's on top */
+        overflow: auto; /* Handle content overflow */
+    }
+
+    .row {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .col-md-6 {
+        width: 100%;
+    }
+
+    .form-group.pt-3.d-flex.justify-content-end {
+        justify-content: space-between;
+        padding: 0 1rem; /* Add padding for mobile */
+    }
+
+    button {
+        width: 48%; /* Buttons take up more space on mobile */
+    }
+
+    h2 {
+        font-size: 1.25rem; /* Slightly smaller font for mobile */
+    }
+}

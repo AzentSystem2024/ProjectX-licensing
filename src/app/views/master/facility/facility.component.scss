@@ -2,7 +2,6 @@
     position: relative;
 }
 
-
 .filter {
     width: 100%;
     max-width: 100px; 
@@ -32,24 +31,10 @@
     border-spacing: 0;
   }
   .table-container {
-    min-height: 460px; /* Adjust based on your layout */
-    overflow-y: auto;
+    min-height: 540px; /* Adjust based on your layout */
+    overflow-y: hidden;
     overflow-x: auto;
     display: block;
-  }
-  .no-records-found{
-    height: 460px;;
-  }
-  tr.mat-header-row {
-    position: sticky;
-    top: 0;
-    padding-top: 0;
-    z-index: 1;
-  
-  }
-  .mat-header-cell {
-    z-index: 2;
-    background: hsl(224, 94%, 44%); /* Change color as needed */
   }
   mat-card-footer {
     position: sticky;
@@ -59,4 +44,22 @@
     padding: 0;
   }
 
+  .no-records-found{
+    height: 540px;;
+  }
+  tr.mat-header-row {
+    position: sticky;
+    top: 0;
+    padding-top: 0;
+    z-index: 1;
+  
+  }
+
+  .sticky-table-header {
+    position: sticky;
+  }
+ 
+ 
+  
+  
   

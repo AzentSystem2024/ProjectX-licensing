@@ -105,9 +105,13 @@ export class MenuComponent {
 
   editMenu
   (menuId:number):void{
+    const isMobile = window.innerWidth < 768;
     const dialogRef = this.dialog.open(AddMenuDialogComponent,{
-      width: '600px',
-      height:'430px',
+    width: isMobile ? '100vw' : '600px',
+    height: isMobile ? '100vh' : '430px',
+    maxWidth: '100vw',
+    maxHeight: '100vh',
+    panelClass: isMobile ? 'full-screen-dialog' : '', // Optional: custom class for further styling
       data: {
         id:menuId,
         mode:'update'
@@ -125,9 +129,13 @@ export class MenuComponent {
   }
 
   openMenuPopup() {
+    const isMobile = window.innerWidth < 768;
     const dialogRef = this.dialog.open(AddMenuDialogComponent, {
-      width: '600px',
-      height: '430px',
+    width: isMobile ? '100vw' : '600px',
+    height: isMobile ? '100vh' : '430px',
+    maxWidth: '100vw',
+    maxHeight: '100vh',
+    panelClass: isMobile ? 'full-screen-dialog' : '', // Optional: custom class for further styling
     });
 
     dialogRef.afterClosed().subscribe((result) => {
@@ -137,24 +145,24 @@ export class MenuComponent {
     });
   }
 
-  Filterchange(data: Event) {
-    const filterValue = (data.target as HTMLInputElement).value;
-    const customFilterPredicate = (data: any, filter: string) => {
-      const keys = Object.keys(data);
-      for (const key of keys) {
-        if (
-          key !== 'PRODUCT_NAME' &&
-          key !== 'MENU_GROUP' &&
-          data[key].toString().toLowerCase().includes(filter.toLowerCase())
-        ) {
-          return true; 
+  Filterchange(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
+  
+    // Use the default filterPredicate but set it up to ignore specific columns.
+    this.dataSource.filterPredicate = (data: any, filter: string) => {
+      // Define the keys to be ignored in the filtering process.
+      const excludedColumns = ['slNo'];
+      
+      // Check each field in the row except the excluded columns for a match.
+      return Object.keys(data).some(key => {
+        if (!excludedColumns.includes(key)) {
+          return data[key]?.toString().toLowerCase().includes(filter);
         }
-      }
-      return false;
+        return false;
+      });
     };
-
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-    this.dataSource.filterPredicate = customFilterPredicate;
+  
+    this.dataSource.filter = filterValue;
   }
 
   getModuleList() {

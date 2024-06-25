@@ -38,11 +38,14 @@ export class UserComponent implements OnInit {
   @ViewChild(MatSort) sortt!:MatSort;
 
   openpopup(){
+    const isMobile = window.innerWidth < 768;
     const dialogRef = this.dialog.open(AddUserDialogComponent, {
-      width: '400px',
-      height: '500px',
-      
-    
+    width: isMobile ? '100vw' : '400px',
+    height: isMobile ? '100vh' : '500px',
+    maxWidth: '100vw',
+    maxHeight: '100vh',
+    panelClass: isMobile ? 'full-screen-dialog' : '', // Optional: custom class for further styling
+
   });
 
   dialogRef.afterClosed().subscribe(result => {
@@ -120,10 +123,13 @@ Filterchange(event: Event) {
   }
 
   editUser(userId:number):void{
-
+    const isMobile = window.innerWidth < 768;
     const dialogRef = this.dialog.open(AddUserDialogComponent,{
-      width: '400px',
-      height: '530px',
+    width: isMobile ? '100vw' : '400px',
+    height: isMobile ? '100vh' : '500px',
+    maxWidth: '100vw',
+    maxHeight: '100vh',
+    panelClass: isMobile ? 'full-screen-dialog' : '', // Optional: custom class for further styling
       data: {
         id:userId,
         mode:'update'

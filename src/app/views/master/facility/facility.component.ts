@@ -38,8 +38,35 @@ export class FacilityComponent implements OnInit {
     );
     
   }
+
+  Filterchange(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
+  
+    // Use the default filterPredicate but set it up to ignore specific columns.
+    this.dataSource.filterPredicate = (data: any, filter: string) => {
+      // Define the keys to be ignored in the filtering process.
+      const excludedColumns = [''];
+      
+      // Check each field in the row except the excluded columns for a match.
+      return Object.keys(data).some(key => {
+        if (!excludedColumns.includes(key)) {
+          return data[key]?.toString().toLowerCase().includes(filter);
+        }
+        return false;
+      });
+    };
+  
+    this.dataSource.filter = filterValue;
+  }
+
   editFacility(facility:any):void{
+    const isMobile = window.innerWidth < 768;
     const dialogRef = this.dialog.open(AddFacilityComponent,{
+    width: isMobile ? '100vh' : '800px',
+    height: isMobile ? '100vh' : '680px',
+    maxWidth: '100vw',
+    maxHeight: '100vh',
+    panelClass: isMobile ? 'full-screen-dialog' : '', // Optional: custom class for further styling
       data: {
         id:facility.ID,
         facility:facility,
@@ -58,7 +85,14 @@ export class FacilityComponent implements OnInit {
   
   }
   openFacilityPopup(){
+    
+    const isMobile = window.innerWidth < 768;
     const dialogRef = this.dialog.open(AddFacilityComponent, {
+    width: isMobile ? '100vh' : '800px',
+    height: isMobile ? '100vh' : '680px',
+    maxWidth: '100vw',
+    maxHeight: '100vh',
+    panelClass: isMobile ? 'full-screen-dialog' : '', // Optional: custom class for further styling
       data: {
         existingFacilities: this.listFacility // Pass the existing facilities
       }

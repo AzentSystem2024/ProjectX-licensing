@@ -35,10 +35,13 @@ export class EditionComponent {
   constructor(public service:MyserviceService,private dialog:MatDialog){}
 
   openEditionPopup(){
-    
+    const isMobile = window.innerWidth < 768;
     const dialogRef = this.dialog.open(AddEditionDialogComponent, {
-      width: '900px',
-      height: '630px',
+    width: isMobile ? '100vw' : '900px',
+    height: isMobile ? '100vh' : '700px',
+    maxWidth: '100vw',
+    maxHeight: '100vh',
+    panelClass: isMobile ? 'full-screen-dialog' : '', // Optional: custom class for further styling
   
   });
   dialogRef.afterClosed().subscribe(
@@ -77,7 +80,7 @@ Filterchange(event: Event) {
   // Use the default filterPredicate but set it up to ignore specific columns.
   this.dataSource.filterPredicate = (data: any, filter: string) => {
     // Define the keys to be ignored in the filtering process.
-    const excludedColumns = ['PASSWORD', 'ID', 'USER_LEVEL'];
+    const excludedColumns = ['slNo'];
     
     // Check each field in the row except the excluded columns for a match.
     return Object.keys(data).some(key => {
@@ -109,9 +112,13 @@ getEditionData(){
 }
 
 editEdition(editionId : number){
+  const isMobile = window.innerWidth < 768;
   const dialogRef = this.dialog.open(AddEditionDialogComponent,{
-    width: '900px',
-    height:'630px',
+    width: isMobile ? '100vw' : '900px',
+    height: isMobile ? '100vh' : '700px',
+    maxWidth: '100vw',
+    maxHeight: '100vh',
+    panelClass: isMobile ? 'full-screen-dialog' : '', // Optional: custom class for further styling
     data: {
       id:editionId,
       mode:'update'

@@ -28,32 +28,36 @@ export class CardsComponent implements OnInit {
   
   @ViewChild(MatSort) sortt!:MatSort;
   
-  //filter
-  Filterchange(data: Event) {
-    const filterValue = (data.target as HTMLInputElement).value;
+  Filterchange(event: Event) {
+  const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
+
+  // Use the default filterPredicate but set it up to ignore specific columns.
+  this.dataSource.filterPredicate = (data: any, filter: string) => {
+    // Define the keys to be ignored in the filtering process.
+    const excludedColumns = [''];
     
-    // Custom filter predicate to exclude password column from filtering
-    const customFilterPredicate = (data: any, filter: string) => {
-      const keys = Object.keys(data);
-      for (const key of keys) {
-        if (key !== 'ID' && key !== 'COUNTRY_ID' && data[key].toString().toLowerCase().includes(filter.toLowerCase())) {
-          return true; // Include row if any non-password column matches the filter
-        }
+    // Check each field in the row except the excluded columns for a match.
+    return Object.keys(data).some(key => {
+      if (!excludedColumns.includes(key)) {
+        return data[key]?.toString().toLowerCase().includes(filter);
       }
-      return false; // Exclude row if no non-password column matches the filter
-    };
-  
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-    this.dataSource.filterPredicate = customFilterPredicate;
-  
-    
-  }
+      return false;
+    });
+  };
+
+  this.dataSource.filter = filterValue;
+}
 
   //open reseller popup
   openResellerPopup(){
+    // Determine if the device is mobile
+    const isMobile = window.innerWidth < 768;
     const dialogRef = this.dialog.open(AddResellerDialogComponent, {
-      width: '600px',
-      height:'400px',
+    width: isMobile ? '100vw' : '600px',
+    height: isMobile ? '100vh' : '400px',
+    maxWidth: '100vw',
+    maxHeight: '100vh',
+    panelClass: isMobile ? 'full-screen-dialog' : '', // Optional: custom class for further styling
   });
 
   dialogRef.afterClosed().subscribe(
@@ -108,9 +112,14 @@ export class CardsComponent implements OnInit {
   }
 
   editReseller(userId:number):void{
+    // Determine if the device is mobile
+    const isMobile = window.innerWidth < 768;
     const dialogRef = this.dialog.open(AddResellerDialogComponent,{
-      width: '600px',
-      height:'400px',
+    width: isMobile ? '100vw' : '600px',
+    height: isMobile ? '100vh' : '400px',
+    maxWidth: '100vw',
+    maxHeight: '100vh',
+    panelClass: isMobile ? 'full-screen-dialog' : '', // Optional: custom class for further styling
       data: {
         id:userId,
         mode:'update'
