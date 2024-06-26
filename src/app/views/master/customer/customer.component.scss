@@ -103,58 +103,5 @@
   .no-records-found{
     height: 540px;;
   }
-  /* Mobile styles */
-@media (max-width: 600px) {
-  .heading {
-    font-size: 1.25rem;
-    margin-bottom: 0.5rem;
-  }
-
   
-  .actions-container {
-    display: flex;
-    width: 100%;
-    justify-content: space-between;
-  }
-
-  table {
-    display: block;
-    overflow-x: auto;
-  }
-
-  th, td {
-    padding: 0.5rem 0.75rem;
-    white-space: nowrap;
-  }
-
-  .example-element-detail {
-    background-color: #f9f9f9;
-    display: block;
-   
-  }
-
-  .example-expanded-row .example-element-detail {
-    display: block;
-    max-height: none; /* Ensure all content is shown */
-  }
-
-  .table-container {
-    min-height: auto;
-    overflow-x: auto;
-  }
-
-  .mat-card-footer {
-    padding: 1rem;
-  }
-
-  .example-element-detail {
-    padding-left: 10px; /* Better spacing on mobile */
-    border-top: 1px solid #ddd; /* Clear separation for expanded content */
-  }
-
-  .detail-item {
-    padding-left: 0; /* No extra padding on mobile */
-    font-size: 12px; /* Slightly smaller font for mobile */
-  }
-}
   
