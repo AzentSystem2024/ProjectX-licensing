@@ -133,10 +133,26 @@ export class AddCustomerDialogComponent {
     const selectedEmirate = this.emiratelist.find(item => item.description == this.customerForm.value.EMIRATE);
     const selectedEdition = this.editionlist.find(item => item.description == this.customerForm.value.EDITION);
 
-    const formatDateToUTC = (date: Date) => {
-      const utcDate = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
-      return utcDate.toISOString();
-    };
+    
+
+
+    
+    // Function to pad numbers to ensure two digits
+function padToTwoDigits(num: number): string {
+  return num.toString().padStart(2, '0');
+}
+
+// Function to pad milliseconds to ensure three digits
+function padToThreeDigits(num: number): string {
+  return num.toString().padStart(3, '0');
+}
+
+// Formatting the date
+const archiveDate = new Date(this.customerForm.value.ARCHIVE_DATE);
+
+const formattedArchiveDate = `${archiveDate.getFullYear()}-${padToTwoDigits(archiveDate.getMonth() + 1)}-${padToTwoDigits(archiveDate.getDate())} ` +
+                             `${padToTwoDigits(archiveDate.getHours())}:${padToTwoDigits(archiveDate.getMinutes())}:${padToTwoDigits(archiveDate.getSeconds())}.` +
+                             `${padToThreeDigits(archiveDate.getMilliseconds())}`;
 
     if(selectedCountry){
       var postData:any={
@@ -150,7 +166,7 @@ export class AddCustomerDialogComponent {
         RESELLER_ID: selectedReseller ? selectedReseller.id : null,
         EDITION_ID:selectedEdition? selectedEdition.id : null,
         LAST_MODIFIED_USER:this.userId,
-        ARCHIVEDATE:new Date(this.customerForm.value.ARCHIVE_DATE),
+        ARCHIVE_DATE:formattedArchiveDate,
         START_YEAR:this.customerForm.value.START_YEAR,
         GENERATE_FIRST_XML:this.customerForm.value.GENERATE_FIRST_XML,
       };

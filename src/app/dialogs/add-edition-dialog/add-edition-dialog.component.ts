@@ -49,7 +49,7 @@ import { AlertDialogComponent } from 'src/app/alert-dialog/alert-dialog.componen
     MatCardModule,
   ],
   templateUrl: './add-edition-dialog.component.html',
-  styleUrl: './add-edition-dialog.component.scss',
+  styleUrls: ['./add-edition-dialog.component.scss'],
 })
 export class AddEditionDialogComponent {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -63,8 +63,8 @@ export class AddEditionDialogComponent {
     'remarks',
   ];
   dataSource: any;
-  editionMenuList: any;
-  selection = new SelectionModel<any>(true, []);
+  editionMenuList: any[] = []; 
+  selection: SelectionModel<any>;
   mode: 'add' | 'update' = 'add';
 
   constructor(
@@ -74,13 +74,9 @@ export class AddEditionDialogComponent {
     private dialogRef: MatDialogRef<AddEditionDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
+    this.selection = new SelectionModel<any>(true, []); 
     this.mode = this.data?.mode || 'add';
     this.initializeForm();
-    this.getEditionMenuList();
-
-    if (this.mode === 'update') {
-      this.getEditionById(this.data.id, {});
-    }
   }
 
   editionForm = this.fb.group({
@@ -97,10 +93,14 @@ export class AddEditionDialogComponent {
 
       // Initialize the EDITION_MENU FormArray with checkboxes
       this.editionMenuList.forEach(() => {
-        (this.editionForm.get('EDITION_MENU') as any).push(
+        (this.editionForm.get('EDITION_MENU') as FormArray).push(
           this.fb.control(false)
         );
       });
+
+      if (this.mode === 'update') {
+        this.getEditionById(this.data.id, {});
+      }
     });
   }
 
@@ -111,18 +111,8 @@ export class AddEditionDialogComponent {
         EDITION_NAME: res.EDITION_NAME,
       });
 
-      // // Set the selected menus
-      // const selectedMenuIds = res.edition_menu.map((menu: any) => menu.MENU_ID);
-      // this.editionMenuList.forEach((menu: any, index: number) => {
-      //   if (selectedMenuIds.includes(menu.MENU_ID)) {
-      //     (this.editionForm.get('EDITION_MENU') as FormArray).at(index).setValue(true);
-      //   }
-      // });
-
       // Extract MENU_IDs from the response
-      const selectedMenuIds = res.edition_menu.map((menu: any) =>
-        String(menu.MENU_ID)
-      );
+      const selectedMenuIds = res.edition_menu.map((menu: any) => String(menu.MENU_ID));
       console.log('Selected Menu IDs:', selectedMenuIds);
 
       // Filter to find checked menus
@@ -138,34 +128,22 @@ export class AddEditionDialogComponent {
       console.log('Edition Menu List:', this.editionMenuList);
       console.log('Checked Menus:', checkedMenus);
 
-      // Select the checked menus in the selection model
-      checkedMenus.forEach((menu: any) => this.selection.select(menu));
+      // Ensure selection is properly initialized
+      if (this.selection && typeof this.selection.select === 'function') {
+        // Select the checked menus in the selection model
+        checkedMenus.forEach((menu: any) => this.selection.select(menu));
+      } else {
+        console.error('Selection model is not initialized or select method is not available');
+      }
     });
   }
-
-  getEditionMenuList() {
-    this.service.getEditionMenuList().subscribe((data) => {
-      this.editionMenuList = data;
-      this.dataSource = new MatTableDataSource<any>(this.editionMenuList);
-      this.dataSource.paginator = this.paginator;
-
-      // Initialize the EDITION_MENU FormArray with checkboxes
-      this.editionMenuList.forEach(() => {
-        (this.editionForm.get('EDITION_MENU') as FormArray).push(
-          this.fb.control(false)
-        );
-      });
-    });
-  }
-
-  // }
 
   onSubmit() {
     const editionMenu = this.editionForm.get('EDITION_MENU');
 
     if (editionMenu) {
       const selectedMenus = this.selection.selected;
-      console.log('selected menus', selectedMenus);
+      console.log('Selected menus:', selectedMenus);
 
       const postData: any = {
         ID: this.editionForm.value.ID,
@@ -212,6 +190,7 @@ export class AddEditionDialogComponent {
       console.log('EditionMenu is not defined');
     }
   }
+
   openEditionAddedDialog(title: string, message: string) {
     const dialogRef = this.dialog.open(AlertDialogComponent, {
       width: '300px',

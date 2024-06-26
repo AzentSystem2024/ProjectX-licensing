@@ -31,7 +31,7 @@ export class RenewLicenseDialogComponent implements OnInit {
     this.userId=service.getUserId();
   }
   
-  renewForm=this.fb.group({
+  renewForm:any=this.fb.group({
     
     NEW_EXPIRE_DATE:['']
   })
@@ -48,17 +48,22 @@ export class RenewLicenseDialogComponent implements OnInit {
   
   onSubmit() {
     
-    const newExpiryDate:any = this.renewForm.value.NEW_EXPIRE_DATE;
+    const newExpiryDateStr = this.renewForm.value.NEW_EXPIRE_DATE;
+    const newExpiryDate= new Date(newExpiryDateStr);
+    console.log('newexpdate',newExpiryDate)
 
     const formatDateToUTC = (date: Date) => {
-      const utcDate = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+      const utcDate = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(),new Date().getUTCHours(),
+      new Date().getUTCMinutes(),
+      new Date().getUTCSeconds(),
+      new Date().getUTCMilliseconds()));
       return utcDate.toISOString();
     };
 
       const postData = this.facilities.map(facility => ({
       facility_id: facility.facility_id,
       USER_ID: this.userId,
-      new_expired_date: formatDateToUTC(new Date(newExpiryDate))
+      new_expired_date: formatDateToUTC(newExpiryDate)
     }));
 
     console.log(postData);
