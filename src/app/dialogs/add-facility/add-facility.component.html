@@ -57,7 +57,7 @@
                        
                         <mat-form-field appearance="fill" class="form-group">
                             <mat-label>License Start Date</mat-label>
-                            <input matInput [matDatepicker]="picker" placeholder="Enter Date" formControlName="START_DATE" [disabled]="mode === 'update'">
+                            <input matInput [matDatepicker]="picker" placeholder="Enter Date" formControlName="START_DATE">
                             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                             <mat-datepicker #picker></mat-datepicker>
                             <!-- <mat-error *ngIf="submit && f.CONTACT_NAME.errors">*Contact name is required</mat-error> -->
@@ -66,7 +66,7 @@
                           <div class="form-group d-flex">
                           <mat-form-field appearance="fill" class="form-group">
                             <mat-label>License Expiry Date</mat-label>
-                            <input matInput [matDatepicker]="picker1" formControlName="EXPIRY_DATE"  placeholder="Enter Date" [disabled]="mode === 'update'">
+                            <input matInput [matDatepicker]="picker1" formControlName="EXPIRY_DATE"  placeholder="Enter Date">
                             <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
                             <mat-datepicker #picker1></mat-datepicker>
                             <!-- <mat-error *ngIf="submit && f.CONTACT_NAME.errors">*Contact name is required</mat-error> -->
@@ -78,7 +78,7 @@
                           <div class="form-group d-flex">
                           <mat-form-field appearance="fill" class="form-group">
                             <mat-label>AMC Expiry Date</mat-label>
-                            <input matInput [matDatepicker]="picker2" formControlName="AMC_EXPIRY_DATE" placeholder="Enter Date" [disabled]="mode === 'update'">
+                            <input matInput [matDatepicker]="picker2" formControlName="AMC_EXPIRY_DATE" placeholder="Enter Date">
                             <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
                             <mat-datepicker #picker2></mat-datepicker>
                             <!-- <mat-error *ngIf="submit && f.CONTACT_NAME.errors">*Contact name is required</mat-error> -->

@@ -93,8 +93,8 @@ getEditionData(){
 
 editEdition(editionId : number){
   const dialogRef = this.dialog.open(AddEditionDialogComponent,{
-    width: '600px',
-    height:'400px',
+    width: '900px',
+    height:'630px',
     data: {
       id:editionId,
       mode:'update'

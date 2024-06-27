@@ -44,6 +44,7 @@ const routes: Routes = [
           import('./views/dashboard/dashboard.module').then((m) => m.DashboardModule),
         canActivate: [AuthGuardService] 
       },
+      
       {
         path: 'master',
         loadChildren: () =>

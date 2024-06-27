@@ -14,7 +14,7 @@ export class LoginComponent implements OnInit {
   
   userdata:any;
   internetIp:any;
-  localIp:any;
+
   constructor(private platformlocation:PlatformLocation,private service:MyserviceService,private fb:FormBuilder,private router:Router) { 
     history.pushState(null,'',location.href);
     this.platformlocation.onPopState(()=>{
@@ -23,6 +23,7 @@ export class LoginComponent implements OnInit {
 
     service.getInternetIp().subscribe(data=>{
       this.internetIp=data;
+      
     }) 
   }
 
@@ -61,16 +62,28 @@ export class LoginComponent implements OnInit {
   // }
 
   UserLogin(){
+
+    // get current UTC time
+    const currentUtcTime = new Date().toISOString();
+    
+
     var postData={
       LOGIN_NAME:this.loginForm.value.LOGIN_NAME,
       PASSWORD:this.loginForm.value.PASSWORD, 
+      INTERNET_IP:this.internetIp.ip,
+      SYSTEM_TIME_UTC:currentUtcTime,
+      LOCAL_IP:this.internetIp.ip,
+      COMPUTER_NAME:"SYSTEM 1",
+      DOMAIN_NAME:"Domain1",
+      COMPUTER_USER:"User1"
+
     }
-    // INTERNET_IP:this.internetIp,
-    console.log('login data',postData);
+  
     this.service.verifyLogin(postData).subscribe(response=>{
       if(response.message === "Login Success")
       {
         console.log('login working');
+        this.service.saveToken(response.token);
         this.router.navigate(['/dashboard']);
         this.service.setLoggedInUser(response.data.USER_NAME);
         const levelName=response.data.LEVEL_NAME;
@@ -88,17 +101,17 @@ export class LoginComponent implements OnInit {
   }
 
 
-  getUserData(){
-    this.service.getUsers().subscribe(
-      (data:any)=>{
-        this.userdata=data;
-        console.log(data);
-      }
-    )
-  }
+  // getUserData(){
+  //   this.service.getUsers().subscribe(
+  //     (data:any)=>{
+  //       this.userdata=data;
+  //       console.log(data);
+  //     }
+  //   )
+  // }
 
   ngOnInit(): void {
-    this.getUserData();
+    // this.getUserData();
   }
 
   togglePasswordVisibility(){

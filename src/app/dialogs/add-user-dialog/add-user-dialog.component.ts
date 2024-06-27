@@ -29,9 +29,11 @@ export class AddUserDialogComponent {
   loginNameExists: boolean = false;
   mode: 'add' | 'update' = 'add'; 
   disableLoginName=false;
+  loading = false; // Loading flag
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,private service:MyserviceService,private dialog: MatDialog,private dialogRef: MatDialogRef<AddUserDialogComponent>, private fb:FormBuilder, private route:ActivatedRoute,private router:Router) {
+    this.userId=service.getUserId();
   }
-
+  userId:any;
   userLevels: { id: number, description: string }[] = [];
   filteredOptions:any;
   editData:any;
@@ -88,12 +90,21 @@ export class AddUserDialogComponent {
   addOrUpdateUser(){
 
       if (this.userForm.valid&& this.loginNameExists===false) {
+
+        
+      this.loading = true;
+      setTimeout(() => {
+        this.loading = false;
+        this.closeDialog();
+      }, 8000); // Simulate a delay of 2 seconds
+
         const selectedLevel = this.userLevels.find(item => item.description == this.userForm.value.userlevel);
         const postData:any = {
           USER_NAME: this.userForm.value.USER_NAME,
           LOGIN_NAME: this.userForm.value.LOGIN_NAME,
           PASSWORD: this.userForm.value.Password,
           USER_LEVEL: selectedLevel?.id,
+          CREATED_USER_ID:this.userId,
           IS_INACTIVE: this.userForm.value.IS_INACTIVE
         };
   
@@ -145,7 +156,7 @@ export class AddUserDialogComponent {
     
     if(this.data.id!=''&&this.data.id!=null){
       this.showActive=true;
-      this.service.getUserById(this.data.id).subscribe(res=>{
+      this.service.getUserById(this.data.id,{}).subscribe(res=>{
         this.editData=res;
         console.log('byid',res);
         this.userForm.setValue({
