@@ -10,10 +10,10 @@
   font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
   font-size: 24px;
   font-weight: bold;
-  color: #333;
+  color: #fafafa;
   text-align: center;
   padding: 10px;
-  background-color: #f0f0f0;
+  background-color: #0a0729;
   // box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
 }
 h4:hover{
@@ -21,4 +21,7 @@ h4:hover{
 }
 c-container{
   padding: 5px;
+}
+.sidebar{
+  background-color: #0a0729;
 }

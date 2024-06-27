@@ -114,7 +114,9 @@ export class ModuleComponent implements OnInit {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       data: {
         message: 'Are you sure you want to delete this data?',
-      },
+        title:'Module',
+  
+      }
     });
 
     dialogRef.afterClosed().subscribe((result) => {

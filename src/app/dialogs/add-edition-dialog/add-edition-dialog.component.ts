@@ -113,6 +113,8 @@ export class AddEditionDialogComponent {
         ID: res.ID,
         EDITION_NAME: res.EDITION_NAME,
       });
+
+      // Extract MENU_IDs from the response
       const selectedMenuIds = res.edition_menu.map((menu: any) => String(menu.MENU_ID));
       console.log('Selected Menu IDs:', selectedMenuIds);
 

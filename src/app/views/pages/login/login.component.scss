@@ -1,50 +1,63 @@
 .logo {
-    display: flex;
-    
-    font-weight: 900;
-  }
-  
-  
-  
-  .letter-v {
-    color: red;
-    font-size: 52px;
-    
-    
-    
-  }
-  
-  .letter-e,
-  .letter-z,
-  .letter-t,
-  .letter-a {
-    color: white;
-    font-size: 50px;
-    
-    
-  }
-  .login-card{
-    width:400px;
-    height:350px;
-    margin-right: 80px;
-   
-   
-  }
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+  padding: 10px 20px 10px 0px;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.logo-text {
+  color: #ffffff;
+  font-size: 30px;
+  font-weight: 900;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+.login-card {
+  width: 400px;
+  height: 400px; /* Increased height for better spacing */
+  margin-right: 80px;
+  border-radius: 15px; /* Rounded corners */
+  overflow: hidden;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Added shadow */
+}
+.login-button {
+  background: linear-gradient(135deg, #00b4d8, #0077b6);
+  border: none;
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  padding: 10px 20px; /* Padding for a larger clickable area */
+  cursor: pointer;
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow for depth */
+}
+
+.login-button:hover {
+  background: linear-gradient(135deg, #0077b6, #023e8a); /* Darker gradient on hover */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Larger shadow on hover */
+}
+
+.login-button:active {
+  background: linear-gradient(135deg, #023e8a, #03045e); /* Even darker gradient on click */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Smaller shadow on active state */
+  transform: scale(0.98); /* Slight scale down on click */
+}
   .container{
     display: flex;
     justify-content: flex-end;
   }
-  @media (max-width: 599px) {
+  @media only screen and (max-width: 768px) {
     .container {
-      justify-content: center; /* Aligns items to the center for mobile screens */
-      
+        justify-content: center;
     }
-  
     .login-card {
-      margin-right: 0; /* Reset margin for mobile screens */
-     
+        margin-right: 0;
+        margin-left: 0;
     }
-  }
+}
   .password-input {
     padding-right: 40px; /* Adjust as necessary */
     

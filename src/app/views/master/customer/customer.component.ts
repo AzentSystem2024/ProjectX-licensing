@@ -160,10 +160,8 @@ export class CustomerComponent implements OnInit {
   deleteCustomer(ID:any,customer:any):void{
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       data: {
-        message: 'Are you sure you want to delete this data?'
-  
-
-        
+        message: 'Are you sure you want to delete this data?',
+        title:'Customer' 
       }
     });
   
@@ -185,9 +183,10 @@ export class CustomerComponent implements OnInit {
     const isMobile = window.innerWidth < 768;
     const dialogRef = this.dialog.open(ViewCustomerComponent,{
     width: isMobile ? '100vw' : '70vw',
-    height: isMobile ? '100vh' : '85vh',
+    height: isMobile ? '100vh' : '90vh',
     maxWidth: '100vw',
     maxHeight: '100vh',
+    position: { top: '50px', right: '130px' }, 
     panelClass: isMobile ? 'full-screen-dialog' : '', // Optional: custom class for further styling
       data: {
         id:customer.ID,

@@ -1,7 +1,7 @@
 import { Component,OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MyserviceService } from 'src/app/myservice.service';
-import { FormBuilder, ReactiveFormsModule,AbstractControl } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule,AbstractControl, ValidationErrors } from '@angular/forms';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute,Router } from '@angular/router';
 import { MatDialogRef,MatDialog } from '@angular/material/dialog';
@@ -27,6 +27,7 @@ import { MatIconModule } from '@angular/material/icon';
 })
 export class AddResellerDialogComponent {
   submit=false;
+  reseller:any;
   mode: 'add' | 'update' = 'add'; 
   loading = false; // Loading flag
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,private service:MyserviceService,private dialog: MatDialog,private dialogRef: MatDialogRef<AddResellerDialogComponent>,
@@ -42,14 +43,12 @@ export class AddResellerDialogComponent {
   resellerForm=this.fb.group({
     ID:[''],
     // RESELLER_CODE:['',Validators.required],
-    RESELLER_NAME:['',[Validators.required, this.noWhitespaceOrSpecialChar]],
+    RESELLER_NAME:['',[Validators.required, this.noWhitespaceOrSpecialChar,this.checkDuplicateReseller.bind(this)]],
     RESELLER_PHONE:['',[Validators.required]],
     RESELLER_EMAIL:['',[Validators.required,Validators.email,this.emailValidator]],
     COUNTRY_NAME:['',Validators.required],
-    LOGIN_NAME:['',Validators.required],
+    LOGIN_NAME:['',[Validators.required,this.checkDuplicateReseller.bind(this)]],
     PASSWORD:['',Validators.required]
-    
-   
   });
   
   get f(){    
@@ -152,7 +151,7 @@ export class AddResellerDialogComponent {
     
     this.mode = this.data?.mode || 'add'; 
     this.initForm();
-
+    this.getReseller();
     if(this.data.id!=''&&this.data.id!=null){
       this.service.getResellerById(this.data.id,{}).subscribe(res=>{
         this.editData=res;
@@ -183,6 +182,43 @@ export class AddResellerDialogComponent {
       }
     )
   }
+
+  getReseller() {
+    this.service.getResellers().subscribe((data: any) => {
+      this.reseller = data;
+      console.log(data, 'reseller');
+      // this.resellerForm.get('RESELLER_NAME')?.updateValueAndValidity();
+      // this.resellerForm.get('LOGIN_NAME')?.updateValueAndValidity();
+    });
+  }
+
+  checkDuplicateReseller(control: AbstractControl): ValidationErrors | null {
+    const value = control.value;
+    const formGroup = control.parent as FormGroup;
+    if (formGroup && this.reseller) {
+      const currentItemId = formGroup.get('ID')?.value;
+
+      //duplicate resellername
+      const duplicateExists = this.reseller.some((item:any )=> {
+        const isSameItem = item.ID === currentItemId;
+        return !isSameItem && item.RESELLER_NAME === value;
+      });
+       //check login name
+       const duplicateLoginNameExists = this.reseller.some((item:any )=> {
+        const isSameItem = item.ID === currentItemId;
+        return !isSameItem && item.LOGIN_NAME === value;
+      });
+      if (duplicateExists) {
+        return { duplicateReseller: true };
+      }
+      if (duplicateLoginNameExists) {
+        return { duplicateLoginName: true };
+      }
+    }
+    return null;
+  }
+
+
   emailValidator(control: AbstractControl): { [key: string]: boolean } | null {
     const email: string = control.value;
     if (email && !/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email)) {

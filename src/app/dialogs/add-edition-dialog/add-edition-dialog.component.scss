@@ -20,7 +20,20 @@ h2{
     font-weight: bold; /* Optionally adjust font weight */
     color: #333; /* Optionally adjust text color */
 }
-
+table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+  }
+  .table-container {
+    min-height: 345px; /* Adjust based on your layout */
+    overflow-y: hidden;
+    overflow-x: auto;
+    display: block;
+  }
+  .no-records-found{
+    height: 345px;;
+  }
 /* Mobile Specific Styles */
 @media only screen and (max-width: 768px) {
     .overlay {
@@ -57,4 +70,24 @@ h2{
     h2 {
         font-size: 1.25rem; /* Slightly smaller font for mobile */
     }
+    table {
+        display: block; /* Make table scrollable */
+        overflow-x: auto;
+      }
+    
+      th,
+      td {
+        padding: 0.5rem 0.75rem;
+        white-space: nowrap; /* Prevent text wrapping */
+      }
+    
+      .table-container {
+        min-height: auto; /* Adjust based on your layout */
+        overflow-x: auto;
+      }
+    
+      .mat-card-footer {
+        padding: 1rem;
+      }
+    
 }

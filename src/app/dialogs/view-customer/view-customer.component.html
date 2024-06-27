@@ -24,12 +24,12 @@
     <button mat-raised-button class="m-3 renewButton" (click)="renewAllLicenses()" *ngIf="levelName!=='Reseller'">Renew</button>
   </div>
     <mat-card-content>
-<div class="table-responsive">
+<div class="table-container">
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
       <!-- no data found -->
       <ng-container *matNoDataRow>
-        <tr>
+        <tr class="no-records-found">
           <td style="text-align: center;" class="mat-cell" colspan="5">No Records found</td>
         </tr>
       </ng-container>
@@ -112,7 +112,7 @@
 </mat-card-content>
 <mat-card-footer>
   
-  <mat-paginator [pageSizeOptions]="[5,10]" showFirstLastButtons #facilityPaginator></mat-paginator>
+  <mat-paginator [pageSizeOptions]="[5]" showFirstLastButtons #facilityPaginator></mat-paginator>
 </mat-card-footer>
 
 </mat-card>
@@ -130,12 +130,12 @@
 <mat-card>
 
       <mat-card-content>
-  <div class="table-responsive">
+  <div class="table-container">
       <table mat-table [dataSource]="dataSource1" class="mat-elevation-z8">
   
         <!-- no data found -->
         <ng-container *matNoDataRow>
-          <tr>
+          <tr class="no-records-found">
             <td style="text-align: center;" class="mat-cell" colspan="5">No Records found</td>
           </tr>
         </ng-container>
@@ -204,7 +204,7 @@
   </mat-card-content>
   <mat-card-footer>
     
-    <mat-paginator [pageSizeOptions]="[5,10]" showFirstLastButtons #menuPaginator></mat-paginator>
+    <mat-paginator [pageSizeOptions]="[5]" showFirstLastButtons #menuPaginator></mat-paginator>
   </mat-card-footer>
   
   </mat-card>

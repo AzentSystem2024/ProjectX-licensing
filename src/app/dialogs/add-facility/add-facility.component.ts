@@ -75,6 +75,8 @@ export class AddFacilityComponent implements OnInit {
     })
   }
 
+  
+
   onSubmit(){
 
     const selectedCustomer = this.customer.find((item:any) => item.CUST_NAME == this.facilityForm.value.CUSTOMER_ID);
@@ -93,7 +95,11 @@ export class AddFacilityComponent implements OnInit {
     }
 
     const formatDateToUTC = (date: Date) => {
-      const utcDate = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+      if (!date) return null;
+      const utcDate = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(),new Date().getUTCHours(),
+      new Date().getUTCMinutes(),
+      new Date().getUTCSeconds(),
+      new Date().getUTCMilliseconds()));
       return utcDate.toISOString();
     };
 
@@ -105,9 +111,9 @@ export class AddFacilityComponent implements OnInit {
       EMIRATE_ID:selectedEmirate.id,
       POST_OFFICE:this.facilityForm.value.POST_OFFICE,
       IS_INACTIVE:false,
-      ENROLL_DATE:formatDateToUTC(new Date(this.facilityForm.value.START_DATE)),
-      EXPIRY_DATE:formatDateToUTC(new Date(this.facilityForm.value.EXPIRY_DATE)),
-      AMC_EXPIRY_DATE:formatDateToUTC(new Date(this.facilityForm.value.AMC_EXPIRY_DATE)),
+      ENROLL_DATE:formatDateToUTC(this.facilityForm.value.START_DATE),
+      EXPIRY_DATE:formatDateToUTC(this.facilityForm.value.EXPIRY_DATE),
+      AMC_EXPIRY_DATE:formatDateToUTC(this.facilityForm.value.AMC_EXPIRY_DATE),
       USER_ID:this.userid
       
     }
@@ -211,7 +217,8 @@ export class AddFacilityComponent implements OnInit {
   //view date in standard format
   formatDateFromUTC(dateString: string): Date {
     const date = new Date(dateString);
-    return new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+    return new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(),date.getHours(),date.getMinutes(),
+    date.getSeconds(),date.getMilliseconds()));
   }
 
   // Custom validator function to disallow leading white spaces and special characters

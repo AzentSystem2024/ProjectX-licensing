@@ -39,7 +39,7 @@ export class AddCustomerDialogComponent {
   filteredOptions2:any;
   filteredOptions3:any;
   filteredOptions4:any;
-  currentPage: number = 1;
+  currentPage: number = 0;
   editData:any;
   userId:any;
   
@@ -126,6 +126,11 @@ export class AddCustomerDialogComponent {
     
   onSubmit(){
     
+    // Check form validity
+    if (this.customerForm.invalid) {
+    this.setInvalidTab(); // Switch to the tab containing the first invalid control
+    return; // Prevent submission if form is invalid
+   }
     
     this.submit=true;
     const selectedCountry = this.countrylist.find(item => item.description == this.customerForm.value.COUNTRY_NAME);
@@ -133,10 +138,26 @@ export class AddCustomerDialogComponent {
     const selectedEmirate = this.emiratelist.find(item => item.description == this.customerForm.value.EMIRATE);
     const selectedEdition = this.editionlist.find(item => item.description == this.customerForm.value.EDITION);
 
-    const formatDateToUTC = (date: Date) => {
-      const utcDate = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
-      return utcDate.toISOString();
-    };
+    
+
+
+    
+    // Function to pad numbers to ensure two digits
+function padToTwoDigits(num: number): string {
+  return num.toString().padStart(2, '0');
+}
+
+// Function to pad milliseconds to ensure three digits
+function padToThreeDigits(num: number): string {
+  return num.toString().padStart(3, '0');
+}
+
+// Formatting the date
+const archiveDate = new Date(this.customerForm.value.ARCHIVE_DATE);
+
+const formattedArchiveDate = `${archiveDate.getFullYear()}-${padToTwoDigits(archiveDate.getMonth() + 1)}-${padToTwoDigits(archiveDate.getDate())} ` +
+                             `${padToTwoDigits(archiveDate.getHours())}:${padToTwoDigits(archiveDate.getMinutes())}:${padToTwoDigits(archiveDate.getSeconds())}.` +
+                             `${padToThreeDigits(archiveDate.getMilliseconds())}`;
 
     if(selectedCountry){
       var postData:any={
@@ -150,7 +171,7 @@ export class AddCustomerDialogComponent {
         RESELLER_ID: selectedReseller ? selectedReseller.id : null,
         EDITION_ID:selectedEdition? selectedEdition.id : null,
         LAST_MODIFIED_USER:this.userId,
-        ARCHIVEDATE:new Date(this.customerForm.value.ARCHIVE_DATE),
+        ARCHIVE_DATE:formattedArchiveDate,
         START_YEAR:this.customerForm.value.START_YEAR,
         GENERATE_FIRST_XML:this.customerForm.value.GENERATE_FIRST_XML,
       };
@@ -230,7 +251,7 @@ export class AddCustomerDialogComponent {
           ARCHIVE_DATE:this.editData.ARCHIVE_DATE,
           START_YEAR:this.editData.START_YEAR,
           GENERATE_FIRST_XML:this.editData.GENERATE_FIRST_XML
-
+          
         });
 
       });
@@ -294,6 +315,28 @@ emailValidator(control: AbstractControl): { [key: string]: boolean } | null {
   return null;
 }
 
+setInvalidTab(): void {
+  const controls = this.customerForm.controls;
+
+  // Check if Customer tab fields are valid
+  if (
+    controls['CUST_NAME'].invalid || 
+    controls['CONTACT_NAME'].invalid || 
+    controls['RESELLER_NAME'].invalid || 
+    controls['ADDRESS'].invalid || 
+    controls['EMAIL'].invalid || 
+    controls['PHONE'].invalid || 
+    controls['COUNTRY_NAME'].invalid || 
+    controls['EMIRATE'].invalid || 
+    controls['EDITION'].invalid
+  ) {
+    // Customer tab has errors, set currentPage to 0 (Customer tab)
+    this.currentPage = 0;
+  } else {
+    // Customer tab is valid, move to Configuration tab
+    this.currentPage = 1;
+  }
+}
 }
 
 
