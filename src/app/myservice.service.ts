@@ -443,8 +443,8 @@ getEditionMenuList():Observable<any>{
  }
  //user
  addUsers(data:object):Observable<any>{
-  const headers = this.createHeaders();
-  return this.http.post(this.apiUrl+'users/insert',data,{headers});
+  // const headers = this.createHeaders();
+  return this.http.post(this.apiUrl+'users/insert',data);
  }
  getUserById(ID:number,data:any){
   const getEndpoint = `${this.apiUrl+'users/select/'}${ID}`;

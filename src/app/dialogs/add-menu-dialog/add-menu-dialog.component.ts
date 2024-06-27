@@ -320,7 +320,7 @@ export class AddMenuDialogComponent {
           postData['ID'] = this.menuForm.value.ID;
           this.service.updateMenu(postData).subscribe(
             (data: any) => {
-              this.openMenuDialog('Menu', 'Menu is updated successfully');
+              this.openMenuDialog('Menu', 'Menu updated successfully');
               this.dialogRef.close('update');
             },
             (error: any) => {
@@ -330,7 +330,7 @@ export class AddMenuDialogComponent {
         } else {
           this.service.addMenu(postData).subscribe(
             (data: any) => {
-              this.openMenuDialog('Menu', 'Menu is added successfully');
+              this.openMenuDialog('Menu', 'Menu added successfully');
               this.dialogRef.close('insert');
             },
             (error: any) => {

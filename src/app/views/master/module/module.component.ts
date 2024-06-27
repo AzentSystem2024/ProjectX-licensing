@@ -117,7 +117,8 @@ export class ModuleComponent implements OnInit{
   deleteModule(ID:number, module:any):void{
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       data: {
-        message: 'Are you sure you want to delete this data?'
+        message: 'Are you sure you want to delete this data?',
+        title:'Module',
   
       }
     });

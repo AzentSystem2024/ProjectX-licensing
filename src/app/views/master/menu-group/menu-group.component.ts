@@ -115,8 +115,8 @@ export class MenuGroupComponent implements OnInit {
     deleteMenuGroup(ID:number, menuGroup:any):void{
       const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
         data: {
-          message: 'Are you sure you want to delete this data?'
-    
+          message: 'Are you sure you want to delete this data?',
+          title:'Menu Group'
         }
       });
     

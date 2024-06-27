@@ -119,7 +119,7 @@ export class AddModuleDialogComponent {
         postData['ID'] = this.moduleForm.value.ID
         this.service.updateModule(postData).subscribe((data : any) => {
           console.log(data,"menugroup updateddddddddd")
-          this.openModuleAddedDialog("module", "module is updated successfully");
+          this.openModuleAddedDialog("module", "module updated successfully");
           this.dialogRef.close('update');
         },
         (error : any) =>{
@@ -131,7 +131,7 @@ export class AddModuleDialogComponent {
         else {
           this.service.addModule(postData).subscribe((data : any) => {
             console.log(data, "module added successfully");
-            this.openModuleAddedDialog("module", "module is added successfully");
+            this.openModuleAddedDialog("module", "module added successfully");
             this.dialogRef.close('insert');
           },
           (error : any) =>{

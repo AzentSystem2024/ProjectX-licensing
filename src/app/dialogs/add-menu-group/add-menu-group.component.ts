@@ -232,7 +232,7 @@ export class AddMenuGroupComponent {
             console.log(data, 'menugroup updateddddddddd');
             this.openMenuGroupAddedDialog(
               'menugroup',
-              'menugroup is updated successfully'
+              'menugroup  updated successfully'
             );
             this.dialogRef.close('update');
           },
@@ -246,7 +246,7 @@ export class AddMenuGroupComponent {
             console.log(data, 'menu group added successfully');
             this.openMenuGroupAddedDialog(
               'menugroup',
-              'menugroup is added successfully'
+              'menugroup added successfully'
             );
             this.dialogRef.close('insert');
           },

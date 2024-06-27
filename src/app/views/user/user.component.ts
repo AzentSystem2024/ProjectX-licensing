@@ -103,7 +103,8 @@ Filterchange(event: Event) {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       
       data: {
-        message: 'Are you sure you want to delete this data?'
+        message: 'Are you sure you want to delete this data?',
+        title:'User'
   
       }
     });

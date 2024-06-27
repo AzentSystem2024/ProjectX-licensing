@@ -39,7 +39,7 @@ export class AddCustomerDialogComponent {
   filteredOptions2:any;
   filteredOptions3:any;
   filteredOptions4:any;
-  currentPage: number = 1;
+  currentPage: number = 0;
   editData:any;
   userId:any;
   
@@ -126,6 +126,11 @@ export class AddCustomerDialogComponent {
     
   onSubmit(){
     
+    // Check form validity
+    if (this.customerForm.invalid) {
+    this.setInvalidTab(); // Switch to the tab containing the first invalid control
+    return; // Prevent submission if form is invalid
+   }
     
     this.submit=true;
     const selectedCountry = this.countrylist.find(item => item.description == this.customerForm.value.COUNTRY_NAME);
@@ -246,7 +251,7 @@ const formattedArchiveDate = `${archiveDate.getFullYear()}-${padToTwoDigits(arch
           ARCHIVE_DATE:this.editData.ARCHIVE_DATE,
           START_YEAR:this.editData.START_YEAR,
           GENERATE_FIRST_XML:this.editData.GENERATE_FIRST_XML
-
+          
         });
 
       });
@@ -310,6 +315,28 @@ emailValidator(control: AbstractControl): { [key: string]: boolean } | null {
   return null;
 }
 
+setInvalidTab(): void {
+  const controls = this.customerForm.controls;
+
+  // Check if Customer tab fields are valid
+  if (
+    controls['CUST_NAME'].invalid || 
+    controls['CONTACT_NAME'].invalid || 
+    controls['RESELLER_NAME'].invalid || 
+    controls['ADDRESS'].invalid || 
+    controls['EMAIL'].invalid || 
+    controls['PHONE'].invalid || 
+    controls['COUNTRY_NAME'].invalid || 
+    controls['EMIRATE'].invalid || 
+    controls['EDITION'].invalid
+  ) {
+    // Customer tab has errors, set currentPage to 0 (Customer tab)
+    this.currentPage = 0;
+  } else {
+    // Customer tab is valid, move to Configuration tab
+    this.currentPage = 1;
+  }
+}
 }
 
 

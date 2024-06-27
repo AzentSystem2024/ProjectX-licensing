@@ -15,7 +15,10 @@
             formControlName="RESELLER_NAME"
             placeholder="Enter Reseller Name"
           />
-          <!-- <mat-error *ngIf="submit && f.RESELLER_NAME.errors">*Reseller name is required</mat-error> -->
+          <mat-error *ngIf="f.RESELLER_NAME.errors?.['duplicateReseller']">
+            Reseller already exists..!
+          </mat-error>
+         
         </mat-form-field>
         <mat-form-field appearance="fill" class="form-group">
           <mat-label>Phone</mat-label>
@@ -57,7 +60,9 @@
             formControlName="LOGIN_NAME"
             placeholder="Enter Login Name"
           />
-          <!-- <div *ngIf="loginNameExists" class="exist text-danger">* Login name already exists..</div>  -->
+          <mat-error *ngIf="f.LOGIN_NAME.errors?.['duplicateLoginName']">
+            Login Name already exists..!
+          </mat-error>
         </mat-form-field>
 
         <mat-form-field appearance="fill" class="form-group">

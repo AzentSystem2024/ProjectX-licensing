@@ -5,7 +5,7 @@
    
             <form [formGroup]="customerForm" class="p-4" (ngSubmit)="onSubmit()">
                 <h2 class="mb-4">{{ mode === 'add' ? 'New Customer' : 'Update Customer' }}</h2>
-                <mat-tab-group>
+                <mat-tab-group [(selectedIndex)]="currentPage">
                     <mat-tab label="Customer">
                 <!-- Form Fields -->
                 <div class="row mt-2">
