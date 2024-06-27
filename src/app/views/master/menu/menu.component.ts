@@ -84,6 +84,7 @@ export class MenuComponent {
   deleteMenu(ID:number, menu:any):void{
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       data: {
+        
         message: 'Are you sure you want to delete this data?'
   
       }
@@ -94,7 +95,7 @@ export class MenuComponent {
       if (result) {
         this.service.deleteMenu(ID,menu).subscribe(
           (res: any) => {
-            console.log('user is deleted', res);
+            console.log('Menu is deleted', res);
             this.getMenu();
           }
         );
@@ -111,8 +112,6 @@ export class MenuComponent {
       data: {
         id:menuId,
         mode:'update'
-  
-        
       }
   
     });

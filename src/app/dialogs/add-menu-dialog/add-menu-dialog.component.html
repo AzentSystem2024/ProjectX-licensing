@@ -54,7 +54,7 @@
             placeholder="Enter Menu Key"
           />
           <mat-error *ngIf="f.MENU_KEY.errors?.['duplicateMenuKey']">
-            Duplicate menu key is not allowed.
+            Duplicate menu key not allowed.
           </mat-error>
           <!-- <mat-error *ngIf="submit && f.RESELLER_NAME.errors">*Reseller name is required</mat-error> -->
         </mat-form-field>
@@ -87,7 +87,7 @@
             placeholder="Enter Menu Order"
           />
           <mat-error *ngIf="f.MENU_ORDER.errors?.['duplicateMenuOrder']">
-            Duplicate menu order is not allowed.
+            Duplicate menu order not allowed.
           </mat-error>
           <!-- <mat-error *ngIf="submit && f.RESELLER_NAME.errors">*Reseller name is required</mat-error> -->
         </mat-form-field>

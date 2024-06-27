@@ -66,7 +66,7 @@ export class AddMenuDialogComponent {
     MENU_GROUP: ['', [Validators.required, this.noWhitespaceOrSpecialChar]],
     MENU_NAME: ['', [Validators.required, this.noWhitespaceOrSpecialChar]],
     MENU_VERSION: ['', [Validators.required, this.noWhitespaceOrSpecialChar]],
-    REMARKS: ['', [Validators.required, this.noWhitespaceOrSpecialChar]],
+    REMARKS: ['', [ this.noWhitespaceOrSpecialChar]],
     MENU_KEY: ['', [Validators.required, this.checkDuplicateMenuKey.bind(this)]],
     MENU_ORDER: ['', [Validators.required, this.numberValidator.bind(this)]],
   });
@@ -177,62 +177,6 @@ export class AddMenuDialogComponent {
     return null;
   }
 
-  // numberValidator(
-  //   control: AbstractControl
-  // ): { [key: string]: boolean } | null {
-  //   const value = control.value;
-  //   if (value && !/^-?\d*\.?\d+$/.test(value)) {
-  //     return { invalidNumber: true };
-  //   }
-  //   return null;
-  // }
-
-//   numberValidator(control: AbstractControl): ValidationErrors | null {
-//     const value = control.value;
-//     const formGroup = control.parent as FormGroup;
-
-//     if (value && !/^-?\d*\.?\d+$/.test(value)) {
-//         return { invalidNumber: true }; // Validate if the value is a number
-//     }
-
-//     if (formGroup && this.menu) {
-//         const currentOrderValue = parseFloat(value);
-
-//         // Check for duplicates among MENU_ORDER values in existing menu items
-//         const duplicateExists = this.menu.some(item => {
-//             const itemOrderValue = parseFloat(item.MENU_ORDER); // Access MENU_ORDER here
-//             return itemOrderValue === currentOrderValue;
-//         });
-
-//         if (duplicateExists) {
-//             return { duplicateMenuOrder: true };
-//         }
-//     }
-
-//     return null;
-// }
-
-// checkDuplicateMenuKey(control: AbstractControl): ValidationErrors | null {
-//   const value = control.value;
-//   const formGroup = control.parent as FormGroup;
-//   if (formGroup && this.menu) {
-//     const currentOrderValue = parseFloat(value);
-
-//     // Check for duplicates among MENU_ORDER values in existing menu items
-//     const duplicateExists = this.menu.some(item => {
-//         const itemOrderValue = parseFloat(item.MENU_KEY); // Access MENU_ORDER here
-//         return itemOrderValue === currentOrderValue;
-//     });
-
-//     if (duplicateExists) {
-//         return { duplicateMenuKey: true };
-//     }
-// }
-// return null;
-// }
-
-
-
   noWhitespaceOrSpecialChar(
     control: AbstractControl
   ): { [key: string]: boolean } | null {
@@ -320,7 +264,7 @@ export class AddMenuDialogComponent {
           postData['ID'] = this.menuForm.value.ID;
           this.service.updateMenu(postData).subscribe(
             (data: any) => {
-              this.openMenuDialog('Menu', 'Menu is updated successfully');
+              this.openMenuDialog('Menu', 'Menu updated successfully');
               this.dialogRef.close('update');
             },
             (error: any) => {
@@ -330,7 +274,7 @@ export class AddMenuDialogComponent {
         } else {
           this.service.addMenu(postData).subscribe(
             (data: any) => {
-              this.openMenuDialog('Menu', 'Menu is added successfully');
+              this.openMenuDialog('Menu', 'Menu added successfully');
               this.dialogRef.close('insert');
             },
             (error: any) => {

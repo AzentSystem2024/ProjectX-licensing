@@ -63,9 +63,7 @@ export class ModuleComponent implements OnInit{
         }
       });
     }
-  
-
-
+    
   Filterchange(data : Event){
 
   }

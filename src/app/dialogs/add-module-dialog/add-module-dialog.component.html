@@ -18,6 +18,9 @@
               formControlName="MODULE_NAME"
               placeholder="Enter Module Name"
             />
+            <mat-error *ngIf="f.MODULE_NAME.errors?.['duplicateModule']">
+              Duplicate module not allowed.
+            </mat-error>
           </mat-form-field>
         </div>
    

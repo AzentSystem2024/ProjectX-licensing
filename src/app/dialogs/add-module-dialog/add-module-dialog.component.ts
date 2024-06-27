@@ -1,13 +1,13 @@
 import { Component, Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AbstractControl, FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
 import { MatError, MatFormFieldModule, MatLabel } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatIconModule } from '@angular/material/icon';
-import { MyserviceService } from 'src/app/myservice.service';
+import { GetModule, MyserviceService } from 'src/app/myservice.service';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertDialogComponent } from 'src/app/alert-dialog/alert-dialog.component';
@@ -35,6 +35,7 @@ export class AddModuleDialogComponent {
   submit = false;
   mode: 'add' | 'update' = 'add';
   loading = false;
+  module! : GetModule[]
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -50,7 +51,7 @@ export class AddModuleDialogComponent {
 
   moduleForm=this.fb.group({
     ID:[''],
-    MODULE_NAME:['',[Validators.required, this.noWhitespaceOrSpecialChar]],
+    MODULE_NAME:['',[Validators.required, this.noWhitespaceOrSpecialChar, this.checkDuplicateModule.bind(this)]],
   })
 
   ngOnInit(): void {
@@ -63,7 +64,6 @@ export class AddModuleDialogComponent {
         console.log('byid',res);
         this.moduleForm.setValue({
           ID:this.editData.ID,
-          // RESELLER_CODE:this.editData.RESELLER_CODE,
           MODULE_NAME:this.editData.MODULE_NAME,
         });
         
@@ -118,7 +118,6 @@ export class AddModuleDialogComponent {
         console.log(this.moduleForm.value.ID,"module id")
         postData['ID'] = this.moduleForm.value.ID
         this.service.updateModule(postData).subscribe((data : any) => {
-          console.log(data,"menugroup updateddddddddd")
           this.openModuleAddedDialog("module", "module is updated successfully");
           this.dialogRef.close('update');
         },
@@ -141,10 +140,22 @@ export class AddModuleDialogComponent {
         }
       
     }
+  }
 
-    
-   
-
+  checkDuplicateModule(control: AbstractControl): ValidationErrors | null {
+    const value = control.value;
+    const formGroup = control.parent as FormGroup;
+    if (formGroup && this.module) {
+      const currentItemId = formGroup.get('ID')?.value;
+      const duplicateExists = this.module.some(item => {
+        const isSameItem = item.ID === currentItemId;
+        return !isSameItem && item.MODULE_NAME === value;
+      });
+      if (duplicateExists) {
+        return { duplicateModule: true };
+      }
+    }
+    return null;
   }
 
   get f(){    
