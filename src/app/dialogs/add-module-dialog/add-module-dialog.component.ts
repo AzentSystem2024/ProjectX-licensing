@@ -55,9 +55,9 @@ export class AddModuleDialogComponent {
   })
 
   ngOnInit(): void {
-    
+  
     this.mode = this.data?.mode || 'add'; 
- 
+    this.getModule()
     if(this.data.id!=''&&this.data.id!=null){
       this.service.getModuleById(this.data.id,{}).subscribe(res=>{
         this.editData=res;
@@ -71,6 +71,7 @@ export class AddModuleDialogComponent {
       })
     }
   }
+
 
 
   noWhitespaceOrSpecialChar(
@@ -118,7 +119,7 @@ export class AddModuleDialogComponent {
         console.log(this.moduleForm.value.ID,"module id")
         postData['ID'] = this.moduleForm.value.ID
         this.service.updateModule(postData).subscribe((data : any) => {
-          this.openModuleAddedDialog("module", "module is updated successfully");
+          this.openModuleAddedDialog("module", "module updated successfully");
           this.dialogRef.close('update');
         },
         (error : any) =>{
@@ -130,7 +131,7 @@ export class AddModuleDialogComponent {
         else {
           this.service.addModule(postData).subscribe((data : any) => {
             console.log(data, "module added successfully");
-            this.openModuleAddedDialog("module", "module is added successfully");
+            this.openModuleAddedDialog("module", "Module added successfully");
             this.dialogRef.close('insert');
           },
           (error : any) =>{
@@ -156,6 +157,14 @@ export class AddModuleDialogComponent {
       }
     }
     return null;
+  }
+
+  getModule() {
+    this.service.getModule().subscribe((data: any) => {
+      this.module = data;
+      console.log(data, 'modulesssssss');
+      this.moduleForm.get('MODULE_NAME')?.updateValueAndValidity();
+    });
   }
 
   get f(){    

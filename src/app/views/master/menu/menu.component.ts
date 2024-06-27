@@ -18,6 +18,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { AddMenuDialogComponent } from '../../../dialogs/add-menu-dialog/add-menu-dialog.component';
 import { ConfirmationDialogComponent } from 'src/app/confirmation-dialog/confirmation-dialog.component';
+import { AlertDialogComponent } from 'src/app/alert-dialog/alert-dialog.component';
 
 @Component({
   selector: 'app-menu',
@@ -95,8 +96,13 @@ export class MenuComponent {
       if (result) {
         this.service.deleteMenu(ID,menu).subscribe(
           (res: any) => {
-            console.log('Menu is deleted', res);
-            this.getMenu();
+            if(res){
+              this.openMenuAddedDialog('Menu', "Menu deleted successfully");
+              console.log('menu deleted', res);
+              this.getMenu();
+            }else{
+              this.openMenuAddedDialog("Menu", "Delete operation failed");
+            }
           }
         );
       }
@@ -125,6 +131,13 @@ export class MenuComponent {
           this.getMenu();
         }
       });
+  }
+
+  openMenuAddedDialog(title: string, message: string){
+    const dialogRef = this.dialog.open(AlertDialogComponent, {
+      width: '300px',
+      data: { title: title, message: message }
+  });
   }
 
   openMenuPopup() {

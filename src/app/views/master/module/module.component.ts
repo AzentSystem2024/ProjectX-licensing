@@ -10,6 +10,7 @@ import { GetModule, MyserviceService } from 'src/app/myservice.service';
 import { AddModuleDialogComponent } from '../../../dialogs/add-module-dialog/add-module-dialog.component'
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from 'src/app/confirmation-dialog/confirmation-dialog.component';
+import { AlertDialogComponent } from 'src/app/alert-dialog/alert-dialog.component';
 
 @Component({
   selector: 'app-module',
@@ -127,13 +128,26 @@ export class ModuleComponent implements OnInit{
       if (result) {
         this.service.deleteModule(ID,module).subscribe(
           (res: any) => {
-            console.log('module is deleted', res);
-            this.getModule();
+            if(res){
+              this.openModuleAddedDialog("Module", "Module deleted successfully");
+              console.log('module deleted', res);
+              this.getModule();
+            }else{
+              this.openModuleAddedDialog("Module", "Delete operation failed");
+            }
+
           }
         );
       }
       
     });
+  }
+
+  openModuleAddedDialog(title: string, message: string){
+    const dialogRef = this.dialog.open(AlertDialogComponent, {
+      width: '300px',
+      data: { title: title, message: message }
+  });
   }
 
 }
