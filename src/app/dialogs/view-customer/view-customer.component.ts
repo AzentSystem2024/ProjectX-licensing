@@ -260,6 +260,7 @@ openMenuAddedDialog(title: string, message: string){
       result => {
         if (result==='insert') {
           this.fetchAndFilterFacilityData();
+          this.fetchMenuData();
         }
       });
   }

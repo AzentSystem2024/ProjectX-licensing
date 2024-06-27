@@ -50,7 +50,6 @@ export class MyserviceService {
 
 
 
-
   public endpoint="http://projectxlicenseapi.diligenzit.com/api/users/List";
   
   public endpoint1="http://projectxlicenseapi.diligenzit.com/api/users/insert";
@@ -141,8 +140,10 @@ export class MyserviceService {
 
    private createHeaders() {
     const token = this.getToken();
+    console.log('tokenis',token);
     return new HttpHeaders({
-      'Authorization': `Bearer ${token}`
+      'Content-Type' : 'application/json',
+      'Authorization': `${token}`
     });
   }
 
@@ -390,7 +391,7 @@ addFacility(data:object):Observable<any>{
   return this.http.post(deleteEndpoint,data);
  }
  updateFacility(data:any):Observable<any>{
-  return this.http.post(this.endpoint0005,data);
+  return this.http.post(this.apiUrl+'facility/update',data);
  }
 
  
@@ -414,7 +415,6 @@ getEditionMenuList():Observable<any>{
  updateEdition(data:any):Observable<any>{
   return this.http.post(this.apiUrl+'edition/update',data);
  }
-
 
  getEditionById(ID:number,data:any){
   const getEndpoint = `${this.apiUrl+'edition/select/'}${ID}`;

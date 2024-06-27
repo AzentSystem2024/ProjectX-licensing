@@ -49,28 +49,24 @@ export class CustomerComponent implements OnInit {
 
   // }
 
-  //filter
-  Filterchange(data: Event) {
-    const filterValue = (data.target as HTMLInputElement).value;
-    
-    const customFilterPredicate = (data: any, filter: string) => {
-      const keys = Object.keys(data);
-      for (const key of keys) {
-          if (key !== 'ID' && key !== 'COUNTRY_ID' && key !== 'RESELLER_ID') {
-              const value = data[key];
-              if (value !== null && value !== undefined && value.toString().toLowerCase().includes(filter.toLowerCase())) {
-                  return true; // Include row if any non-password column matches the filter
-              }
-          }
-      }
-
-      return false; // Exclude row if no non-password column matches the filter
-  };
+  Filterchange(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
   
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-    this.dataSource.filterPredicate = customFilterPredicate;
+    // Use the default filterPredicate but set it up to ignore specific columns.
+    this.dataSource.filterPredicate = (data: any, filter: string) => {
+      // Define the keys to be ignored in the filtering process.
+      const excludedColumns = ['slNo'];
+      
+      // Check each field in the row except the excluded columns for a match.
+      return Object.keys(data).some(key => {
+        if (!excludedColumns.includes(key)) {
+          return data[key]?.toString().toLowerCase().includes(filter);
+        }
+        return false;
+      });
+    };
   
-    
+    this.dataSource.filter = filterValue;
   }
 
 
@@ -116,9 +112,14 @@ export class CustomerComponent implements OnInit {
   }
   
   openCustomerPopup(){
+    // Determine if the device is mobile
+    const isMobile = window.innerWidth < 768;
     const dialogRef = this.dialog.open(AddCustomerDialogComponent, {
-      width: '690px',
-      height: '610px',
+    width: isMobile ? '100vw' : '690px',
+    height: isMobile ? '100vh' : '610px',
+    maxWidth: '100vw',
+    maxHeight: '100vh',
+    panelClass: isMobile ? 'full-screen-dialog' : '', // Optional: custom class for further styling
   
   });
   dialogRef.afterClosed().subscribe(
@@ -131,9 +132,14 @@ export class CustomerComponent implements OnInit {
   }
 
   editCustomer(customer:any):void{
+    // Determine if the device is mobile
+    const isMobile = window.innerWidth < 768;
     const dialogRef = this.dialog.open(AddCustomerDialogComponent,{
-      width: '690px',
-      height: '618px',
+    width: isMobile ? '100vw' : '690px',
+    height: isMobile ? '100vh' : '610px',
+    maxWidth: '100vw',
+    maxHeight: '100vh',
+    panelClass: isMobile ? 'full-screen-dialog' : '', // Optional: custom class for further styling
       data: {
         id:customer.ID,
         customer:customer,
@@ -176,11 +182,13 @@ export class CustomerComponent implements OnInit {
   }
 
   viewCustomer(customer:any){
+    const isMobile = window.innerWidth < 768;
     const dialogRef = this.dialog.open(ViewCustomerComponent,{
-      width: '70vw', // 70% of the viewport width
-      maxWidth: '100vw', // maximum width to ensure it doesn't overflow
-      height: '82vh', // 85% of the viewport height
-      maxHeight: '100vh', // maximum height to ensure it doesn't overflow
+    width: isMobile ? '100vw' : '70vw',
+    height: isMobile ? '100vh' : '85vh',
+    maxWidth: '100vw',
+    maxHeight: '100vh',
+    panelClass: isMobile ? 'full-screen-dialog' : '', // Optional: custom class for further styling
       data: {
         id:customer.ID,
         customer:customer,

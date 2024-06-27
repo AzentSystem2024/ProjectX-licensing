@@ -48,36 +48,10 @@ export const navItems: INavData[] = [
       {
         name: 'Facility',
         url: '/master/facility'
-      },
-      {
-        name: 'Product',
-        url: '/master/product'
-      },
-      
+      }, 
     ]
   },
-  {
-    name: 'Activity',
-    url: '/activity',
-    iconComponent: { name: 'cil-list' },
-    children: [
-      {
-        name: 'License',
-        url: '/activity/license'
-      },
-    ]
-  },
-  {
-    name: 'Reports',
-    url: '/report',
-    iconComponent: { name: 'cil-cursor' },
-    children: [
-      {
-        name: 'License',
-        url: '/report/licensereport',
-      },
-    ]
-  },
+  
   
   
  

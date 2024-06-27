@@ -52,9 +52,14 @@ export class ModuleComponent implements OnInit{
   }
 
   openModulePopup(){
+    // Determine if the device is mobile
+    const isMobile = window.innerWidth < 768;
     const dialogRef = this.dialog.open(AddModuleDialogComponent, {
-      width: '600px',
-      height:'400px',
+    width: isMobile ? '100vw' : '400px',
+    height: isMobile ? '100vh' : '300px',
+    maxWidth: '100vw',
+    maxHeight: '100vh',
+    panelClass: isMobile ? 'full-screen-dialog' : '', // Optional: custom class for further styling
     });
     dialogRef.afterClosed().subscribe(
       result => {
@@ -63,15 +68,37 @@ export class ModuleComponent implements OnInit{
         }
       });
     }
-    
-  Filterchange(data : Event){
+  
 
-  }
+
+    Filterchange(event: Event) {
+      const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
+    
+      // Use the default filterPredicate but set it up to ignore specific columns.
+      this.dataSource.filterPredicate = (data: any, filter: string) => {
+        // Define the keys to be ignored in the filtering process.
+        const excludedColumns = ['slNo'];
+        
+        // Check each field in the row except the excluded columns for a match.
+        return Object.keys(data).some(key => {
+          if (!excludedColumns.includes(key)) {
+            return data[key]?.toString().toLowerCase().includes(filter);
+          }
+          return false;
+        });
+      };
+    
+      this.dataSource.filter = filterValue;
+    }
 
   editModule(moduleId:number):void{
+    const isMobile = window.innerWidth < 768;
     const dialogRef = this.dialog.open(AddModuleDialogComponent,{
-      width: '600px',
-      height:'400px',
+    width: isMobile ? '100vw' : '400px',
+    height: isMobile ? '100vh' : '300px',
+    maxWidth: '100vw',
+    maxHeight: '100vh',
+    panelClass: isMobile ? 'full-screen-dialog' : '', // Optional: custom class for further styling
       data: {
         id:moduleId,
         mode:'update'

@@ -1,15 +1,6 @@
 .mat-card-header{
     position: relative;
 }
-.search-container {
-    position: absolute;
-    top: 0;
-    right: 0;
-    margin-top: 20px; /* Adjust as needed */
-    margin-right: 20px;
-    margin-bottom: 20px;
-     
-}
 
 .filter {
     width: 100%;
@@ -40,24 +31,10 @@
     border-spacing: 0;
   }
   .table-container {
-    min-height: 400px; /* Adjust based on your layout */
-    overflow-y: auto;
+    min-height: 540px; /* Adjust based on your layout */
+    overflow-y: hidden;
     overflow-x: auto;
     display: block;
-  }
-  .no-records-found{
-    height:400px;
-  }
-  tr.mat-header-row {
-    position: sticky;
-    top: 0;
-    padding-top: 0;
-    z-index: 1;
-  
-  }
-  .mat-header-cell {
-    z-index: 2;
-    background: hsl(224, 94%, 44%); /* Change color as needed */
   }
   mat-card-footer {
     position: sticky;
@@ -67,4 +44,59 @@
     padding: 0;
   }
 
+  .no-records-found{
+    height: 540px;;
+  }
+  tr.mat-header-row {
+    position: sticky;
+    top: 0;
+    padding-top: 0;
+    z-index: 1;
+  
+  }
+
+  .sticky-table-header {
+    position: sticky;
+  }
+  /* Mobile styles */
+@media (max-width: 600px) {
+  
+
+  .heading {
+    font-size: 1.25rem; /* Larger font size for mobile */
+    margin-bottom: 0.5rem;
+  }
+  .card{
+    z-index: 2;
+  }
+
+  
+
+  .m-2 {
+    margin: 0.5rem 0;
+  }
+
+  table {
+    display: block; /* Make table scrollable */
+    overflow-x: auto;
+  }
+
+  th,
+  td {
+    padding: 0.5rem 0.75rem;
+    white-space: nowrap; /* Prevent text wrapping */
+  }
+
+  .table-container {
+    min-height: auto; /* Adjust based on your layout */
+    overflow-x: auto;
+  }
+
+  .mat-card-footer {
+    padding: 1rem;
+  }
+}
+ 
+  
+  
   

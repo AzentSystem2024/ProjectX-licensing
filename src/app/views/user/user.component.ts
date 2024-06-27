@@ -38,11 +38,14 @@ export class UserComponent implements OnInit {
   @ViewChild(MatSort) sortt!:MatSort;
 
   openpopup(){
+    const isMobile = window.innerWidth < 768;
     const dialogRef = this.dialog.open(AddUserDialogComponent, {
-      width: '400px',
-      height: '500px',
-      
-    
+    width: isMobile ? '100vw' : '400px',
+    height: isMobile ? '100vh' : '500px',
+    maxWidth: '100vw',
+    maxHeight: '100vh',
+    panelClass: isMobile ? 'full-screen-dialog' : '', // Optional: custom class for further styling
+
   });
 
   dialogRef.afterClosed().subscribe(result => {
@@ -54,24 +57,24 @@ export class UserComponent implements OnInit {
 
 }
 
-Filterchange(data: Event) {
-  const filterValue = (data.target as HTMLInputElement).value;
-  
-  // Custom filter predicate to exclude password column from filtering
-  const customFilterPredicate = (data: any, filter: string) => {
-    const keys = Object.keys(data);
-    for (const key of keys) {
-      if (key !== 'PASSWORD' && key !== 'ID' && key !== 'USER_LEVEL'&& data[key].toString().toLowerCase().includes(filter.toLowerCase())) {
-        return true; // Include row if any non-password column matches the filter
+Filterchange(event: Event) {
+  const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
+
+  // Use the default filterPredicate but set it up to ignore specific columns.
+  this.dataSource.filterPredicate = (data: any, filter: string) => {
+    // Define the keys to be ignored in the filtering process.
+    const excludedColumns = ['PASSWORD', 'ID', 'USER_LEVEL'];
+    
+    // Check each field in the row except the excluded columns for a match.
+    return Object.keys(data).some(key => {
+      if (!excludedColumns.includes(key)) {
+        return data[key]?.toString().toLowerCase().includes(filter);
       }
-    }
-    return false; // Exclude row if no non-password column matches the filter
+      return false;
+    });
   };
 
-  this.dataSource.filter = filterValue.trim().toLowerCase();
-  this.dataSource.filterPredicate = customFilterPredicate;
-
-  
+  this.dataSource.filter = filterValue;
 }
 
   getUserData(){
@@ -120,10 +123,13 @@ Filterchange(data: Event) {
   }
 
   editUser(userId:number):void{
-
+    const isMobile = window.innerWidth < 768;
     const dialogRef = this.dialog.open(AddUserDialogComponent,{
-      width: '400px',
-      height: '530px',
+    width: isMobile ? '100vw' : '400px',
+    height: isMobile ? '100vh' : '500px',
+    maxWidth: '100vw',
+    maxHeight: '100vh',
+    panelClass: isMobile ? 'full-screen-dialog' : '', // Optional: custom class for further styling
       data: {
         id:userId,
         mode:'update'

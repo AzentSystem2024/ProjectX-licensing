@@ -118,6 +118,7 @@ export class AddUserDialogComponent implements OnInit {
 
 
   openUserAddedDialog(title: string, message: string) {
+    
     const dialogRef = this.dialog.open(AlertDialogComponent, {
         width: '300px',
         data: { title: title, message: message }

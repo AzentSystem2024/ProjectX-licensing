@@ -11,9 +11,9 @@
 
 <div class="d-flex" style="align-items: center;">
   <p class="card card-count bg-primary text-white">License <span style="font-weight: bold;">{{customerData.LICENSE_COUNT}}</span></p>
-  <p class="card card-count bg-success text-white">Active <span style="font-weight: bold;">{{customerData.LICENSE_ACTIVE_COUNT}}</span></p>
+  <p class="card card-count bg-success text-white">Active <span style="font-weight: bold;">{{customerData.LICENSE_EXPIRED_COUNT}}</span></p>
   <p class="card card-count bg-danger text-white">InActive <span style="font-weight: bold;">{{customerData.LICENSE_INACTIVE_COUNT}}</span></p>
-  <p class="card card-count bg-secondary text-white">Expired <span style="font-weight: bold;">{{customerData.LICENSE_EXPIRED_COUNT}}</span></p>
+  <p class="card card-count bg-secondary text-white">Expired <span style="font-weight: bold;">{{customerData.LICENSE_ACTIVE_COUNT}}</span></p>
   </div>
   
 <mat-tab-group>
@@ -105,7 +105,7 @@
     </ng-container>
   
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;" [matTooltip]="row.tooltipText"></tr>
     </table>
   </div>
   
@@ -124,7 +124,7 @@
   <p class="mt-2">Edition - <span style="font-weight: bold;">{{customerData.EDITION_NAME}}</span></p>
 </div>
 <div class="col-md-6" style="text-align: right;">
-  <button *ngIf="saveButtonVisible" mat-raised-button class="m-3 bg-success text-white" (click)="saveChanges()">Save</button>
+  <button *ngIf="saveButtonVisible && levelName !== 'Reseller'" mat-raised-button class="m-3 bg-success text-white" (click)="saveChanges()" >Save</button>
 </div>
 </div>
 <mat-card>

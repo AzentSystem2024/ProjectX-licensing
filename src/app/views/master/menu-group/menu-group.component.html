@@ -1,41 +1,33 @@
 <div class="card mb-1">
-  <h5 class="heading">Menu Group</h5>
-</div>
-<div class="card">
-  <div class="card-body">
-    <div class="mb-3">
-      <button
-        mat-raised-button
-        color="primary"
-        class="text-white"
-        (click)="openMenuGroupPopup()"
-      >
-        Add <i class="pi pi-plus"></i>
-      </button>
-      <div class="search-container">
-        <input
-          matInput
-          (keyup)="Filterchange($event)"
-          placeholder="Filter"
-          class="filter"
-        />
-      </div>
+  <div class="d-flex">
+    <h5 class="heading">Menu Group</h5>
+    <button  mat-raised-button color="primary" class="text-white ms-auto m-2" (click)="openMenuGroupPopup()">
+      Add <i class="pi pi-plus"></i>
+    </button>
+    <div class="m-2">
+      <input
+        matInput
+        (keyup)="Filterchange($event)"
+        placeholder="Filter"
+        class="filter"
+      />
     </div>
+    </div>
+</div>
 
     <mat-card>
       <mat-card-header> </mat-card-header>
 
       <mat-card-content>
-        <div class="table-responsive">
+        <div class="table-container">
           <table
-            matSort
             mat-table
             [dataSource]="dataSource"
             class="mat-elevation-z8"
           >
             <!-- no data found -->
             <ng-container *matNoDataRow>
-              <tr>
+              <tr class="no-records-found">
                 <td style="text-align: center" class="mat-cell" colspan="5">
                   No Records found
                 </td>
@@ -47,7 +39,7 @@
               </ng-container>
 
             <ng-container matColumnDef="Menu Group">
-              <th mat-sort-header mat-header-cell *matHeaderCellDef>
+              <th mat-header-cell *matHeaderCellDef>
                 Menu Group
               </th>
               <td mat-cell *matCellDef="let menuGroup">
@@ -56,7 +48,7 @@
             </ng-container>
 
             <ng-container matColumnDef="Menu Key">
-              <th mat-sort-header mat-header-cell *matHeaderCellDef>
+              <th mat-header-cell *matHeaderCellDef>
                 Menu Key
               </th>
               <td mat-cell *matCellDef="let menuGroup">
@@ -64,7 +56,7 @@
               </td>
             </ng-container>
             <ng-container matColumnDef="Menu Order">
-              <th mat-sort-header mat-header-cell *matHeaderCellDef>
+              <th mat-header-cell *matHeaderCellDef>
                 Menu Oder
               </th>
               <td mat-cell *matCellDef="let menuGroup">
@@ -91,10 +83,9 @@
       </mat-card-content>
       <mat-card-footer>
         <mat-paginator
-          [pageSizeOptions]="[5, 10, 20]"
+          [pageSizeOptions]="[10]"
           showFirstLastButtons
         ></mat-paginator>
       </mat-card-footer>
     </mat-card>
-  </div>
-</div>
+
