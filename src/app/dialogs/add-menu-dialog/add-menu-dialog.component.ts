@@ -68,7 +68,7 @@ export class AddMenuDialogComponent {
     MENU_VERSION: ['', [Validators.required, this.noWhitespaceOrSpecialChar]],
     REMARKS: ['', [ this.noWhitespaceOrSpecialChar]],
     MENU_KEY: ['', [Validators.required, this.checkDuplicateMenuKey.bind(this)]],
-    MENU_ORDER: ['', [Validators.required, this.numberValidator.bind(this)]],
+    MENU_ORDER: ['', [Validators.required, this.numberValidator.bind(this), this.checkDuplicateMenuKey.bind(this)]],
   });
 
   constructor(
@@ -139,17 +139,47 @@ export class AddMenuDialogComponent {
     const formGroup = control.parent as FormGroup;
     if (formGroup && this.menu) {
       const currentItemId = formGroup.get('ID')?.value;
-      const duplicateExists = this.menu.some(item => {
+      const menuOrder = formGroup.get('MENU_ORDER')?.value;
+  
+      // Check for duplicate MENU_KEY
+      const duplicateKeyExists = this.menu.some(item => {
         const isSameItem = item.ID === currentItemId;
         return !isSameItem && item.MENU_KEY === value;
       });
   
-      if (duplicateExists) {
+      // Check for duplicate MENU_ORDER
+      const duplicateOrderExists = this.menu.some(item => {
+        const isSameItem = item.ID === currentItemId;
+        return !isSameItem && item.MENU_ORDER === menuOrder;
+      });
+  
+      if (duplicateKeyExists) {
         return { duplicateMenuKey: true };
+      }
+      if (duplicateOrderExists) {
+        return { duplicateMenuOrder: true };
       }
     }
     return null;
   }
+  
+
+  // checkDuplicateMenuKey(control: AbstractControl): ValidationErrors | null {
+  //   const value = control.value;
+  //   const formGroup = control.parent as FormGroup;
+  //   if (formGroup && this.menu) {
+  //     const currentItemId = formGroup.get('ID')?.value;
+  //     const duplicateExists = this.menu.some(item => {
+  //       const isSameItem = item.ID === currentItemId;
+  //       return !isSameItem && item.MENU_KEY === value;
+  //     });
+  
+  //     if (duplicateExists) {
+  //       return { duplicateMenuKey: true };
+  //     }
+  //   }
+  //   return null;
+  // }
 
   numberValidator(control: AbstractControl): ValidationErrors | null {
     const value = control.value;

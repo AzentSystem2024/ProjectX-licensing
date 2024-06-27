@@ -10,6 +10,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDialog } from '@angular/material/dialog';
 import { AddMenuGroupComponent } from '../../../dialogs/add-menu-group/add-menu-group.component'
 import { ConfirmationDialogComponent } from 'src/app/confirmation-dialog/confirmation-dialog.component';
+import { AlertDialogComponent } from 'src/app/alert-dialog/alert-dialog.component';
 
 @Component({
   selector: 'app-menu-group',
@@ -44,7 +45,6 @@ export class MenuGroupComponent implements OnInit {
   getMenuGroup() {
     this.service.getMenuGroup().subscribe((data: any) => {
       this.menuGroup = data;
-      console.log(data, 'menugrouppppppppppp');
       this.dataSource = new MatTableDataSource<GetMenuGroup>(this.menuGroup);
       this.dataSource.paginator = this.paginatior;
       this.dataSource.sort = this.sortt;
@@ -125,13 +125,26 @@ export class MenuGroupComponent implements OnInit {
         if (result) {
           this.service.deleteGroupMenu(ID,menuGroup).subscribe(
             (res: any) => {
-              console.log('user is deleted', res);
+              if(res){
+                this.openMenuAddedDialog('Menu Group', "Menu Group deleted successfully");
+                console.log('menu deleted', res);
+                this.getMenuGroup();
+              }else{
+                this.openMenuAddedDialog("Menu Group", "Delete operation failed");
+              }
               this.getMenuGroup();
             }
           );
         }
         
       });
+    }
+
+    openMenuAddedDialog(title: string, message: string){
+      const dialogRef = this.dialog.open(AlertDialogComponent, {
+        width: '300px',
+        data: { title: title, message: message }
+    });
     }
 
   }

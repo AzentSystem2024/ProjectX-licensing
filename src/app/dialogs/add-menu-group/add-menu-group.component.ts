@@ -231,8 +231,8 @@ export class AddMenuGroupComponent {
           (data: any) => {
             console.log(data, 'menugroup updateddddddddd');
             this.openMenuGroupAddedDialog(
-              'menugroup',
-              'menugroup is updated successfully'
+              'Menugroup',
+              'Menugroup updated successfully'
             );
             this.dialogRef.close('update');
           },
@@ -245,8 +245,8 @@ export class AddMenuGroupComponent {
           (data: any) => {
             console.log(data, 'menu group added successfully');
             this.openMenuGroupAddedDialog(
-              'menugroup',
-              'menugroup is added successfully'
+              'Menugroup',
+              'Menugroup added successfully'
             );
             this.dialogRef.close('insert');
           },

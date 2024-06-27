@@ -13,6 +13,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { AddEditionDialogComponent } from 'src/app/dialogs/add-edition-dialog/add-edition-dialog.component';
 import { ConfirmationDialogComponent } from 'src/app/confirmation-dialog/confirmation-dialog.component';
+import { AlertDialogComponent } from 'src/app/alert-dialog/alert-dialog.component';
 
 
 @Component({
@@ -64,8 +65,14 @@ deleteEdition(ID:any,edition:any):void{
     if (result) {
       this.service.deleteEdition(ID,edition).subscribe(
         (res: any) => {
-          console.log('edition is deleted', res);
-          this.getEditionData();
+          if(res){
+            this.openEditionAddedDialog('Edition','Edition deleted successfully')
+            console.log('edition is deleted', res);
+            this.getEditionData();
+          }else{
+            this.openEditionAddedDialog('Edition','Delete operation failed')
+          }
+
         }
       );
     }
@@ -73,6 +80,12 @@ deleteEdition(ID:any,edition:any):void{
   });
 }
 
+openEditionAddedDialog(title: string, message: string){
+  const dialogRef = this.dialog.open(AlertDialogComponent, {
+    width: '300px',
+    data: { title: title, message: message }
+});
+}
 
 Filterchange(event: Event) {
   const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();

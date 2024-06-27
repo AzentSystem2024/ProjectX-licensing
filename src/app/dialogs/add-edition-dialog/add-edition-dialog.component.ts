@@ -113,16 +113,6 @@ export class AddEditionDialogComponent {
         ID: res.ID,
         EDITION_NAME: res.EDITION_NAME,
       });
-
-      // // Set the selected menus
-      // const selectedMenuIds = res.edition_menu.map((menu: any) => menu.MENU_ID);
-      // this.editionMenuList.forEach((menu: any, index: number) => {
-      //   if (selectedMenuIds.includes(menu.MENU_ID)) {
-      //     (this.editionForm.get('EDITION_MENU') as FormArray).at(index).setValue(true);
-      //   }
-      // });
-
-      // Extract MENU_IDs from the response
       const selectedMenuIds = res.edition_menu.map((menu: any) => String(menu.MENU_ID));
       console.log('Selected Menu IDs:', selectedMenuIds);
 
