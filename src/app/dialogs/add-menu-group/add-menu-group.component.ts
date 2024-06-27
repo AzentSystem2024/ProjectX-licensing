@@ -163,31 +163,6 @@ export class AddMenuGroupComponent {
   }
   
 
-//   numberValidator(control: AbstractControl): ValidationErrors | null {
-//     const value = control.value;
-//     const formGroup = control.parent as FormGroup;
-
-//     if (value && !/^-?\d*\.?\d+$/.test(value)) {
-//         return { invalidNumber: true }; // Validate if the value is a number
-//     }
-
-//     if (formGroup && this.menuGroup) {
-//         const currentOrderValue = parseFloat(value);
-
-//         // Check for duplicates among MENU_ORDER values in existing menu items
-//         const duplicateExists = this.menuGroup.some(item => {
-//             const itemOrderValue = parseFloat(item.MENU_ORDER); // Access MENU_ORDER here
-//             return itemOrderValue === currentOrderValue;
-//         });
-
-//         if (duplicateExists) {
-//             return { duplicateMenuOrder: true };
-//         }
-//     }
-
-//     return null;
-// }
-
   openMenuGroupAddedDialog(title: string, message: string) {
     const dialogRef = this.dialog.open(AlertDialogComponent, {
       width: '300px',

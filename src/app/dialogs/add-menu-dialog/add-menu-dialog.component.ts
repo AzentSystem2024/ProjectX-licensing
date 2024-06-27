@@ -162,24 +162,6 @@ export class AddMenuDialogComponent {
     }
     return null;
   }
-  
-
-  // checkDuplicateMenuKey(control: AbstractControl): ValidationErrors | null {
-  //   const value = control.value;
-  //   const formGroup = control.parent as FormGroup;
-  //   if (formGroup && this.menu) {
-  //     const currentItemId = formGroup.get('ID')?.value;
-  //     const duplicateExists = this.menu.some(item => {
-  //       const isSameItem = item.ID === currentItemId;
-  //       return !isSameItem && item.MENU_KEY === value;
-  //     });
-  
-  //     if (duplicateExists) {
-  //       return { duplicateMenuKey: true };
-  //     }
-  //   }
-  //   return null;
-  // }
 
   numberValidator(control: AbstractControl): ValidationErrors | null {
     const value = control.value;

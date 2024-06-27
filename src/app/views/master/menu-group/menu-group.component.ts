@@ -8,7 +8,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialog } from '@angular/material/dialog';
-import { AddMenuGroupComponent } from '../../../dialogs/add-menu-group/add-menu-group.component'
+import { AddMenuGroupComponent } from '../../../dialogs/add-menu-group/add-menu-group.component';
 import { ConfirmationDialogComponent } from 'src/app/confirmation-dialog/confirmation-dialog.component';
 import { AlertDialogComponent } from 'src/app/alert-dialog/alert-dialog.component';
 
@@ -28,11 +28,11 @@ import { AlertDialogComponent } from 'src/app/alert-dialog/alert-dialog.componen
   styleUrl: './menu-group.component.scss',
 })
 export class MenuGroupComponent implements OnInit {
-  displayedColumns: string[] = [ 'slNo','Menu Group','Menu Order', 'Action',];
+  displayedColumns: string[] = ['slNo', 'Menu Group', 'Menu Order', 'Action'];
   menuGroup!: GetMenuGroup[];
   dataSource: any;
 
-  constructor(public service: MyserviceService,private dialog: MatDialog,) {}
+  constructor(public service: MyserviceService, private dialog: MatDialog) {}
 
   @ViewChild(MatPaginator) paginatior!: MatPaginator;
 
@@ -52,100 +52,94 @@ export class MenuGroupComponent implements OnInit {
   }
 
   Filterchange(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
-  
+    const filterValue = (event.target as HTMLInputElement).value
+      .trim()
+      .toLowerCase();
+
     // Use the default filterPredicate but set it up to ignore specific columns.
     this.dataSource.filterPredicate = (data: any, filter: string) => {
       // Define the keys to be ignored in the filtering process.
       const excludedColumns = ['slNo'];
-      
+
       // Check each field in the row except the excluded columns for a match.
-      return Object.keys(data).some(key => {
+      return Object.keys(data).some((key) => {
         if (!excludedColumns.includes(key)) {
           return data[key]?.toString().toLowerCase().includes(filter);
         }
         return false;
       });
     };
-  
+
     this.dataSource.filter = filterValue;
   }
 
-  openMenuGroupPopup(){
-     // Determine if the device is mobile
+  openMenuGroupPopup() {
+    // Determine if the device is mobile
     const isMobile = window.innerWidth < 768;
     const dialogRef = this.dialog.open(AddMenuGroupComponent, {
-    width: isMobile ? '100vw' : '500px',
-    height: isMobile ? '100vh' : '400px',
-    maxWidth: '100vw',
-    maxHeight: '100vh',
-    panelClass: isMobile ? 'full-screen-dialog' : '', // Optional: custom class for further styling
-    });
-    dialogRef.afterClosed().subscribe(
-      result => {
-        if (result==='insert') {
-          this.getMenuGroup();
-        }
-      });
-    }
-
-    editMenuGroup(menuGroupId:number):void{
-      const isMobile = window.innerWidth < 768;
-      const dialogRef = this.dialog.open(AddMenuGroupComponent,{
       width: isMobile ? '100vw' : '500px',
       height: isMobile ? '100vh' : '400px',
       maxWidth: '100vw',
       maxHeight: '100vh',
       panelClass: isMobile ? 'full-screen-dialog' : '', // Optional: custom class for further styling
-        data: {
-          id:menuGroupId,
-          mode:'update'
-    
-        }
-    
-      });
-      dialogRef.afterClosed().subscribe(
-        result => {
-          if (result==='update') {
-            this.getMenuGroup();
-          }
-        });
-    }
-
-    deleteMenuGroup(ID:number, menuGroup:any):void{
-      const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-        data: {
-          message: 'Are you sure you want to delete this data?'
-    
-        }
-      });
-    
-    
-      dialogRef.afterClosed().subscribe(result => {
-        if (result) {
-          this.service.deleteGroupMenu(ID,menuGroup).subscribe(
-            (res: any) => {
-              if(res){
-                this.openMenuAddedDialog('Menu Group', "Menu Group deleted successfully");
-                console.log('menu deleted', res);
-                this.getMenuGroup();
-              }else{
-                this.openMenuAddedDialog("Menu Group", "Delete operation failed");
-              }
-              this.getMenuGroup();
-            }
-          );
-        }
-        
-      });
-    }
-
-    openMenuAddedDialog(title: string, message: string){
-      const dialogRef = this.dialog.open(AlertDialogComponent, {
-        width: '300px',
-        data: { title: title, message: message }
     });
-    }
-
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result === 'insert') {
+        this.getMenuGroup();
+      }
+    });
   }
 
+  editMenuGroup(menuGroupId: number): void {
+    const isMobile = window.innerWidth < 768;
+    const dialogRef = this.dialog.open(AddMenuGroupComponent, {
+      width: isMobile ? '100vw' : '500px',
+      height: isMobile ? '100vh' : '400px',
+      maxWidth: '100vw',
+      maxHeight: '100vh',
+      panelClass: isMobile ? 'full-screen-dialog' : '', // Optional: custom class for further styling
+      data: {
+        id: menuGroupId,
+        mode: 'update',
+      },
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result === 'update') {
+        this.getMenuGroup();
+      }
+    });
+  }
+
+  deleteMenuGroup(ID: number, menuGroup: any): void {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      data: {
+        message: 'Are you sure you want to delete this data?',
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.service.deleteGroupMenu(ID, menuGroup).subscribe((res: any) => {
+          if (res) {
+            this.openMenuAddedDialog(
+              'Menu Group',
+              'Menu Group deleted successfully'
+            );
+            console.log('menu deleted', res);
+            this.getMenuGroup();
+          } else {
+            this.openMenuAddedDialog('Menu Group', 'Delete operation failed');
+          }
+          this.getMenuGroup();
+        });
+      }
+    });
+  }
+
+  openMenuAddedDialog(title: string, message: string) {
+    const dialogRef = this.dialog.open(AlertDialogComponent, {
+      width: '300px',
+      data: { title: title, message: message },
+    });
+  }
+}
