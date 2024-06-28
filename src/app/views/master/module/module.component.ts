@@ -123,9 +123,19 @@ export class ModuleComponent implements OnInit {
       if (result) {
         this.service.deleteModule(ID, module).subscribe((res: any) => {
           if (res) {
-            this.openModuleAddedDialog('Module', 'Module deleted successfully');
-            console.log('module deleted', res);
-            this.getModule();
+            if (res.flag === '0') {
+              this.openModuleAddedDialog(
+                'Menu Group',
+                'This module cannot be deleted: '
+              );
+            } else {
+              this.openModuleAddedDialog(
+                'Module',
+                'Module deleted successfully'
+              );
+              console.log('module deleted', res);
+              this.getModule();
+            }
           } else {
             this.openModuleAddedDialog('Module', 'Delete operation failed');
           }
