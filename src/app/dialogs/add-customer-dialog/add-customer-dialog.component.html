@@ -18,7 +18,9 @@
                         <mat-form-field appearance="fill" class="form-group">
                             <mat-label>Customer Name</mat-label>
                             <input matInput id="name" formControlName="CUST_NAME" placeholder="Enter Customer Name">
-                            <!-- <mat-error *ngIf="submit && f.CUST_NAME.errors">*Customer name is required</mat-error> -->
+                            <mat-error *ngIf="f.CUST_NAME.errors?.['duplicateCustomer']">
+                                Customer already exists..!
+                              </mat-error>
                         </mat-form-field>
                         <mat-form-field appearance="fill" class="form-group">
                             <mat-label>Contact Name</mat-label>

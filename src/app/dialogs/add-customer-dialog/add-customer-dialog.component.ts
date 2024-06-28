@@ -5,7 +5,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialog,MatDialogRef } from '@angular/material/dialog';
 import { MyserviceService } from 'src/app/myservice.service';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { FormBuilder,FormsModule,ReactiveFormsModule,Validators,FormGroup,AbstractControl } from '@angular/forms';
+import { FormBuilder,FormsModule,ReactiveFormsModule,Validators,FormGroup,AbstractControl, ValidationErrors } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import { AlertDialogComponent } from 'src/app/alert-dialog/alert-dialog.component';
 import { MatTabsModule } from '@angular/material/tabs';
@@ -28,6 +28,7 @@ import { MatNativeDateModule,provideNativeDateAdapter } from '@angular/material/
 export class AddCustomerDialogComponent {
   submit=false;
   ShowCode=false;
+  customerlist:any;
   mode: 'add' | 'update' = 'add';
   loading = false; // Loading flag
   countrylist: { id: number, description: string }[] = [];
@@ -57,7 +58,7 @@ export class AddCustomerDialogComponent {
   customerForm:any=this.fb.group({
     ID:[''],
     CUST_CODE:[{ value: '', disabled: true }],
-    CUST_NAME:['',[Validators.required, this.noWhitespaceOrSpecialChar]],
+    CUST_NAME:['',[Validators.required, this.noWhitespaceOrSpecialChar,this.checkDuplicateCustomer.bind(this)]],
     CONTACT_NAME:['',[Validators.required, this.noWhitespaceOrSpecialChar]],
     RESELLER_NAME:[''],
     ADDRESS:['',[Validators.required, this.noWhitespaceOrSpecialChar]],
@@ -228,6 +229,7 @@ const formattedArchiveDate = `${archiveDate.getFullYear()}-${padToTwoDigits(arch
     this.initResellerForm();
     this.initStateForm();
     this.initEditionForm();
+    this.getCustomerData();
 
     if(this.data.id!=''&&this.data.id!=null){
       this.ShowCode=true;
@@ -298,6 +300,17 @@ const formattedArchiveDate = `${archiveDate.getFullYear()}-${padToTwoDigits(arch
     );
   }
 
+  getCustomerData(){
+    this.service.getCustomers().subscribe(
+      (res:any) => {
+        this.customerlist=res;
+      },
+      (error:any) => {
+        console.error(error);
+      }
+    );
+  }
+
   
 emailValidator(control: AbstractControl): { [key: string]: boolean } | null {
   const email: string = control.value;
@@ -336,6 +349,26 @@ setInvalidTab(): void {
     // Customer tab is valid, move to Configuration tab
     this.currentPage = 1;
   }
+}
+
+checkDuplicateCustomer(control: AbstractControl): ValidationErrors | null {
+  const value = control.value;
+  const formGroup = control.parent as FormGroup;
+  if (formGroup && this.customerlist) {
+    const currentItemId = formGroup.get('ID')?.value;
+    const customerName = formGroup.get('CUST_NAME')?.value;
+    // Check for duplicate MENU_KEY
+    const duplicateCustomerExists = this.customerlist.some((item:any) => {
+      const isSameItem = item.ID === currentItemId;
+      return !isSameItem && item.CUST_NAME === customerName;
+    });
+
+    if (duplicateCustomerExists) {
+      return { duplicateCustomer: true };
+    }
+ 
+  }
+  return null;
 }
 }
 

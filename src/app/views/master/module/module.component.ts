@@ -94,7 +94,7 @@ export class ModuleComponent implements OnInit {
     const isMobile = window.innerWidth < 768;
     const dialogRef = this.dialog.open(AddModuleDialogComponent, {
       width: isMobile ? '100vw' : '400px',
-      height: isMobile ? '100vh' : '300px',
+      height: isMobile ? '100vh' : '200px',
       maxWidth: '100vw',
       maxHeight: '100vh',
       panelClass: isMobile ? 'full-screen-dialog' : '', // Optional: custom class for further styling

@@ -5,7 +5,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialog,MatDialogRef } from '@angular/material/dialog';
 import { MyserviceService } from 'src/app/myservice.service';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { FormBuilder,FormsModule,ReactiveFormsModule,Validators,FormGroup,AbstractControl } from '@angular/forms';
+import { FormBuilder,FormsModule,ReactiveFormsModule,Validators,FormGroup,AbstractControl, ValidationErrors } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import { AlertDialogComponent } from 'src/app/alert-dialog/alert-dialog.component';
 import { MatTabsModule } from '@angular/material/tabs';
@@ -86,13 +86,13 @@ export class AddFacilityComponent implements OnInit {
     const postOffice:any = this.facilityForm.value.POST_OFFICE;
   
     
-    if (this.isDuplicateLicense(facilityLicense, postOffice)) {
-      this.snackBar.open('This Facility License already exists..!', 'Close', {
-        duration: 3000,
-        horizontalPosition:'right'
-      });
-      return;
-    }
+    // if (this.isDuplicateLicense(facilityLicense, postOffice)) {
+    //   this.snackBar.open('This Facility License already exists..!', 'Close', {
+    //     duration: 3000,
+    //     horizontalPosition:'right'
+    //   });
+    //   return;
+    // }
 
     const formatDateToUTC = (date: Date) => {
       if (!date) return null;
@@ -175,6 +175,22 @@ export class AddFacilityComponent implements OnInit {
   closeDialog(){
     this.dialogRef.close();
   }
+  duplicateLicenseValidator(control: AbstractControl): ValidationErrors | null {
+    const facilityLicense = control.get('FACILITY_LICENSE')?.value;
+    const postOffice = control.get('POST_OFFICE')?.value;
+
+    if (facilityLicense && postOffice && this.existingFacilities) {
+      const isDuplicate = this.existingFacilities.some((facility: any) =>
+        facility.FACILITY_LICENSE === facilityLicense && facility.POST_OFFICE === postOffice
+      );
+
+      if (isDuplicate) {
+        return { duplicateLicense: true };
+      }
+    }
+    return null;
+  }
+
   //check the facility license is already exist or not
   isDuplicateLicense(facilityLicense: string, postOffice: string): boolean {
     return this.existingFacilities.some((facility:any) =>
