@@ -97,10 +97,21 @@ export class MenuComponent {
         this.service.deleteMenu(ID,menu).subscribe(
           (res: any) => {
             if(res){
-              this.openMenuAddedDialog('Menu', "Menu deleted successfully");
-              console.log('menu deleted', res);
-              this.getMenu();
-            }else{
+              if (res.flag === '0') {
+                this.openMenuAddedDialog(
+                  'Menu Group',
+                  'This menu cannot be deleted: '
+                );
+              } else {
+                this.openMenuAddedDialog(
+                  'Menu',
+                  'Menu deleted successfully'
+                );
+                console.log('menu deleted', res);
+                this.getMenu();
+              }
+            }
+            else{
               this.openMenuAddedDialog("Menu", "Delete operation failed");
             }
           }
