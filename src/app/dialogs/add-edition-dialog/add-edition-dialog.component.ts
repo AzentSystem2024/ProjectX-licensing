@@ -119,7 +119,7 @@ export class AddEditionDialogComponent {
   getEditionData(){
     this.service.getEdition().subscribe(
       (res:any) => {
-        console.log(res,"}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}");
+        console.log(res);
         this.edition=res;
       },
       (error:any) => {
@@ -174,13 +174,6 @@ export class AddEditionDialogComponent {
         const isSameItem = item.ID === currentItemId;
         return !isSameItem && item.EDITION_NAME === editionName;
       });
-  
-      // const duplicateMenuExists = this.menu.some(item => {
-      //   const isSameItem = item.ID === currentItemId;
-      //   return !isSameItem && item.MENU_NAME === menuName;
-      // });
-
-  
       if (duplicateEditionExists) {
         return { duplicateEdition: true };
       }

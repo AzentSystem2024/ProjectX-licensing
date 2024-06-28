@@ -121,12 +121,19 @@ export class MenuGroupComponent implements OnInit {
       if (result) {
         this.service.deleteGroupMenu(ID, menuGroup).subscribe((res: any) => {
           if (res) {
-            this.openMenuAddedDialog(
-              'Menu Group',
-              'Menu Group deleted successfully'
-            );
-            console.log('menu deleted', res);
-            this.getMenuGroup();
+            if (res.flag === '0') {
+              this.openMenuAddedDialog(
+                'Menu Group',
+                'This menu group cannot be deleted: '
+              );
+            } else {
+              this.openMenuAddedDialog(
+                'Menu Group',
+                'Menu Group deleted successfully'
+              );
+              console.log('menu deleted', res);
+              this.getMenuGroup();
+            }
           } else {
             this.openMenuAddedDialog('Menu Group', 'Delete operation failed');
           }
