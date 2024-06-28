@@ -71,7 +71,7 @@ export class AddMenuGroupComponent {
   errorMessage: string = '';
   menuGroupForm = this.fb.group({
     ID: [''],
-    MENU_GROUP: ['', [Validators.required, this.noWhitespaceOrSpecialChar]],
+    MENU_GROUP: ['', [Validators.required, this.noWhitespaceOrSpecialChar,this.checkDuplicateMenuKey.bind(this)]],
     MENU_KEY: ['', [Validators.required, this.checkDuplicateMenuKey.bind(this)]],
     MENU_ORDER: [
       '',
@@ -119,18 +119,47 @@ export class AddMenuGroupComponent {
     return null;
   }
 
+  // checkDuplicateMenuKey(control: AbstractControl): ValidationErrors | null {
+  //   const value = control.value;
+  //   const formGroup = control.parent as FormGroup;
+  //   if (formGroup && this.menuGroup) {
+  //     const currentItemId = formGroup.get('ID')?.value;
+  //     const duplicateExists = this.menuGroup.some(item => {
+  //       const isSameItem = item.ID === currentItemId;
+  //       return !isSameItem && item.MENU_KEY === value;
+  //     });
+  
+  //     if (duplicateExists) {
+  //       return { duplicateMenuKey: true };
+  //     }
+  //   }
+  //   return null;
+  // }
+
   checkDuplicateMenuKey(control: AbstractControl): ValidationErrors | null {
     const value = control.value;
     const formGroup = control.parent as FormGroup;
     if (formGroup && this.menuGroup) {
       const currentItemId = formGroup.get('ID')?.value;
-      const duplicateExists = this.menuGroup.some(item => {
+      const menuGroup = formGroup.get('MENU_GROUP')?.value;
+  
+      // Check for duplicate MENU_KEY
+      const duplicateKeyExists = this.menuGroup.some(item => {
         const isSameItem = item.ID === currentItemId;
         return !isSameItem && item.MENU_KEY === value;
       });
   
-      if (duplicateExists) {
+      // Check for duplicate MENU_ORDER
+      const duplicateGroupExists = this.menuGroup.some(item => {
+        const isSameItem = item.ID === currentItemId;
+        return !isSameItem && item.MENU_GROUP === menuGroup;
+      });
+  
+      if (duplicateKeyExists) {
         return { duplicateMenuKey: true };
+      }
+      if (duplicateGroupExists) {
+        return { duplicateMenuGroup: true };
       }
     }
     return null;

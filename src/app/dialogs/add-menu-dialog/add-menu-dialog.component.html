@@ -44,6 +44,9 @@
             formControlName="MENU_NAME"
             placeholder="Enter Menu"
           />
+          <mat-error *ngIf="f.MENU_NAME.errors?.['duplicateMenuName']">
+            Duplicate menu not allowed.
+          </mat-error>
           <!-- <mat-error *ngIf="submit && f.RESELLER_NAME.errors">*Reseller name is required</mat-error> -->
         </mat-form-field>
         <mat-form-field appearance="fill" class="form-group">

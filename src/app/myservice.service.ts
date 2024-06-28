@@ -483,7 +483,7 @@ export interface GetResellerData {
 export interface GetMenuGroup {
   ID : number
   PRODUCT: number;
-  MENUGROUP: string;
+  MENU_GROUP: string;
   MENU_KEY: string;
   MENU_ORDER : string;
 }
@@ -510,15 +510,7 @@ export interface GetMenu {
 export interface GetEdition {
   EDITION_NAME: string | null;
   ID: number | null;
-  IS_INACTIVE: boolean;
-  MENU_GROUP: string;
-  MENU_ID: number | null;
-  MENU_NAME: string;
-  MENU_VERSION: string;
-  MODULE_NAME: string;
-  PRODUCT_ID: number | null;
-  PRODUCT_NAME: string | null;
-  REMARKS: string;
+
   edition_menu: any; // Update this type if needed
   flag: any; // Update this type if needed
   message: any; // Update this type if needed

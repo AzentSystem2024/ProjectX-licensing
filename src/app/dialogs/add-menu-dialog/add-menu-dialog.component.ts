@@ -62,9 +62,9 @@ export class AddMenuDialogComponent {
 
   menuForm = this.fb.group({
     ID: [''],
-    MODULE_NAME: ['', [Validators.required, this.noWhitespaceOrSpecialChar]],
+    MODULE_NAME: ['', [Validators.required, this.noWhitespaceOrSpecialChar,]],
     MENU_GROUP: ['', [Validators.required, this.noWhitespaceOrSpecialChar]],
-    MENU_NAME: ['', [Validators.required, this.noWhitespaceOrSpecialChar]],
+    MENU_NAME: ['', [Validators.required, this.noWhitespaceOrSpecialChar,this.checkDuplicateMenuKey.bind(this)]],
     MENU_VERSION: ['', [Validators.required, this.noWhitespaceOrSpecialChar]],
     REMARKS: ['', [ this.noWhitespaceOrSpecialChar]],
     MENU_KEY: ['', [Validators.required, this.checkDuplicateMenuKey.bind(this)]],
@@ -120,6 +120,7 @@ export class AddMenuDialogComponent {
   }
 
   get f() {
+    console.log(this.menuForm.controls,"CONTOLLLLLLSSSS")
     return this.menuForm.controls;
   }
 
@@ -140,6 +141,7 @@ export class AddMenuDialogComponent {
     if (formGroup && this.menu) {
       const currentItemId = formGroup.get('ID')?.value;
       const menuOrder = formGroup.get('MENU_ORDER')?.value;
+      const menuName = formGroup.get('MENU_NAME')?.value;
   
       // Check for duplicate MENU_KEY
       const duplicateKeyExists = this.menu.some(item => {
@@ -152,12 +154,19 @@ export class AddMenuDialogComponent {
         const isSameItem = item.ID === currentItemId;
         return !isSameItem && item.MENU_ORDER === menuOrder;
       });
+      const duplicateMenuExists = this.menu.some(item => {
+        const isSameItem = item.ID === currentItemId;
+        return !isSameItem && item.MENU_NAME === menuName;
+      });
   
       if (duplicateKeyExists) {
         return { duplicateMenuKey: true };
       }
       if (duplicateOrderExists) {
         return { duplicateMenuOrder: true };
+      }
+      if (duplicateMenuExists) {
+        return { duplicateMenuName: true };
       }
     }
     return null;

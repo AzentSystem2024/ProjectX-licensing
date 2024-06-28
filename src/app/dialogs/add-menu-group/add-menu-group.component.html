@@ -14,6 +14,9 @@
             formControlName="MENU_GROUP"
             placeholder="Enter Menu Group Name"
           />
+          <mat-error *ngIf="f.MENU_GROUP.errors?.['duplicateMenuGroup']">
+            Duplicate menu group not allowed.
+          </mat-error>
         </mat-form-field>
         <mat-form-field appearance="fill" class="form-group">
           <mat-label>Menu Order</mat-label>

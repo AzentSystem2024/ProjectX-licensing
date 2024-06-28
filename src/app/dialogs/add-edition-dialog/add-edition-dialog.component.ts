@@ -14,6 +14,9 @@ import {
   ReactiveFormsModule,
   Validators,
   FormArray,
+  AbstractControl,
+  ValidationErrors,
+  FormGroup,
 } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -28,7 +31,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatCardModule } from '@angular/material/card';
-import { MyserviceService } from 'src/app/myservice.service';
+import { GetEdition, MyserviceService } from 'src/app/myservice.service';
 import { SelectionModel } from '@angular/cdk/collections';
 import { AlertDialogComponent } from 'src/app/alert-dialog/alert-dialog.component';
 
@@ -69,6 +72,8 @@ export class AddEditionDialogComponent {
   editionMenuList: any[] = []; 
   selection: SelectionModel<any>;
   mode: 'add' | 'update' = 'add';
+  edition!: GetEdition[]
+  listEdition: any;
 
   constructor(
     private service: MyserviceService,
@@ -84,9 +89,13 @@ export class AddEditionDialogComponent {
 
   editionForm = this.fb.group({
     ID: [''],
-    EDITION_NAME: ['', [Validators.required]],
+    EDITION_NAME: ['', [Validators.required, this.checkDuplicateEdition.bind(this)]],
     EDITION_MENU: this.fb.array([]), // FormArray for checkboxes
   });
+
+  ngOnInit(): void{
+    this.getEditionData();
+  }
 
   initializeForm() {
     this.service.getEditionMenuList().subscribe((data) => {
@@ -105,6 +114,18 @@ export class AddEditionDialogComponent {
         this.getEditionById(this.data.id, {});
       }
     });
+  }
+
+  getEditionData(){
+    this.service.getEdition().subscribe(
+      (res:any) => {
+        console.log(res,"}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}");
+        this.edition=res;
+      },
+      (error:any) => {
+        console.error(error);
+      }
+    );
   }
 
   getEditionById(id: number, data: any) {
@@ -140,6 +161,39 @@ export class AddEditionDialogComponent {
       }
     });
   }
+
+  checkDuplicateEdition(control: AbstractControl): ValidationErrors | null {
+    const value = control.value;
+    const formGroup = control.parent as FormGroup;
+    if (formGroup && this.edition) {
+      const currentItemId = formGroup.get('ID')?.value;
+      const editionName = formGroup.get('EDITION_NAME')?.value;
+      console.log(editionName,"EDITIONNNNNNNN")
+      // Check for duplicate MENU_KEY
+      const duplicateEditionExists = this.edition.some((item:any) => {
+        const isSameItem = item.ID === currentItemId;
+        return !isSameItem && item.EDITION_NAME === editionName;
+      });
+  
+      // const duplicateMenuExists = this.menu.some(item => {
+      //   const isSameItem = item.ID === currentItemId;
+      //   return !isSameItem && item.MENU_NAME === menuName;
+      // });
+
+  
+      if (duplicateEditionExists) {
+        return { duplicateEdition: true };
+      }
+   
+    }
+    return null;
+  }
+
+  get f() {
+    // console.log(this.editionForm.controls,"====================")
+    return this.editionForm.controls;
+  }
+
 
   onSubmit() {
     const editionMenu = this.editionForm.get('EDITION_MENU');

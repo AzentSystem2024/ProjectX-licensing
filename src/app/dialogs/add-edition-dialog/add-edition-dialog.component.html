@@ -15,6 +15,9 @@
             formControlName="EDITION_NAME"
             placeholder="Enter Edition Name"
           />
+          <mat-error *ngIf="f.EDITION_NAME.errors?.['duplicateEdition']">
+            Edition name already exists..!
+          </mat-error>
         </mat-form-field>
       </div>
     </div>
